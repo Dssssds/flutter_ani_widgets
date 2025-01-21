@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_x_widgets/example/background_ripples/background_ripples.dart';
 import 'package:flutter_x_widgets/example/blurfade/blur_fade.dart';
+import 'package:flutter_x_widgets/example/border_beam/border_beam_demo.dart';
 import 'package:flutter_x_widgets/example/calendar/calendar_demo.dart';
 import 'package:flutter_x_widgets/example/card_scroll/card_scroll_demo.dart';
 import 'package:flutter_x_widgets/example/card_scroll_joystick/card_scroll_joystick.dart';
@@ -9,11 +10,14 @@ import 'package:flutter_x_widgets/example/dots/dots_demo.dart';
 import 'package:flutter_x_widgets/example/gemini_splash/gemini_splash_demo.dart';
 import 'package:flutter_x_widgets/example/grid_animation/grid_animated.dart';
 import 'package:flutter_x_widgets/example/loader_square/loader_square_demo.dart';
+import 'package:flutter_x_widgets/example/neon_card/neon_card_demo.dart';
 import 'package:flutter_x_widgets/example/notification_list/notification_list.dart';
 import 'package:flutter_x_widgets/example/photo_effect/photo_effect_demo.dart';
 import 'package:flutter_x_widgets/example/progress/progress_bar_demo.dart';
 import 'package:flutter_x_widgets/example/scroll_progress/scroll_progress_demo.dart';
+import 'package:flutter_x_widgets/example/stacked_cards/stacked_card.dart';
 import 'package:flutter_x_widgets/example/text_hyper/hyper_text_demo.dart';
+import 'package:flutter_x_widgets/example/text_on_path/text_on_path_demo.dart';
 import 'package:flutter_x_widgets/example/text_reveal/text_reveal_demo.dart';
 import 'package:flutter_x_widgets/example/text_shine/text_shine.dart';
 import 'package:flutter_x_widgets/example/theme_mode/light_bulb_demo.dart';
@@ -149,13 +153,33 @@ class HomeScreen extends StatelessWidget {
         builder: (context) => const CardScrollJoystick(),
         appbarColor: Colors.black,
         isFullScreen: true),
+    AnimationExample(
+        title: '边框线条动画',
+        builder: (context) => const BorderBeamDemo(),
+        appbarColor: Colors.black,
+        isFullScreen: true),
+    AnimationExample(
+        title: '卡片霓虹灯背景',
+        builder: (context) => const NeonGradientCardDemo(),
+        appbarColor: Colors.black,
+        isFullScreen: true),
+    AnimationExample(
+        title: '卡片堆叠提示',
+        builder: (context) => const StackedCardDemo(),
+        appbarColor: Colors.black,
+        isFullScreen: true),
+    AnimationExample(
+        title: '文字控制器',
+        builder: (context) => const TextOnPathDemo(),
+        appbarColor: Colors.black,
+        isFullScreen: true),
   ];
 
   @override
   Widget build(context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter 实验室'),
+          title: const Text('Flutter 的实验中心.'),
           elevation: 0,
         ),
         body: GridView.builder(
