@@ -24,3 +24,12 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/graph.png
+    - assets/images/
+  fonts:
+    - family: SF Pro Display
+      fonts:
+        - asset: assets/fonts/SF-Pro-Display-Regular.otf # 替换成你的字体文件路径
+        - asset: assets/fonts/SF-Pro-Display-Bold.otf
+          weight: 700
