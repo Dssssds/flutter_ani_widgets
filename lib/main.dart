@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_x_widgets/app_demo/01/app_01.dart';
+import 'package:flutter_x_widgets/app_demo/02/app_02.dart';
 import 'package:flutter_x_widgets/example/background_ripples/background_ripples.dart';
 import 'package:flutter_x_widgets/example/blurfade/blur_fade.dart';
 import 'package:flutter_x_widgets/example/book_open/book_open_demo.dart';
@@ -8,9 +9,12 @@ import 'package:flutter_x_widgets/example/calendar/calendar_demo.dart';
 import 'package:flutter_x_widgets/example/card_scroll/card_scroll_demo.dart';
 import 'package:flutter_x_widgets/example/card_scroll_joystick/card_scroll_joystick.dart';
 import 'package:flutter_x_widgets/example/celebrate/celebrate_demo.dart';
+import 'package:flutter_x_widgets/example/custom_appbar/custom_appbar_demo.dart';
 import 'package:flutter_x_widgets/example/dots/dots_demo.dart';
+import 'package:flutter_x_widgets/example/folder_shape/folder_home.dart';
 import 'package:flutter_x_widgets/example/gemini_splash/gemini_splash_demo.dart';
 import 'package:flutter_x_widgets/example/grid_animation/grid_animated.dart';
+import 'package:flutter_x_widgets/example/loader_avatars/loader_avatars_demo.dart';
 import 'package:flutter_x_widgets/example/loader_sphere/loader_sphere_demo.dart';
 import 'package:flutter_x_widgets/example/loader_square/loader_square_demo.dart';
 import 'package:flutter_x_widgets/example/neon_card/neon_card_demo.dart';
@@ -193,12 +197,38 @@ class HomeScreen extends StatefulWidget {
       appbarColor: Colors.black,
       isFullScreen: true,
     ),
+    AnimationExample(
+      title: '自定义AppBar 滑动控制',
+      builder: (context) => const CustomAppBarDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
+    AnimationExample(
+      title: '文件夹动画',
+      builder: (context) => const FolderHomeWidget(
+        title: '文件夹',
+        curve: Curves.easeInOut,
+      ),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
+    AnimationExample(
+      title: '头像动画',
+      builder: (context) => const LoaderAvatarsDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
   ];
 
   final List<AnimationExample> demoApps = [
     AnimationExample(
         title: 'APP-01(今日训练)',
         builder: (context) => const App01(),
+        appbarColor: Colors.black,
+        isFullScreen: true),
+    AnimationExample(
+        title: 'APP-02(户外训练)',
+        builder: (context) => const App02(),
         appbarColor: Colors.black,
         isFullScreen: true),
   ];
