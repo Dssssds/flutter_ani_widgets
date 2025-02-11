@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_x_widgets/app_demo/01/app_01.dart';
 import 'package:flutter_x_widgets/app_demo/02/app_02.dart';
 import 'package:flutter_x_widgets/app_demo/03/app_03.dart';
+import 'package:flutter_x_widgets/app_demo/04/app_04.dart';
 import 'package:flutter_x_widgets/example/background_ripples/background_ripples.dart';
 import 'package:flutter_x_widgets/example/blurfade/blur_fade.dart';
 import 'package:flutter_x_widgets/example/book_open/book_open_demo.dart';
@@ -235,6 +236,11 @@ class HomeScreen extends StatefulWidget {
     AnimationExample(
         title: 'APP-03(饮食清单)',
         builder: (context) => const App03(),
+        appbarColor: Colors.black,
+        isFullScreen: true),
+    AnimationExample(
+        title: 'APP-04(3D 计算器)',
+        builder: (context) => const App04(),
         appbarColor: Colors.black,
         isFullScreen: true),
   ];
