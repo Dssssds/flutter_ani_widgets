@@ -30,6 +30,7 @@ import 'package:flutter_x_widgets/example/text_on_path/text_on_path_demo.dart';
 import 'package:flutter_x_widgets/example/text_reveal/text_reveal_demo.dart';
 import 'package:flutter_x_widgets/example/text_shine/text_shine.dart';
 import 'package:flutter_x_widgets/example/theme_mode/light_bulb_demo.dart';
+import 'package:flutter_x_widgets/example/water_drop_button/water_drop_button_demo.dart';
 
 void main() {
   runApp(const AnimationShowcaseApp());
@@ -217,6 +218,12 @@ class HomeScreen extends StatefulWidget {
     AnimationExample(
       title: '头像动画',
       builder: (context) => const LoaderAvatarsDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
+    AnimationExample(
+      title: '水滴按钮',
+      builder: (context) => const WaterDropButtonDemo(),
       appbarColor: Colors.black,
       isFullScreen: true,
     ),

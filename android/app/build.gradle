@@ -8,7 +8,10 @@ plugins {
 android {
     namespace = "com.example.flutter_x_widgets"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // 注释掉或修改NDK版本
+    // ndkVersion = flutter.ndkVersion
+    // 如果需要使用特定版本，可以取消下面这行的注释并使用稳定版本
+    // ndkVersion = "21.4.7075529"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
