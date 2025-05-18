@@ -98,8 +98,8 @@ class CoinRotateStrategy extends AvatarAnimationStrategy {
     final value = animation.value;
 
     // Calculate height parabola for smooth up-down motion
-    final heightProgress = sin(value * pi);
-    final height = heightProgress * maxHeight;
+    // final heightProgress = sin(value * pi);
+    // final height = heightProgress * maxHeight;
 
     // Calculate rotation with easing
     final rotationProgress = value;
@@ -109,7 +109,7 @@ class CoinRotateStrategy extends AvatarAnimationStrategy {
     final scale = 1.0 + (sin(value * pi) * 0.1);
 
     // Add slight horizontal movement during flip
-    final horizontalShift = sin(value * pi * 2) * 5.0;
+    // final horizontalShift = sin(value * pi * 2) * 5.0;
 
     return Transform(
       transform: Matrix4.identity()
@@ -158,8 +158,8 @@ class CoinRotateXStrategy extends AvatarAnimationStrategy {
     final value = animation.value;
 
     // Calculate height parabola for smooth up-down motion
-    final heightProgress = sin(value * pi);
-    final height = heightProgress * maxHeight;
+    // final heightProgress = sin(value * pi);
+    // final height = heightProgress * maxHeight;
 
     // Calculate rotation with easing
     final rotationProgress = value;
@@ -169,7 +169,7 @@ class CoinRotateXStrategy extends AvatarAnimationStrategy {
     final scale = 1.0 + (sin(value * pi) * 0.1);
 
     // Add slight horizontal movement during flip
-    final horizontalShift = sin(value * pi * 2) * 5.0;
+    // final horizontalShift = sin(value * pi * 2) * 5.0;
 
     return Transform(
       transform: Matrix4.identity()
@@ -218,8 +218,8 @@ class CoinRotateYStrategy extends AvatarAnimationStrategy {
     final value = animation.value;
 
     // Calculate height parabola for smooth up-down motion
-    final heightProgress = sin(value * pi);
-    final height = heightProgress * maxHeight;
+    // final heightProgress = sin(value * pi);
+    // final height = heightProgress * maxHeight;
 
     // Calculate rotation with easing
     final rotationProgress = value;
@@ -229,7 +229,7 @@ class CoinRotateYStrategy extends AvatarAnimationStrategy {
     final scale = 1.0 + (sin(value * pi) * 0.1);
 
     // Add slight horizontal movement during flip
-    final horizontalShift = sin(value * pi * 2) * 5.0;
+    // final horizontalShift = sin(value * pi * 2) * 5.0;
 
     return Transform(
       transform: Matrix4.identity()

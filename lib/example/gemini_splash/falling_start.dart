@@ -209,16 +209,16 @@ class EnhancedStarPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final starPaint = Paint()
-      ..color = primaryColor
-      ..style = PaintingStyle.fill
-      ..maskFilter = MaskFilter.blur(BlurStyle.normal, blur);
+    // final center = Offset(size.width / 2, size.height / 2);
+    // final starPaint = Paint()
+    //   ..color = primaryColor
+    //   ..style = PaintingStyle.fill
+    //   ..maskFilter = MaskFilter.blur(BlurStyle.normal, blur);
 
     // 增强基础发光效果
-    final glowPaint = Paint()
-      ..color = primaryColor.withOpacity(glowIntensity * 0.7) // 增加不透明度
-      ..maskFilter = MaskFilter.blur(BlurStyle.normal, blur * 3); // 增加模糊效果
+    // final glowPaint = Paint()
+      // ..color = primaryColor.withOpacity(glowIntensity * 0.7) // 增加不透明度
+      // ..maskFilter = MaskFilter.blur(BlurStyle.normal, blur * 3); // 增加模糊效果
 
     if (explosionProgress > 0) {
       // 绘制底部屏幕发光效果
@@ -243,7 +243,7 @@ class EnhancedStarPainter extends CustomPainter {
           Paint()..shader = screenGlowGradient.createShader(screenGlowRect));
 
       // 增强爆炸效果
-      final radius = size.width / 2 * (1 + explosionProgress * 2.5); // 增加半径
+      // final radius = size.width / 2 * (1 + explosionProgress * 2.5); // 增加半径
     }
   }
 

@@ -24,8 +24,7 @@ class App04 extends StatelessWidget {
               Colors.black.withOpacity(0.5),
               BlendMode.darken,
             ),
-          ),
-        ),
+          ), ),
         child: const CalculatorScreen(),
       ),
     );
