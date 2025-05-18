@@ -26,7 +26,6 @@ class _DisplayWidgetState extends State<DisplayWidget>
   // 用于跟踪当前显示的数字
   String _currentResult = '';
   // 用于跟踪上一次的输入，判断是否是等号
-  String _lastProcess = '';
 
   @override
   void initState() {
@@ -36,7 +35,6 @@ class _DisplayWidgetState extends State<DisplayWidget>
       duration: const Duration(milliseconds: 500),
     );
     _currentResult = widget.result;
-    _lastProcess = widget.process;
     _updateNumberWidgets();
   }
 
@@ -60,7 +58,6 @@ class _DisplayWidgetState extends State<DisplayWidget>
     }
 
     // 更新上一次的输入状态
-    _lastProcess = widget.process;
   }
 
   // 触发放射动画
