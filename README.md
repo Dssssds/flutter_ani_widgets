@@ -61,20 +61,11 @@ flutter pub get
 
 详细信息请查看 [LICENSE](https://github.com/Lakr233/NotchDrop/blob/main/LICENSE) 文件。
 
-## 赞赏支持
+## 社群方式
 
-如果这个项目对您有帮助，并且您希望支持我们的开发工作，欢迎请作者喝杯咖啡 ☕️
+如果您对项目感兴趣，欢迎加入我们的社群进行交流和讨论。
 
-您的支持将帮助我们：
-
-- 持续改进项目质量
-- 添加更多实用功能
-- 提供更好的技术支持
-
-<img src="https://purcotton-omni.oss-cn-shenzhen.aliyuncs.com/omni/purcotton/lbh5/assets/image/IMG_8697.JPG" alt="微信赞赏码" width="200"/>
-
-> 注：赞赏完全自愿，我会始终致力于为大家提供优质的开源项目
+<img src="https://purcotton-omni.oss-cn-shenzhen.aliyuncs.com/omni/purcotton/lbh5/assets/image/WechatIMG783.jpg" alt="联系博主" width="200"/>
 
 ---
-
 感谢您的关注和支持！
