@@ -5,5 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         
+        // Flutter 启动模拟器的调试配置
+        {
+            "name": "Flutter 模拟器启动",
+            "type": "dart",
+            "request": "launch",
+            // main.dart 是 Flutter 项目的入口文件
+            "program": "lib/main.dart",
+            // 指定调试目标为模拟器（可选，通常 VSCode 会自动选择可用模拟器）
+            // "deviceId": "emulator-5554", // 如需指定具体模拟器可取消注释并填写设备ID
+            // 启用热重载
+            "flutterMode": "debug",
+        }
     ]
 }

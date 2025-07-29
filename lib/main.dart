@@ -4,6 +4,9 @@ import 'package:flutter_x_widgets/app_demo/02/app_02.dart';
 import 'package:flutter_x_widgets/app_demo/03/app_03.dart';
 import 'package:flutter_x_widgets/app_demo/04/app_04.dart';
 import 'package:flutter_x_widgets/app_demo/05/app_05.dart';
+import 'package:flutter_x_widgets/app_demo/06/app_06.dart';
+import 'package:flutter_x_widgets/app_demo/07/app_07.dart';
+import 'package:flutter_x_widgets/app_demo/08/app_08.dart';
 import 'package:flutter_x_widgets/example/background_ripples/background_ripples.dart';
 import 'package:flutter_x_widgets/example/blurfade/blur_fade.dart';
 import 'package:flutter_x_widgets/example/book_open/book_open_demo.dart';
@@ -252,8 +255,23 @@ class HomeScreen extends StatefulWidget {
         appbarColor: Colors.black,
         isFullScreen: true),
     AnimationExample(
-        title: 'APP-05(TODO)',
+        title: 'APP-05(认知训练)',
         builder: (context) => const App05(),
+        appbarColor: Colors.black,
+        isFullScreen: true),
+    AnimationExample(
+        title: 'APP-06(IOS26玻璃效果)',
+        builder: (context) => const App06(),
+        appbarColor: Colors.black,
+        isFullScreen: true),
+    AnimationExample(
+        title: 'APP-06(IOS26桌面)',
+        builder: (context) => const App07(),
+        appbarColor: Colors.black,
+        isFullScreen: true),
+    AnimationExample(
+        title: 'APP-08(待办事项)',
+        builder: (context) => const App08(),
         appbarColor: Colors.black,
         isFullScreen: true),
   ];
