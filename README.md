@@ -6,7 +6,7 @@
 
 ## 环境要求
 
-- Flutter 版本: 3.27.2
+- Flutter 版本: 3.35.+
 - 开发环境: iOS 优先（Android 版本正在优化中）
 - 推荐设备: iPhone 6 模拟器
 
