@@ -7,6 +7,7 @@ import 'package:flutter_x_widgets/app_demo/05/app_05.dart';
 import 'package:flutter_x_widgets/app_demo/06/app_06.dart';
 import 'package:flutter_x_widgets/app_demo/07/app_07.dart';
 import 'package:flutter_x_widgets/app_demo/08/app_08.dart';
+import 'package:flutter_x_widgets/app_demo/09/app_09.dart';
 import 'package:flutter_x_widgets/example/background_ripples/background_ripples.dart';
 import 'package:flutter_x_widgets/example/blurfade/blur_fade.dart';
 import 'package:flutter_x_widgets/example/book_open/book_open_demo.dart';
@@ -84,15 +85,17 @@ class HomeScreen extends StatefulWidget {
 
   final List<AnimationExample> components = [
     AnimationExample(
-        title: '网格动画',
-        appbarColor: Colors.black,
-        builder: (context) => const GridAnimatedDemo(),
-        isFullScreen: false),
+      title: '网格动画',
+      appbarColor: Colors.black,
+      builder: (context) => const GridAnimatedDemo(),
+      isFullScreen: false,
+    ),
     AnimationExample(
-        title: '文字模糊渐变',
-        appbarColor: Colors.black,
-        builder: (context) => const BlurFadeDemo(),
-        isFullScreen: false),
+      title: '文字模糊渐变',
+      appbarColor: Colors.black,
+      builder: (context) => const BlurFadeDemo(),
+      isFullScreen: false,
+    ),
     AnimationExample(
       title: '文字动画',
       builder: (context) => const AnimationDemoScreen(),
@@ -109,90 +112,107 @@ class HomeScreen extends StatefulWidget {
       appbarColor: Colors.black,
     ),
     AnimationExample(
-        title: '主题灯泡切换',
-        builder: (context) => const NightModeDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '主题灯泡切换',
+      builder: (context) => const NightModeDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '文字闪烁',
-        builder: (context) => const TextShiningDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '文字闪烁',
+      builder: (context) => const TextShiningDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '文字滚动',
-        builder: (context) => const HyperTextDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '文字滚动',
+      builder: (context) => const HyperTextDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '自定义滑动列表',
-        builder: (context) => const CardScrollDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '自定义滑动列表',
+      builder: (context) => const CardScrollDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '点阵图案',
-        builder: (context) => const DotPatternWidget(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '点阵图案',
+      builder: (context) => const DotPatternWidget(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: 'Gemini Loading 飞溅动画',
-        builder: (context) => const SparkleDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: 'Gemini Loading 飞溅动画',
+      builder: (context) => const SparkleDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '呼吸动画',
-        builder: (context) => const BackgroundRippleDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '呼吸动画',
+      builder: (context) => const BackgroundRippleDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '相片效果',
-        builder: (context) => const PhotoEffectDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '相片效果',
+      builder: (context) => const PhotoEffectDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '日历效果',
-        builder: (context) => const CalendarDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '日历效果',
+      builder: (context) => const CalendarDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '通知列表',
-        builder: (context) => NotificationDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '通知列表',
+      builder: (context) => NotificationDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '庆祝动画',
-        builder: (context) => const CelebrateDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '庆祝动画',
+      builder: (context) => const CelebrateDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '方形动画',
-        builder: (context) => const LoaderSquareDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '方形动画',
+      builder: (context) => const LoaderSquareDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '摇杆卡片',
-        builder: (context) => const CardScrollJoystick(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '摇杆卡片',
+      builder: (context) => const CardScrollJoystick(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '边框线条动画',
-        builder: (context) => const BorderBeamDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '边框线条动画',
+      builder: (context) => const BorderBeamDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '卡片霓虹灯背景',
-        builder: (context) => const NeonGradientCardDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '卡片霓虹灯背景',
+      builder: (context) => const NeonGradientCardDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '卡片堆叠提示',
-        builder: (context) => const StackedCardDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '卡片堆叠提示',
+      builder: (context) => const StackedCardDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: '文字控制器',
-        builder: (context) => const TextOnPathDemo(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: '文字控制器',
+      builder: (context) => const TextOnPathDemo(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
       title: '球形加载器',
       builder: (context) => const LoaderSphereDemo(),
@@ -212,10 +232,9 @@ class HomeScreen extends StatefulWidget {
     ),
     AnimationExample(
       title: '文件夹动画',
-      builder: (context) => const FolderHomeWidget(
-        title: '文件夹',
-        curve: Curves.easeInOut,
-      ),
+      builder:
+          (context) =>
+              const FolderHomeWidget(title: '文件夹', curve: Curves.easeInOut),
       appbarColor: Colors.black,
       isFullScreen: true,
     ),
@@ -235,45 +254,59 @@ class HomeScreen extends StatefulWidget {
 
   final List<AnimationExample> demoApps = [
     AnimationExample(
-        title: 'APP-01(今日训练)',
-        builder: (context) => const App01(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: 'APP-01(今日训练)',
+      builder: (context) => const App01(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: 'APP-02(户外训练-TODO)',
-        builder: (context) => const App02(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: 'APP-02(户外训练-TODO)',
+      builder: (context) => const App02(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: 'APP-03(饮食清单)',
-        builder: (context) => const App03(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: 'APP-03(饮食清单)',
+      builder: (context) => const App03(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: 'APP-04(3D 计算器)',
-        builder: (context) => const App04(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: 'APP-04(3D 计算器)',
+      builder: (context) => const App04(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: 'APP-05(认知训练)',
-        builder: (context) => const App05(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: 'APP-05(认知训练)',
+      builder: (context) => const App05(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: 'APP-06(IOS26玻璃效果)',
-        builder: (context) => const App06(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: 'APP-06(IOS26玻璃效果)',
+      builder: (context) => const App06(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: 'APP-06(IOS26桌面)',
-        builder: (context) => const App07(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: 'APP-06(IOS26桌面)',
+      builder: (context) => const App07(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
     AnimationExample(
-        title: 'APP-08(待办事项)',
-        builder: (context) => const App08(),
-        appbarColor: Colors.black,
-        isFullScreen: true),
+      title: 'APP-08(待办事项)',
+      builder: (context) => const App08(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
+    AnimationExample(
+      title: 'APP-09(开发中)',
+      builder: (context) => const App09(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
   ];
 
   @override
@@ -301,60 +334,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        SafeArea(
+      body: Stack(
+        children: [
+          SafeArea(
             child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: TabBar(
-                controller: _tabController,
-                onTap: (index) {
-                  _pageController.jumpToPage(index);
-                },
-                splashFactory: NoSplash.splashFactory,
-                overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                  (Set<WidgetState> states) {
-                    return Colors.transparent;
-                  },
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TabBar(
+                    controller: _tabController,
+                    onTap: (index) {
+                      _pageController.jumpToPage(index);
+                    },
+                    splashFactory: NoSplash.splashFactory,
+                    overlayColor: WidgetStateProperty.resolveWith<Color?>((
+                      Set<WidgetState> states,
+                    ) {
+                      return Colors.transparent;
+                    }),
+                    tabs: const [Tab(text: '组件'), Tab(text: 'DemoAPP')],
+                    labelColor: Colors.white,
+                    unselectedLabelColor: Colors.grey[700],
+                    indicatorColor: Colors.white60,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorWeight: 2,
+                    labelPadding: EdgeInsets.zero,
+                    labelStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    unselectedLabelStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
-                tabs: const [
-                  Tab(text: '组件'),
-                  Tab(text: 'DemoAPP'),
-                ],
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.grey[700],
-                indicatorColor: Colors.white60,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorWeight: 2,
-                labelPadding: EdgeInsets.zero,
-                labelStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+                Expanded(
+                  child: PageView(
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      _tabController.animateTo(index);
+                    },
+                    children: [_buildComponents(), _buildDemoApps()],
+                  ),
                 ),
-                unselectedLabelStyle: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              ],
             ),
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (index) {
-                  _tabController.animateTo(index);
-                },
-                children: [
-                  _buildComponents(),
-                  _buildDemoApps(),
-                ],
-              ),
-            ),
-          ],
-        ))
-      ],
-    ));
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildComponents() {
@@ -374,40 +403,51 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             itemBuilder: (context, index) {
               if (index < widget.components.length) {
                 return Hero(
-                    tag: 'Demo_${widget.components[index].title}',
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      child: InkWell(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
+                  tag: 'Demo_${widget.components[index].title}',
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
                               if (widget.components[index].isFullScreen) {
                                 return FullScreen(
-                                    key: UniqueKey(),
-                                    example: widget.components[index]);
+                                  key: UniqueKey(),
+                                  example: widget.components[index],
+                                );
                               } else {
                                 return DetailScreen(
                                   key: UniqueKey(),
                                   example: widget.components[index],
                                 );
                               }
-                            }));
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.animation,
-                                  size: 45, color: Colors.white),
-                              Text(
-                                widget.components[index].title,
-                                style: Theme.of(context).textTheme.titleMedium,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          )),
-                    ));
+                            },
+                          ),
+                        );
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.animation,
+                            size: 45,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            widget.components[index].title,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
               } else {
                 return SizedBox(
                   height: MediaQuery.of(context).size.height,
@@ -416,7 +456,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               }
             },
           ),
-        )
+        ),
       ],
     );
   }
@@ -438,40 +478,51 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             itemBuilder: (context, index) {
               if (index < widget.demoApps.length) {
                 return Hero(
-                    tag: 'Demo_${widget.demoApps[index].title}',
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      child: InkWell(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
+                  tag: 'Demo_${widget.demoApps[index].title}',
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
                               if (widget.demoApps[index].isFullScreen) {
                                 return FullScreen(
-                                    key: UniqueKey(),
-                                    example: widget.demoApps[index]);
+                                  key: UniqueKey(),
+                                  example: widget.demoApps[index],
+                                );
                               } else {
                                 return DetailScreen(
                                   key: UniqueKey(),
                                   example: widget.demoApps[index],
                                 );
                               }
-                            }));
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.animation,
-                                  size: 45, color: Colors.white),
-                              Text(
-                                widget.demoApps[index].title,
-                                style: Theme.of(context).textTheme.titleMedium,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          )),
-                    ));
+                            },
+                          ),
+                        );
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.animation,
+                            size: 45,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            widget.demoApps[index].title,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
               } else {
                 return SizedBox(
                   height: MediaQuery.of(context).size.height,
@@ -480,7 +531,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               }
             },
           ),
-        )
+        ),
       ],
     );
   }
@@ -500,10 +551,7 @@ class FullScreen extends StatelessWidget {
 class DetailScreen extends StatelessWidget {
   final AnimationExample example;
 
-  const DetailScreen({
-    super.key,
-    required this.example,
-  });
+  const DetailScreen({super.key, required this.example});
 
   @override
   Widget build(BuildContext context) {

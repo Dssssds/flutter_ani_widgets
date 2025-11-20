@@ -22,8 +22,12 @@ dependencies:
   flutter_3d_controller: ^2.1.0
   equatable: ^2.0.7
   flutter_shaders: ^0.1.3
-  google_fonts:  
-  flutter_animate: 
+  google_fonts:
+  flutter_animate:
+  just_waveform: ^0.0.7
+  just_audio: ^0.9.40
+  path_provider: ^2.0.0
+  path: ^1.8.0
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +42,7 @@ flutter:
     - assets/images/graph.png
     - assets/images/
     - assets/3d_numbers/
+    - assets/audio/
   fonts:
     - family: NeumaticGothic-Black
       fonts:

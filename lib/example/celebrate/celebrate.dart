@@ -41,6 +41,9 @@ class CoolMode extends StatefulWidget {
     this.speedHorz,
     this.speedUp,
     this.particleImage,
+    this.triggerParticles = false,
+    this.onTriggerComplete,
+    this.enableInternalGesture = true,
   });
 
   final Widget child;
@@ -48,6 +51,9 @@ class CoolMode extends StatefulWidget {
   final double? speedHorz;
   final double? speedUp;
   final String? particleImage;
+  final bool triggerParticles;
+  final VoidCallback? onTriggerComplete;
+  final bool enableInternalGesture;
 
   @override
   State<CoolMode> createState() => _CoolModeState();
@@ -73,6 +79,15 @@ class _CoolModeState extends State<CoolMode> with TickerProviderStateMixin {
     )..repeat();
 
     _animationController.addListener(_updateParticles);
+  }
+
+  @override
+  void didUpdateWidget(CoolMode oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // 当 triggerParticles 从 false 变为 true 时，更新按下状态
+    if (widget.triggerParticles != oldWidget.triggerParticles) {
+      _isPointerDown = widget.triggerParticles;
+    }
   }
 
   Offset _getWidgetPosition() {
@@ -164,41 +179,49 @@ class _CoolModeState extends State<CoolMode> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    Widget childWidget = KeyedSubtree(
+      key: _childKey,
+      child: widget.child,
+    );
+
+    // 如果启用内部手势检测，包装 GestureDetector
+    if (widget.enableInternalGesture) {
+      childWidget = GestureDetector(
+        onTapDown: (_) {
+          setState(() {
+            _isPointerDown = true;
+          });
+        },
+        onTapUp: (_) {
+          setState(() {
+            _isPointerDown = false;
+          });
+        },
+        onTapCancel: () {
+          setState(() {
+            _isPointerDown = false;
+          });
+        },
+        child: childWidget,
+      );
+    }
+
     return Material(
       color: Colors.transparent,
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.center,
         children: [
-          // First layer: The button
-          Center(
-              child: GestureDetector(
-            onTapDown: (_) {
-              setState(() {
-                _isPointerDown = true;
-              });
-            },
-            onTapUp: (_) {
-              setState(() {
-                _isPointerDown = false;
-              });
-            },
-            onTapCancel: () {
-              setState(() {
-                _isPointerDown = false;
-              });
-            },
-            child: KeyedSubtree(
-              key: _childKey,
-              child: widget.child,
-            ),
-          )),
-          // Second layer: The particles (now on top)
+          // Child widget
+          childWidget,
+          // Particles layer
           if (_particles.isNotEmpty)
             Positioned.fill(
-              child: CustomPaint(
-                painter: ParticlePainter(
-                  particles: _particles,
+              child: IgnorePointer(
+                child: CustomPaint(
+                  painter: ParticlePainter(
+                    particles: _particles,
+                  ),
                 ),
               ),
             ),
