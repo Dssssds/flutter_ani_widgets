@@ -8,12 +8,13 @@ import 'package:just_waveform/just_waveform.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import '../../../example/celebrate/celebrate.dart';
+import '../models/user_model.dart';
 import '../widgets/control_pad.dart';
 import '../widgets/header_controls.dart';
 import '../widgets/list_section.dart';
 import '../widgets/retro_dashboard.dart';
 import '../widgets/top_banner.dart';
-import '../models/user_model.dart';
 
 class RetroHomePage extends StatefulWidget {
   const RetroHomePage({super.key});
@@ -25,53 +26,35 @@ class RetroHomePage extends StatefulWidget {
 class _RetroHomePageState extends State<RetroHomePage> {
   // Tab 状态
   int _selectedTabIndex = 0;
-  
+
+  // 长按状态（用于控制粒子生成）
+  bool _isLongPressing = false;
+
+  // TopBanner 的 GlobalKey（用于获取位置）
+  final GlobalKey _topBannerKey = GlobalKey();
+
   // 每个 Tab 对应的用户数据
   final Map<int, List<User>> _tabUsers = {
-    0: [  // Public
-      const User(
-        name: 'CoolGamer123',
-        iconPath: 'assets/images/data/a.png',
-      ),
-      const User(
-        name: 'ProPlayer456',
-        iconPath: 'assets/images/data/b.png',
-      ),
-      const User(
-        name: 'MasterChief',
-        iconPath: 'assets/images/data/c.png',
-      ),
+    0: [
+      // Public
+      const User(name: 'CoolGamer123', iconPath: 'assets/images/data/a.png'),
+      const User(name: 'ProPlayer456', iconPath: 'assets/images/data/b.png'),
+      const User(name: 'MasterChief', iconPath: 'assets/images/data/c.png'),
     ],
-    1: [  // Duo
-      const User(
-        name: 'TeamMate1',
-        iconPath: 'assets/images/data/d.png',
-      ),
-      const User(
-        name: 'PartnerX',
-        iconPath: 'assets/images/data/e.png',
-      ),
+    1: [
+      // Duo
+      const User(name: 'TeamMate1', iconPath: 'assets/images/data/d.png'),
+      const User(name: 'PartnerX', iconPath: 'assets/images/data/e.png'),
     ],
-    2: [  // Private
-      const User(
-        name: 'BestFriend',
-        iconPath: 'assets/images/data/a.png',
-      ),
-      const User(
-        name: 'CloseAlly',
-        iconPath: 'assets/images/data/b.png',
-      ),
-      const User(
-        name: 'TrustedOne',
-        iconPath: 'assets/images/data/c.png',
-      ),
-      const User(
-        name: 'SecretAgent',
-        iconPath: 'assets/images/data/f.png',
-      ),
+    2: [
+      // Private
+      const User(name: 'BestFriend', iconPath: 'assets/images/data/a.png'),
+      const User(name: 'CloseAlly', iconPath: 'assets/images/data/b.png'),
+      const User(name: 'TrustedOne', iconPath: 'assets/images/data/c.png'),
+      const User(name: 'SecretAgent', iconPath: 'assets/images/data/f.png'),
     ],
   };
-  
+
   // 播放状态
   bool _isPlaying = false;
 
@@ -237,52 +220,122 @@ class _RetroHomePageState extends State<RetroHomePage> {
     super.dispose();
   }
 
+  // 获取 TopBanner 中心位置（用于粒子起点）
+  Offset _getTopBannerCenter() {
+    final RenderBox? topBannerBox =
+        _topBannerKey.currentContext?.findRenderObject() as RenderBox?;
+
+    // 2. 获取 SafeArea（当前 context）的 RenderBox
+    final RenderBox? safeAreaBox = context.findRenderObject() as RenderBox?;
+
+    if (topBannerBox == null || safeAreaBox == null) {
+      return Offset.zero;
+    }
+
+    // 3. 获取 TopBanner 的全局位置和尺寸
+    final Offset topBannerGlobalPosition = topBannerBox.localToGlobal(
+      Offset.zero,
+    );
+    final Size topBannerSize = topBannerBox.size;
+
+    // 4. 将全局坐标转换为 SafeArea 内的局部坐标
+    final Offset topBannerLocalPosition = safeAreaBox.globalToLocal(
+      topBannerGlobalPosition,
+    );
+
+    // 调试输出
+    debugPrint('=== TopBanner Position Debug ===');
+    debugPrint('TopBanner Global: $topBannerGlobalPosition');
+    debugPrint('TopBanner Local: $topBannerLocalPosition');
+    debugPrint('TopBanner Size: $topBannerSize');
+
+    // 5. 计算 TopBanner 的中心点（局部坐标）
+    final center = Offset(
+      topBannerLocalPosition.dx + topBannerSize.width / 2,
+      topBannerLocalPosition.dy + topBannerSize.height / 2,
+    );
+
+    debugPrint('Particle Origin: $center');
+    debugPrint('================================');
+
+    return center;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            const SizedBox(height: 8),
-            // 1. Top Banner
-            const TopBanner(),
-            const SizedBox(height: 8),
+            // ========== 主内容区 ==========
+            Column(
+              children: [
+                const SizedBox(height: 8),
+                // 1. Top Banner
+                TopBanner(
+                  key: _topBannerKey,
+                  onLongPressChanged: (isLongPressing) {
+                    setState(() {
+                      _isLongPressing = isLongPressing;
+                    });
+                  },
+                ),
+                const SizedBox(height: 8),
 
-            // 2. Header Controls (Segment + Icons)
-            HeaderControls(
-              selectedIndex: _selectedTabIndex,
-              onTabChanged: (index) {
-                setState(() {
-                  _selectedTabIndex = index;
-                });
-              },
+                // 2. Header Controls (Segment + Icons)
+                HeaderControls(
+                  selectedIndex: _selectedTabIndex,
+                  onTabChanged: (index) {
+                    setState(() {
+                      _selectedTabIndex = index;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+
+                // 3. Dashboard (The Black Box)
+                RetroDashboard(
+                  waveform: _waveform,
+                  currentPosition: _currentPosition,
+                  totalDuration: _totalDuration,
+                ),
+                const SizedBox(height: 10),
+
+                // 4. Control Pad
+                ControlPad(
+                  isPlaying: _isPlaying,
+                  onSpeedDown: _handleSpeedDown,
+                  onBackward: _handleBackward,
+                  onPlayPause: _handlePlayPause,
+                  onForward: _handleForward,
+                  onSpeedUp: _handleSpeedUp,
+                ),
+                const SizedBox(height: 16),
+
+                // 5. List Section
+                Expanded(
+                  child: ListSection(
+                    key: ValueKey(_selectedTabIndex),
+                    users: _tabUsers[_selectedTabIndex] ?? [],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
 
-            // 3. Dashboard (The Black Box)
-            RetroDashboard(
-              waveform: _waveform,
-              currentPosition: _currentPosition,
-              totalDuration: _totalDuration,
-            ),
-            const SizedBox(height: 10),
-
-            // 4. Control Pad
-            ControlPad(
-              isPlaying: _isPlaying,
-              onSpeedDown: _handleSpeedDown,
-              onBackward: _handleBackward,
-              onPlayPause: _handlePlayPause,
-              onForward: _handleForward,
-              onSpeedUp: _handleSpeedUp,
-            ),
-            const SizedBox(height: 16),
-
-            // 5. List Section
-            Expanded(
-              child: ListSection(
-                key: ValueKey(_selectedTabIndex),  // 强制重新构建以重新触发动画
-                users: _tabUsers[_selectedTabIndex] ?? [],
+            // ========== 粒子覆盖层（最顶层）==========
+            Positioned(
+              top: -50,
+              child: IgnorePointer(
+                child: CustomPaint(
+                  // painter: _DebugOriginPainter(origin: _getTopBannerCenter()),
+                  child: CoolMode(
+                    particleCount: 40,
+                    triggerParticles: _isLongPressing,
+                    enableInternalGesture: false,
+                    particleOrigin: _getTopBannerCenter(),
+                    child: Container(),
+                  ),
+                ),
               ),
             ),
           ],
@@ -290,4 +343,45 @@ class _RetroHomePageState extends State<RetroHomePage> {
       ),
     );
   }
+}
+
+// 调试用的 Painter - 在粒子起点绘制红色十字标记
+class _DebugOriginPainter extends CustomPainter {
+  final Offset origin;
+  const _DebugOriginPainter({required this.origin});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // 绘制红色圆点
+    canvas.drawCircle(
+      origin,
+      8,
+      Paint()
+        ..color = Colors.red
+        ..style = PaintingStyle.fill,
+    );
+
+    // 绘制十字线
+    final linePaint =
+        Paint()
+          ..color = Colors.red
+          ..strokeWidth = 2;
+
+    // 水平线
+    canvas.drawLine(
+      Offset(origin.dx - 30, origin.dy),
+      Offset(origin.dx + 30, origin.dy),
+      linePaint,
+    );
+
+    // 垂直线
+    canvas.drawLine(
+      Offset(origin.dx, origin.dy - 30),
+      Offset(origin.dx, origin.dy + 30),
+      linePaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

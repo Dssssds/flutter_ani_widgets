@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_x_widgets/example/celebrate/celebrate.dart';
 
 class TopBanner extends StatefulWidget {
-  const TopBanner({super.key});
+  final ValueChanged<bool>? onLongPressChanged;
+
+  const TopBanner({
+    super.key,
+    this.onLongPressChanged,
+  });
 
   @override
   State<TopBanner> createState() => _TopBannerState();
@@ -52,6 +56,7 @@ class _TopBannerState extends State<TopBanner> with TickerProviderStateMixin {
     setState(() {
       _isLongPressing = true;
     });
+    widget.onLongPressChanged?.call(true);
   }
 
   void _handleLongPressEnd() {
@@ -61,6 +66,7 @@ class _TopBannerState extends State<TopBanner> with TickerProviderStateMixin {
     setState(() {
       _isLongPressing = false;
     });
+    widget.onLongPressChanged?.call(false);
   }
 
   @override
@@ -88,43 +94,38 @@ class _TopBannerState extends State<TopBanner> with TickerProviderStateMixin {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CoolMode(
-              particleCount: 30,
-              triggerParticles: _isLongPressing,
-              enableInternalGesture: false,
-              child: GestureDetector(
-                onLongPressStart: (_) => _handleLongPressStart(),
-                onLongPressEnd: (_) => _handleLongPressEnd(),
-                child: AnimatedBuilder(
-                  animation: Listenable.merge([
-                    _scaleController,
-                    _shakeController,
-                  ]),
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _scaleAnimation.value,
-                      child: Transform.rotate(
-                        angle: _shakeAnimation.value,
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "GO!",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900,
-                      fontStyle: FontStyle.italic,
-                      letterSpacing: 2,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black.withOpacity(0.5),
-                          offset: const Offset(2, 2),
-                          blurRadius: 4,
-                        ),
-                      ],
+            GestureDetector(
+              onLongPressStart: (_) => _handleLongPressStart(),
+              onLongPressEnd: (_) => _handleLongPressEnd(),
+              child: AnimatedBuilder(
+                animation: Listenable.merge([
+                  _scaleController,
+                  _shakeController,
+                ]),
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: _scaleAnimation.value,
+                    child: Transform.rotate(
+                      angle: _shakeAnimation.value,
+                      child: child,
                     ),
+                  );
+                },
+                child: Text(
+                  "GO!",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.w900,
+                    fontStyle: FontStyle.italic,
+                    letterSpacing: 3,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withOpacity(0.5),
+                        offset: const Offset(2, 2),
+                        blurRadius: 4,
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -44,6 +44,7 @@ class CoolMode extends StatefulWidget {
     this.triggerParticles = false,
     this.onTriggerComplete,
     this.enableInternalGesture = true,
+    this.particleOrigin,
   });
 
   final Widget child;
@@ -54,6 +55,7 @@ class CoolMode extends StatefulWidget {
   final bool triggerParticles;
   final VoidCallback? onTriggerComplete;
   final bool enableInternalGesture;
+  final Offset? particleOrigin;
 
   @override
   State<CoolMode> createState() => _CoolModeState();
@@ -91,6 +93,11 @@ class _CoolModeState extends State<CoolMode> with TickerProviderStateMixin {
   }
 
   Offset _getWidgetPosition() {
+    // 如果指定了自定义起点，直接使用
+    if (widget.particleOrigin != null) {
+      return widget.particleOrigin!;
+    }
+
     final RenderBox? renderBox =
         _childKey.currentContext?.findRenderObject() as RenderBox?;
     final RenderBox? paintBox = context.findRenderObject() as RenderBox?;
@@ -161,12 +168,13 @@ class _CoolModeState extends State<CoolMode> with TickerProviderStateMixin {
         spinSpeed: spinSpeed,
         spinVal: spinVal,
         // 使用HSL颜色空间创建一个随机颜色
-        color: HSLColor.fromAHSL(
-          1.0,
-          _random.nextDouble() * 360, // 随机色相
-          0.7, // 固定饱和度
-          0.6, // 固定亮度
-        ).toColor(),
+        color:
+            HSLColor.fromAHSL(
+              1.0,
+              _random.nextDouble() * 360, // 随机色相
+              0.7, // 固定饱和度
+              0.6, // 固定亮度
+            ).toColor(),
       ),
     );
   }
@@ -179,10 +187,7 @@ class _CoolModeState extends State<CoolMode> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    Widget childWidget = KeyedSubtree(
-      key: _childKey,
-      child: widget.child,
-    );
+    Widget childWidget = KeyedSubtree(key: _childKey, child: widget.child);
 
     // 如果启用内部手势检测，包装 GestureDetector
     if (widget.enableInternalGesture) {
@@ -219,9 +224,7 @@ class _CoolModeState extends State<CoolMode> with TickerProviderStateMixin {
             Positioned.fill(
               child: IgnorePointer(
                 child: CustomPaint(
-                  painter: ParticlePainter(
-                    particles: _particles,
-                  ),
+                  painter: ParticlePainter(particles: _particles),
                 ),
               ),
             ),
@@ -232,9 +235,7 @@ class _CoolModeState extends State<CoolMode> with TickerProviderStateMixin {
 }
 
 class ParticlePainter extends CustomPainter {
-  ParticlePainter({
-    required this.particles,
-  });
+  ParticlePainter({required this.particles});
 
   final List<Particle> particles;
 
@@ -247,11 +248,7 @@ class ParticlePainter extends CustomPainter {
       canvas.rotate(particle.spinVal * math.pi / 180);
 
       final paint = Paint()..color = particle.color;
-      canvas.drawCircle(
-        Offset.zero,
-        particle.size / 2,
-        paint,
-      );
+      canvas.drawCircle(Offset.zero, particle.size / 2, paint);
 
       canvas.restore();
     }
