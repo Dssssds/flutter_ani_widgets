@@ -1,6 +1,9 @@
 class User {
   final String name;
-  final String avatarUrl; // Placeholder for now
+  final String? iconPath;
 
-  const User({required this.name, this.avatarUrl = ''});
+  const User({
+    required this.name,
+    this.iconPath,
+  });
 }

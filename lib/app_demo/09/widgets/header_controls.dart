@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
 class HeaderControls extends StatefulWidget {
-  const HeaderControls({super.key});
+  final int selectedIndex;
+  final ValueChanged<int>? onTabChanged;
+  
+  const HeaderControls({
+    super.key,
+    this.selectedIndex = 0,
+    this.onTabChanged,
+  });
 
   @override
   State<HeaderControls> createState() => _HeaderControlsState();
 }
 
 class _HeaderControlsState extends State<HeaderControls> {
-  int _selectedIndex = 0;
   final List<String> _tabs = ['Public', 'Duo', 'Private'];
 
   @override
@@ -35,7 +41,7 @@ class _HeaderControlsState extends State<HeaderControls> {
                       AnimatedPositioned(
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
-                        left: 4 + (_selectedIndex * tabWidth),
+                        left: 4 + (widget.selectedIndex * tabWidth),
                         top: 4,
                         child: Container(
                           width: tabWidth,
@@ -52,11 +58,9 @@ class _HeaderControlsState extends State<HeaderControls> {
                           _tabs.length,
                           (index) => _buildTab(
                             _tabs[index],
-                            _selectedIndex == index,
+                            widget.selectedIndex == index,
                             () {
-                              setState(() {
-                                _selectedIndex = index;
-                              });
+                              widget.onTabChanged?.call(index);
                             },
                           ),
                         ),

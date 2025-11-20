@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'screens/retro_home_page.dart';
+import 'screens/main_container.dart';
 
 class App09 extends StatelessWidget {
   const App09({super.key});
@@ -14,7 +14,7 @@ class App09 extends StatelessWidget {
         fontFamily: 'Courier', // Monospaced fallback for retro feel
         useMaterial3: true,
       ),
-      home: const RetroHomePage(),
+      home: const MainContainer(),
     );
   }
 }

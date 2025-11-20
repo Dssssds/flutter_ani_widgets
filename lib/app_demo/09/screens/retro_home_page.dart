@@ -3,17 +3,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:just_waveform/just_waveform.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:just_waveform/just_waveform.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import '../widgets/control_pad.dart';
 import '../widgets/header_controls.dart';
 import '../widgets/list_section.dart';
 import '../widgets/retro_dashboard.dart';
-import '../widgets/retro_nav_bar.dart';
 import '../widgets/top_banner.dart';
+import '../models/user_model.dart';
 
 class RetroHomePage extends StatefulWidget {
   const RetroHomePage({super.key});
@@ -23,9 +23,58 @@ class RetroHomePage extends StatefulWidget {
 }
 
 class _RetroHomePageState extends State<RetroHomePage> {
+  // Tab 状态
+  int _selectedTabIndex = 0;
+  
+  // 每个 Tab 对应的用户数据
+  final Map<int, List<User>> _tabUsers = {
+    0: [  // Public
+      const User(
+        name: 'CoolGamer123',
+        iconPath: 'assets/images/data/a.png',
+      ),
+      const User(
+        name: 'ProPlayer456',
+        iconPath: 'assets/images/data/b.png',
+      ),
+      const User(
+        name: 'MasterChief',
+        iconPath: 'assets/images/data/c.png',
+      ),
+    ],
+    1: [  // Duo
+      const User(
+        name: 'TeamMate1',
+        iconPath: 'assets/images/data/d.png',
+      ),
+      const User(
+        name: 'PartnerX',
+        iconPath: 'assets/images/data/e.png',
+      ),
+    ],
+    2: [  // Private
+      const User(
+        name: 'BestFriend',
+        iconPath: 'assets/images/data/a.png',
+      ),
+      const User(
+        name: 'CloseAlly',
+        iconPath: 'assets/images/data/b.png',
+      ),
+      const User(
+        name: 'TrustedOne',
+        iconPath: 'assets/images/data/c.png',
+      ),
+      const User(
+        name: 'SecretAgent',
+        iconPath: 'assets/images/data/f.png',
+      ),
+    ],
+  };
+  
   // 播放状态
   bool _isPlaying = false;
-  
+
   // 播放速度
   double _playbackSpeed = 1.0;
   static const double minSpeed = 0.33;
@@ -52,9 +101,11 @@ class _RetroHomePageState extends State<RetroHomePage> {
     try {
       // 1. 设置音频播放器
       await _audioPlayer.setAsset('assets/audio/gaobai.mp3');
-      
+
       // 等待音频加载完成
-      await _audioPlayer.durationStream.firstWhere((duration) => duration != null);
+      await _audioPlayer.durationStream.firstWhere(
+        (duration) => duration != null,
+      );
       _totalDuration = _audioPlayer.duration ?? Duration.zero;
 
       // 2. 监听播放进度
@@ -79,19 +130,19 @@ class _RetroHomePageState extends State<RetroHomePage> {
   Future<void> _extractWaveform() async {
     try {
       debugPrint('Loading waveform from assets...');
-      
+
       // 1. 从 assets 加载 WAV 文件（gaobai.wave 是标准 WAV 音频格式）
       final waveData = await rootBundle.load('assets/audio/gaobai.wave');
-      
+
       // 2. 写入临时文件
       final tempDir = await getTemporaryDirectory();
       final audioFile = File(p.join(tempDir.path, 'gaobai.wave'));
-      
+
       await audioFile.writeAsBytes(waveData.buffer.asUint8List());
-      
+
       // 3. 从 WAV 文件提取波形数据
       final waveOutFile = File(p.join(tempDir.path, 'gaobai_waveform.wave'));
-      
+
       final progressStream = JustWaveform.extract(
         audioInFile: audioFile,
         waveOutFile: waveOutFile,
@@ -99,8 +150,10 @@ class _RetroHomePageState extends State<RetroHomePage> {
       );
 
       await for (final progress in progressStream) {
-        debugPrint('Waveform extraction progress: ${(progress.progress * 100).toInt()}%');
-        
+        debugPrint(
+          'Waveform extraction progress: ${(progress.progress * 100).toInt()}%',
+        );
+
         if (progress.waveform != null) {
           setState(() {
             _waveform = progress.waveform;
@@ -118,7 +171,7 @@ class _RetroHomePageState extends State<RetroHomePage> {
     setState(() {
       _isPlaying = !_isPlaying;
     });
-    
+
     if (_isPlaying) {
       _audioPlayer.play();
       debugPrint('▶️ Playing at ${_playbackSpeed.toStringAsFixed(1)}x');
@@ -132,16 +185,16 @@ class _RetroHomePageState extends State<RetroHomePage> {
     setState(() {
       _playbackSpeed = (_playbackSpeed + speedStep).clamp(1.0, maxSpeed);
     });
-    
+
     _audioPlayer.setSpeed(_playbackSpeed);
-    
+
     if (!_isPlaying) {
       setState(() {
         _isPlaying = true;
       });
       _audioPlayer.play();
     }
-    
+
     debugPrint('⏩ Speed up to: ${_playbackSpeed.toStringAsFixed(1)}x');
   }
 
@@ -149,16 +202,16 @@ class _RetroHomePageState extends State<RetroHomePage> {
     setState(() {
       _playbackSpeed = (_playbackSpeed - speedStep).clamp(minSpeed, 1.0);
     });
-    
+
     _audioPlayer.setSpeed(_playbackSpeed);
-    
+
     if (!_isPlaying) {
       setState(() {
         _isPlaying = true;
       });
       _audioPlayer.play();
     }
-    
+
     debugPrint('⏪ Speed down to: ${_playbackSpeed.toStringAsFixed(1)}x');
   }
 
@@ -196,7 +249,14 @@ class _RetroHomePageState extends State<RetroHomePage> {
             const SizedBox(height: 8),
 
             // 2. Header Controls (Segment + Icons)
-            const HeaderControls(),
+            HeaderControls(
+              selectedIndex: _selectedTabIndex,
+              onTabChanged: (index) {
+                setState(() {
+                  _selectedTabIndex = index;
+                });
+              },
+            ),
             const SizedBox(height: 10),
 
             // 3. Dashboard (The Black Box)
@@ -219,18 +279,14 @@ class _RetroHomePageState extends State<RetroHomePage> {
             const SizedBox(height: 16),
 
             // 5. List Section
-            const Expanded(child: ListSection()),
+            Expanded(
+              child: ListSection(
+                key: ValueKey(_selectedTabIndex),  // 强制重新构建以重新触发动画
+                users: _tabUsers[_selectedTabIndex] ?? [],
+              ),
+            ),
           ],
         ),
-      ),
-      bottomNavigationBar: RetroNavBar(
-        currentIndex: 0,
-        onTap: (index) {
-          // TODO: Handle navigation
-        },
-        onFabPressed: () {
-          // TODO: Handle FAB press
-        },
       ),
     );
   }
