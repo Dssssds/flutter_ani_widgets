@@ -37,14 +37,36 @@ class _RetroHomePageState extends State<RetroHomePage> {
   final Map<int, List<User>> _tabUsers = {
     0: [
       // Public
-      const User(name: 'CoolGamer123', iconPath: 'assets/images/data/a.png'),
-      const User(name: 'ProPlayer456', iconPath: 'assets/images/data/b.png'),
-      const User(name: 'MasterChief', iconPath: 'assets/images/data/c.png'),
+      const User(
+        name: 'CoolGamer123',
+        iconPath: 'assets/images/data/a.png',
+        friends: [
+          'assets/images/rule/barbarian.png',
+          'assets/images/rule/ninja.png',
+        ],
+      ),
+      const User(
+        name: 'ProPlayer456',
+        iconPath: 'assets/images/data/b.png',
+        friends: [],
+      ),
+      const User(
+        name: 'MasterChief',
+        iconPath: 'assets/images/data/c.png',
+        friends: [],
+      ),
     ],
     1: [
       // Duo
       const User(name: 'TeamMate1', iconPath: 'assets/images/data/d.png'),
-      const User(name: 'PartnerX', iconPath: 'assets/images/data/e.png'),
+      const User(
+        name: 'PartnerX',
+        iconPath: 'assets/images/data/e.png',
+        friends: [
+          'assets/images/rule/magician.png',
+          'assets/images/rule/swordsman.png',
+        ],
+      ),
     ],
     2: [
       // Private

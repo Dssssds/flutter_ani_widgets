@@ -42,6 +42,7 @@ flutter:
     - assets/images/graph.png
     - assets/images/
     - assets/images/data/
+    - assets/images/rule/
     - assets/3d_numbers/
     - assets/audio/
   fonts:

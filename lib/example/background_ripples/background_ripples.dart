@@ -29,39 +29,34 @@ class _RippleState extends State<Ripple> with TickerProviderStateMixin {
     super.initState();
 
     // Create controllers with staggered starts
-    _controllers = List.generate(
-      widget.numCircles,
-      (index) {
-        final controller = AnimationController(
-          duration: widget.duration,
-          vsync: this,
-        );
+    _controllers = List.generate(widget.numCircles, (index) {
+      final controller = AnimationController(
+        duration: widget.duration,
+        vsync: this,
+      );
 
-        // Calculate delay for each circle
-        final delay = (index * 0.1 * widget.duration.inMilliseconds).toInt();
+      // Calculate delay for each circle
+      final delay = (index * 0.1 * widget.duration.inMilliseconds).toInt();
 
-        Future.delayed(Duration(milliseconds: delay), () {
-          if (mounted) {
-            controller.repeat(reverse: true); // Key change: added reverse
-          }
-        });
+      Future.delayed(Duration(milliseconds: delay), () {
+        if (mounted) {
+          controller.repeat(reverse: true); // Key change: added reverse
+        }
+      });
 
-        return controller;
-      },
-    );
+      return controller;
+    });
 
     // Create smooth animations
-    _scaleAnimations = _controllers.map((controller) {
-      return Tween<double>(
-        begin: 1.0,
-        end: 0.9,
-      ).animate(
-        CurvedAnimation(
-          parent: controller,
-          curve: Curves.easeInOut, // Smooth easing both ways
-        ),
-      );
-    }).toList();
+    _scaleAnimations =
+        _controllers.map((controller) {
+          return Tween<double>(begin: 1.0, end: 0.9).animate(
+            CurvedAnimation(
+              parent: controller,
+              curve: Curves.easeInOut, // Smooth easing both ways
+            ),
+          );
+        }).toList();
   }
 
   @override
@@ -92,24 +87,26 @@ class _RippleState extends State<Ripple> with TickerProviderStateMixin {
           return Center(
             child: AnimatedBuilder(
               animation: _scaleAnimations[index],
-              builder: (context, child) => Transform.scale(
-                scale: _scaleAnimations[index].value,
-                child: Container(
-                  width: size,
-                  height: size,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: widget.color.withOpacity(opacity),
-                    border: Border.all(
-                      color: widget.color.withOpacity(borderOpacity),
-                      width: 1,
-                      style: index == widget.numCircles - 1
-                          ? BorderStyle.solid
-                          : BorderStyle.solid,
+              builder:
+                  (context, child) => Transform.scale(
+                    scale: _scaleAnimations[index].value,
+                    child: Container(
+                      width: size,
+                      height: size,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: widget.color.withOpacity(opacity),
+                        border: Border.all(
+                          color: widget.color.withOpacity(borderOpacity),
+                          width: 1,
+                          style:
+                              index == widget.numCircles - 1
+                                  ? BorderStyle.solid
+                                  : BorderStyle.solid,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
             ),
           );
         }),
@@ -119,30 +116,61 @@ class _RippleState extends State<Ripple> with TickerProviderStateMixin {
 }
 
 class BackgroundRippleDemo extends StatelessWidget {
-  const BackgroundRippleDemo({super.key});
+  final String text;
+  final bool showCloseButton;
+
+  const BackgroundRippleDemo({
+    super.key,
+    this.text = '呼吸!',
+    this.showCloseButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
           Center(
             child: Text(
-              '呼吸!',
-              style: TextStyle(
+              text,
+              style: const TextStyle(
                 fontSize: 24,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          Ripple(
+          const Ripple(
             color: Color.fromARGB(255, 87, 169, 185),
             mainCircleSize: 130,
             mainCircleOpacity: 0.34,
             numCircles: 5,
             duration: Duration(seconds: 1),
           ),
+          // 右上角关闭按钮
+          if (showCloseButton)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+
+                      child: const Icon(
+                        Icons.power_settings_new,
+                        size: 26,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

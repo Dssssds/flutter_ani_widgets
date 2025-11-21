@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../../../example/background_ripples/background_ripples.dart';
+
 class HeaderControls extends StatefulWidget {
   final int selectedIndex;
   final ValueChanged<int>? onTabChanged;
-  
-  const HeaderControls({
-    super.key,
-    this.selectedIndex = 0,
-    this.onTabChanged,
-  });
+
+  const HeaderControls({super.key, this.selectedIndex = 0, this.onTabChanged});
 
   @override
   State<HeaderControls> createState() => _HeaderControlsState();
 }
 
 class _HeaderControlsState extends State<HeaderControls> {
-  final List<String> _tabs = ['Public', 'Duo', 'Private'];
+  final List<String> _tabs = ['Hot', 'Pop', 'Chinese'];
 
   @override
   Widget build(BuildContext context) {
@@ -72,19 +70,55 @@ class _HeaderControlsState extends State<HeaderControls> {
             ),
           ),
           const SizedBox(width: 12),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2.5),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.power_settings_new,
-              size: 20,
-              color: Colors.black,
+          GestureDetector(
+            onTap: () => _navigateToRipple(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 2.5),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.power_settings_new,
+                size: 20,
+                color: Colors.black,
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _navigateToRipple(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return const BackgroundRippleDemo(
+            text: 'Relax',
+            showCloseButton: true,
+          );
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          // 淡入淡出 + 缩放效果
+          const begin = 0.0;
+          const end = 1.0;
+          final fadeTween = Tween(begin: begin, end: end);
+          final fadeAnimation = animation.drive(fadeTween);
+
+          const scaleBegin = 0.9;
+          const scaleEnd = 1.0;
+          final scaleTween = Tween(begin: scaleBegin, end: scaleEnd);
+          final scaleAnimation = animation.drive(
+            scaleTween.chain(CurveTween(curve: Curves.easeInOut)),
+          );
+
+          return FadeTransition(
+            opacity: fadeAnimation,
+            child: ScaleTransition(scale: scaleAnimation, child: child),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 400),
       ),
     );
   }

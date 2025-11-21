@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class TopBanner extends StatefulWidget {
   final ValueChanged<bool>? onLongPressChanged;
 
-  const TopBanner({
-    super.key,
-    this.onLongPressChanged,
-  });
+  const TopBanner({super.key, this.onLongPressChanged});
 
   @override
   State<TopBanner> createState() => _TopBannerState();
@@ -17,7 +14,6 @@ class _TopBannerState extends State<TopBanner> with TickerProviderStateMixin {
   late AnimationController _shakeController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _shakeAnimation;
-  bool _isLongPressing = false;
 
   @override
   void initState() {
@@ -53,9 +49,7 @@ class _TopBannerState extends State<TopBanner> with TickerProviderStateMixin {
   void _handleLongPressStart() {
     _scaleController.forward();
     _shakeController.repeat(reverse: true);
-    setState(() {
-      _isLongPressing = true;
-    });
+
     widget.onLongPressChanged?.call(true);
   }
 
@@ -63,9 +57,7 @@ class _TopBannerState extends State<TopBanner> with TickerProviderStateMixin {
     _scaleController.reverse();
     _shakeController.stop();
     _shakeController.value = 0;
-    setState(() {
-      _isLongPressing = false;
-    });
+
     widget.onLongPressChanged?.call(false);
   }
 

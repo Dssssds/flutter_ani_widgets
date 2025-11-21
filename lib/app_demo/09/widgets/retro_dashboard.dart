@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_waveform/just_waveform.dart';
+
 import 'retro_waveform_painter.dart';
 
 class RetroDashboard extends StatelessWidget {
@@ -32,72 +33,81 @@ class RetroDashboard extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // 点状背景
+              Positioned.fill(
+                child: CustomPaint(painter: DottedBackgroundPainter()),
+              ),
+              // 原始内容
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset(
-                        'assets/images/live-alt.png',
-                        width: 23,
-                        height: 23,
-                        color: const Color.fromARGB(255, 43, 192, 206),
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/live-alt.png',
+                            width: 23,
+                            height: 23,
+                            color: const Color.fromARGB(255, 43, 192, 206),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "2",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 43, 192, 206),
+                                fontSize: 18,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Image.asset(
+                              'assets/images/radio-alt.png',
+                              width: 20,
+                              height: 18,
+                              color: const Color.fromARGB(255, 43, 192, 206),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 2,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "2",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 43, 192, 206),
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Image.asset(
-                          'assets/images/radio-alt.png',
-                          width: 20,
-                          height: 18,
-                          color: const Color.fromARGB(255, 43, 192, 206),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              _buildWaveform(),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "OTHERS",
-                    style: TextStyle(
-                      color: Colors.green,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const SizedBox(height: 16),
+                  _buildWaveform(),
+                  const SizedBox(height: 16),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildReactionIcon(Icons.thumb_down),
-                      _buildReactionIcon(Icons.sentiment_dissatisfied),
-                      _buildReactionIcon(Icons.rocket_launch),
-                      _buildReactionIcon(Icons.back_hand),
-                      _buildReactionIcon(Icons.sentiment_satisfied),
-                      _buildReactionIcon(Icons.favorite),
+                      const Text(
+                        "OTHERS",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          _buildReactionIcon(Icons.thumb_down),
+                          _buildReactionIcon(Icons.sentiment_dissatisfied),
+                          _buildReactionIcon(Icons.rocket_launch),
+                          _buildReactionIcon(Icons.back_hand),
+                          _buildReactionIcon(Icons.sentiment_satisfied),
+                          _buildReactionIcon(Icons.favorite),
+                        ],
+                      ),
                     ],
                   ),
                 ],
@@ -139,15 +149,35 @@ class RetroDashboard extends StatelessWidget {
       return const Center(
         child: Text(
           'Loading...',
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 18,
-            letterSpacing: 2,
-          ),
+          style: TextStyle(color: Colors.grey, fontSize: 18, letterSpacing: 2),
         ),
       );
     }
   }
+}
+
+/// 点状背景绘制器
+class DottedBackgroundPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint =
+        Paint()
+          ..color = Colors.white.withOpacity(0.15) // 浅白色
+          ..style = PaintingStyle.fill;
+
+    const dotRadius = 2.0; // 点的半径
+    const spacing = 20.0; // 点之间的间距
+
+    // 绘制均匀分布的点
+    for (double x = spacing / 2; x < size.width; x += spacing) {
+      for (double y = spacing / 2; y < size.height; y += spacing) {
+        canvas.drawCircle(Offset(x, y), dotRadius, paint);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class RetroScreenClipper extends CustomClipper<Path> {

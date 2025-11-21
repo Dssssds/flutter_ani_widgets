@@ -302,7 +302,7 @@ class HomeScreen extends StatefulWidget {
       isFullScreen: true,
     ),
     AnimationExample(
-      title: 'APP-09(开发中)',
+      title: 'APP-09(一起听音乐)',
       builder: (context) => const App09(),
       appbarColor: Colors.black,
       isFullScreen: true,
