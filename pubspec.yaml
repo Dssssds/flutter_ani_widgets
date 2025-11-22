@@ -28,6 +28,7 @@ dependencies:
   just_audio: ^0.9.40
   path_provider: ^2.0.0
   path: ^1.8.0
+  super_editor: ^0.3.0-dev.40
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +42,7 @@ flutter:
   assets:
     - assets/images/graph.png
     - assets/images/
+    - assets/images/10/
     - assets/images/data/
     - assets/images/rule/
     - assets/3d_numbers/

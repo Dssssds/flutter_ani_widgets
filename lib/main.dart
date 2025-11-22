@@ -8,6 +8,7 @@ import 'package:flutter_x_widgets/app_demo/06/app_06.dart';
 import 'package:flutter_x_widgets/app_demo/07/app_07.dart';
 import 'package:flutter_x_widgets/app_demo/08/app_08.dart';
 import 'package:flutter_x_widgets/app_demo/09/app_09.dart';
+import 'package:flutter_x_widgets/app_demo/10/app_10.dart';
 import 'package:flutter_x_widgets/example/background_ripples/background_ripples.dart';
 import 'package:flutter_x_widgets/example/blurfade/blur_fade.dart';
 import 'package:flutter_x_widgets/example/book_open/book_open_demo.dart';
@@ -304,6 +305,12 @@ class HomeScreen extends StatefulWidget {
     AnimationExample(
       title: 'APP-09(一起听音乐)',
       builder: (context) => const App09(),
+      appbarColor: Colors.black,
+      isFullScreen: true,
+    ),
+    AnimationExample(
+      title: 'APP-10(XXX)',
+      builder: (context) => const App10(),
       appbarColor: Colors.black,
       isFullScreen: true,
     ),
