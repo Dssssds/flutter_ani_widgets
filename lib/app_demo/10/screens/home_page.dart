@@ -8,6 +8,7 @@ import '../widgets/category_selector.dart';
 import '../widgets/masonry_grid.dart';
 import '../widgets/note_card.dart';
 import '../widgets/search_bar.dart';
+import 'add_page.dart';
 import 'edit_page.dart';
 import 'gallery_page.dart';
 import 'voice_page.dart';
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage>
     _pages = [
       _NotesView(scrollController: _scrollController),
       EditPage(onBack: () => _onTabTapped(0)),
-      const _AddView(), // Placeholder for Add button
+      const SizedBox(), // Add button uses Navigator.push
       const VoicePage(),
       const GalleryPage(),
     ];
@@ -113,6 +114,17 @@ class _HomePageState extends State<HomePage>
   }
 
   void _onTabTapped(int index) {
+    // Add 按钮特殊处理：跳转到 AddPage
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AddPage(),
+        ),
+      );
+      return;
+    }
+
     setState(() {
       _currentIndex = index;
     });
@@ -219,23 +231,4 @@ class _NotesViewState extends State<_NotesView> {
   }
 }
 
-class _AddView extends StatelessWidget {
-  const _AddView();
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFF1C1C1E),
-      body: Center(
-        child: Text(
-          'New Note',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontFamily: 'SF Pro Display',
-          ),
-        ),
-      ),
-    );
-  }
-}

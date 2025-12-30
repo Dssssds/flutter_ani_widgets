@@ -12,22 +12,22 @@ class CustomSearchBar extends StatelessWidget {
         color: const Color(0xFF2C2C2E), // Dark Grey
         borderRadius: BorderRadius.circular(30),
       ),
-      child: Row(
+      child: const Row(
         children: [
-          const Icon(Icons.menu, color: Colors.white70),
-          const SizedBox(width: 16),
-          const Expanded(
+          Icon(Icons.menu, color: Colors.white70),
+          SizedBox(width: 16),
+          Expanded(
             child: Text(
               'Search your notes',
               style: TextStyle(color: Colors.white54, fontSize: 16),
             ),
           ),
-          const Icon(Icons.grid_view, color: Colors.white70),
-          const SizedBox(width: 16),
-          const CircleAvatar(
+          Icon(Icons.grid_view, color: Colors.white70),
+          SizedBox(width: 16),
+          CircleAvatar(
             radius: 16,
             backgroundImage: AssetImage(
-              'assets/images/data/a.png',
+              'assets/images/data/b.png',
             ), // Placeholder
           ),
         ],

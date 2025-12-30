@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/note_model.dart';
+import '../screens/edit_page.dart';
 
 class NoteCard extends StatelessWidget {
   final Note note;
@@ -9,7 +10,19 @@ class NoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditPage(
+              note: note,
+              onBack: () => Navigator.pop(context),
+            ),
+          ),
+        );
+      },
+      child: Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: note.color,
@@ -64,6 +77,7 @@ class NoteCard extends StatelessWidget {
             ),
         ],
       ),
+      ),
     );
   }
 
@@ -72,7 +86,7 @@ class NoteCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.05),
+        color: Colors.black.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(

@@ -90,13 +90,15 @@ class _MarkdownEditorState extends State<MarkdownEditor> {
     // 在下一帧通知控制器已准备好
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.onControllerReady != null) {
-        widget.onControllerReady!(MarkdownEditorController(
-          editor: _editor,
-          composer: _composer,
-          focusNode: _editorFocusNode,
-          history: _history,
-          restoreFromHistory: _restoreFromHistory,
-        ));
+        widget.onControllerReady!(
+          MarkdownEditorController(
+            editor: _editor,
+            composer: _composer,
+            focusNode: _editorFocusNode,
+            history: _history,
+            restoreFromHistory: _restoreFromHistory,
+          ),
+        );
       }
     });
   }
@@ -231,6 +233,16 @@ class _MarkdownEditorState extends State<MarkdownEditor> {
                       fontFamily: 'SF Pro Display',
                       fontStyle: FontStyle.italic,
                       height: 1.5,
+                    ),
+                  };
+                }),
+                StyleRule(const BlockSelector('task'), (doc, docNode) {
+                  return {
+                    'textStyle': const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontFamily: 'SF Pro Display',
+                      height: 2,
                     ),
                   };
                 }),

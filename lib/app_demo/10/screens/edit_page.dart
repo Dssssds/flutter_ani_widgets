@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../models/note_model.dart';
 import '../widgets/markdown_editor.dart';
 
 class EditPage extends StatefulWidget {
   final VoidCallback? onBack;
+  final Note? note;
 
-  const EditPage({super.key, this.onBack});
+  const EditPage({super.key, this.onBack, this.note});
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -16,6 +18,17 @@ class _EditPageState extends State<EditPage> {
 
   bool get _canUndo => _editorController?.canUndo ?? false;
   bool get _canRedo => _editorController?.canRedo ?? false;
+
+  String get _initialContent {
+    if (widget.note != null) {
+      return widget.note!.mdContent ?? widget.note!.content;
+    }
+    return '# Write everything\n\nStart typing...';
+  }
+
+  String get _groupName {
+    return widget.note?.group ?? 'Untitled';
+  }
 
   void _undo() {
     if (_editorController?.canUndo ?? false) {
@@ -107,29 +120,29 @@ class _EditPageState extends State<EditPage> {
               ),
             ),
             // Meta Info Row
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
                 children: [
-                  Icon(Icons.book_outlined, color: Colors.white54, size: 20),
-                  SizedBox(width: 8),
+                  const Icon(Icons.book_outlined, color: Colors.white54, size: 20),
+                  const SizedBox(width: 8),
                   Text(
-                    'Work',
-                    style: TextStyle(
+                    _groupName,
+                    style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 16,
                       fontFamily: 'SF Pro Display',
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.keyboard_arrow_down,
                     color: Colors.white54,
                     size: 20,
                   ),
-                  Spacer(),
-                  Icon(Icons.access_time, color: Colors.white54, size: 20),
-                  SizedBox(width: 16),
-                  Icon(Icons.info_outline, color: Colors.white54, size: 20),
+                  const Spacer(),
+                  const Icon(Icons.access_time, color: Colors.white54, size: 20),
+                  const SizedBox(width: 16),
+                  const Icon(Icons.info_outline, color: Colors.white54, size: 20),
                 ],
               ),
             ),
@@ -139,8 +152,7 @@ class _EditPageState extends State<EditPage> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 2),
                 child: MarkdownEditor(
-                  initialContent:
-                      '# Write everything\necstatic cover\n\nPeople can be clever as high as the sky, but as long as they don twate, they will be lost in society and from history\n\n| Top here to continue',
+                  initialContent: _initialContent,
                   onControllerReady: (controller) {
                     setState(() {
                       _editorController = controller;
