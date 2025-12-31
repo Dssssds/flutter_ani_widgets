@@ -32,19 +32,8 @@ class TopBar extends StatelessWidget {
 
           // Title
           const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.add,
-                color: PhotoEditorTheme.accentSecondary,
-                size: 20,
-                shadows: [
-                  Shadow(color: PhotoEditorTheme.accentGlow, blurRadius: 8),
-                ],
-              ),
-              SizedBox(width: 10),
-              Text('LUMINAR', style: PhotoEditorTheme.titleStyle),
-            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text('Editor', style: PhotoEditorTheme.titleStyle)],
           ),
 
           // Action Buttons

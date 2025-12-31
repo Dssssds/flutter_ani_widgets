@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_x_widgets/app_demo/11/screens/home_page.dart';
+import 'package:flutter_x_widgets/app_demo/11/screens/gallery_page.dart';
 
 class App11 extends StatelessWidget {
   const App11({super.key});
@@ -13,9 +13,7 @@ class App11 extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      child: const HomePage(
-        imageProvider: AssetImage('assets/images/test1.png'),
-      ),
+      child: const GalleryPage(),
     );
   }
 }

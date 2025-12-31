@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PhotoEditorTheme.bgMain,
+      backgroundColor: PhotoEditorTheme.bgPanel,
       body: SafeArea(
         child: Column(
           children: [

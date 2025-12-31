@@ -62,7 +62,7 @@ enum EditorPanel { enhance, color, tone, structure, vignette }
 
 /// Shared state for the Photo Editor
 class PhotoEditorState extends ChangeNotifier {
-  EditorPanel _activePanel = EditorPanel.vignette;
+  EditorPanel _activePanel = EditorPanel.enhance;
   FilterState _filters = const FilterState();
   String? _indicatorText;
 
