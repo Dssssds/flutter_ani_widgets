@@ -11,8 +11,7 @@ class MountainTodoScreen extends StatefulWidget {
   State<MountainTodoScreen> createState() => _MountainTodoScreenState();
 }
 
-class _MountainTodoScreenState extends State<MountainTodoScreen>
-    with SingleTickerProviderStateMixin {
+class _MountainTodoScreenState extends State<MountainTodoScreen> with SingleTickerProviderStateMixin {
   // 日期管理
   DateTime _currentDate = DateTime.now();
   String _loadedDateKey = ''; // 当前装载的 UI 数据归属日期
@@ -78,7 +77,8 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
     final dayData = await TodoStorage.loadDay(_currentDate);
 
     setState(() {
-      _loadedDateKey = '${_currentDate.year}-${_currentDate.month.toString().padLeft(2, '0')}-${_currentDate.day.toString().padLeft(2, '0')}';
+      _loadedDateKey =
+          '${_currentDate.year}-${_currentDate.month.toString().padLeft(2, '0')}-${_currentDate.day.toString().padLeft(2, '0')}';
       _todos = List.from(dayData.todos);
       _settledLetters = List.from(dayData.settledLetters);
       _activeLetters.clear();
@@ -100,11 +100,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
     final day = int.parse(parts[2]);
     final date = DateTime(year, month, day);
 
-    final data = DayMountain(
-      dateKey: _loadedDateKey,
-      todos: List.from(_todos),
-      settledLetters: List.from(_settledLetters),
-    );
+    final data = DayMountain(dateKey: _loadedDateKey, todos: List.from(_todos), settledLetters: List.from(_settledLetters));
     await TodoStorage.saveDay(date, data);
   }
 
@@ -112,7 +108,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
   void _rebuildHeightmap() {
     if (_canvasWidth <= 0) return;
     final len = _canvasWidth.round();
-    
+
     // 初始化地面高度
     final newMap = List<double>.filled(len, _groundY);
 
@@ -172,7 +168,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
       double r = a.radius;
       if (a.y >= _groundY - r) {
         a.y = _groundY - r;
-        
+
         // 当垂直反弹速度极小时，直接吸收能量，转为静止或滑动摩擦
         if (a.vy.abs() < 24.0) {
           a.vy = 0;
@@ -193,8 +189,6 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
         a.x = _canvasWidth - r;
         a.vx = -a.vx * restitution;
       }
-
-
     }
 
     // 3. 动态字母相互碰撞 (Euler Impulse Solver)
@@ -382,15 +376,17 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
       double curX = mt * mt * undo.start.dx + 2 * mt * t * undo.control.dx + t * t * undo.target.dx;
       double curY = mt * mt * undo.start.dy + 2 * mt * t * undo.control.dy + t * t * undo.target.dy;
 
-      _particles.add(PhysicsParticle(
-        x: curX,
-        y: curY,
-        vx: (math.Random().nextDouble() - 0.5) * 40,
-        vy: (math.Random().nextDouble() - 0.5) * 40,
-        size: 3.0,
-        life: 0.6,
-        color: undo.color,
-      ));
+      _particles.add(
+        PhysicsParticle(
+          x: curX,
+          y: curY,
+          vx: (math.Random().nextDouble() - 0.5) * 40,
+          vy: (math.Random().nextDouble() - 0.5) * 40,
+          size: 3.0,
+          life: 0.6,
+          color: undo.color,
+        ),
+      );
 
       if (undo.progress >= 1.0) {
         _activeUndos.removeAt(i);
@@ -525,15 +521,17 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
         // 从已固定山体中直接根据 todoId 剥离，完全解耦对坐标精度或状态时序的依赖
         _settledLetters.removeWhere((letter) {
           if (letter.todoId == id) {
-            undos.add(UndoAnimation(
-              id: id,
-              char: letter.char,
-              start: Offset(letter.x, letter.y),
-              target: Offset(targetXMin + (targetXMax - targetXMin) * 0.5, targetY), // 飞回中点
-              size: letter.size,
-              color: Color(letter.colorValue),
-              control: Offset((letter.x + targetXMin) / 2, math.min(letter.y, targetY) - 120),
-            ));
+            undos.add(
+              UndoAnimation(
+                id: id,
+                char: letter.char,
+                start: Offset(letter.x, letter.y),
+                target: Offset(targetXMin + (targetXMax - targetXMin) * 0.5, targetY), // 飞回中点
+                size: letter.size,
+                color: Color(letter.colorValue),
+                control: Offset((letter.x + targetXMin) / 2, math.min(letter.y, targetY) - 120),
+              ),
+            );
             return true;
           }
           return false;
@@ -542,15 +540,17 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
         // 从正在下落列表中剥离
         _activeLetters.removeWhere((letter) {
           if (letter.id == id) {
-            undos.add(UndoAnimation(
-              id: id,
-              char: letter.char,
-              start: Offset(letter.x, letter.y),
-              target: Offset(targetXMin + (targetXMax - targetXMin) * 0.5, targetY),
-              size: letter.size,
-              color: letter.color,
-              control: Offset((letter.x + targetXMin) / 2, math.min(letter.y, targetY) - 120),
-            ));
+            undos.add(
+              UndoAnimation(
+                id: id,
+                char: letter.char,
+                start: Offset(letter.x, letter.y),
+                target: Offset(targetXMin + (targetXMax - targetXMin) * 0.5, targetY),
+                size: letter.size,
+                color: letter.color,
+                control: Offset((letter.x + targetXMin) / 2, math.min(letter.y, targetY) - 120),
+              ),
+            );
             return true;
           }
           return false;
@@ -620,10 +620,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-                        onPressed: () => _changeDate(-1),
-                      ),
+                      IconButton(icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20), onPressed: () => _changeDate(-1)),
                       Text(
                         dateStr,
                         style: const TextStyle(
@@ -633,10 +630,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
                           fontFamily: 'SF Pro Display',
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20),
-                        onPressed: () => _changeDate(1),
-                      ),
+                      IconButton(icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20), onPressed: () => _changeDate(1)),
                     ],
                   ),
                 ),
@@ -657,9 +651,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
                         firstCurve: Curves.easeInOut,
                         secondCurve: Curves.easeInOut,
                         sizeCurve: Curves.easeInOut,
-                        crossFadeState: isCompleting
-                            ? CrossFadeState.showSecond
-                            : CrossFadeState.showFirst,
+                        crossFadeState: isCompleting ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                         secondChild: const SizedBox(width: double.infinity, height: 0),
                         firstChild: Container(
                           key: key,
@@ -667,10 +659,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.08),
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.12),
-                              width: 1.0,
-                            ),
+                            border: Border.all(color: Colors.white.withOpacity(0.12), width: 1.0),
                           ),
                           child: Row(
                             children: [
@@ -686,17 +675,10 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: isCompleting ? Colors.white.withOpacity(0.2) : Colors.transparent,
-                                    border: Border.all(
-                                      color: isCompleting ? Colors.white : Colors.white54,
-                                      width: 2.0,
-                                    ),
+                                    border: Border.all(color: isCompleting ? Colors.white : Colors.white54, width: 2.0),
                                   ),
                                   child: Center(
-                                    child: Icon(
-                                      Icons.check,
-                                      size: 14,
-                                      color: isCompleting ? Colors.white : Colors.transparent,
-                                    ),
+                                    child: Icon(Icons.check, size: 14, color: isCompleting ? Colors.white : Colors.transparent),
                                   ),
                                 ),
                               ),
@@ -749,23 +731,14 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
                   decoration: BoxDecoration(
                     color: const Color(0xFF5030EF).withOpacity(0.9),
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF5030EF).withOpacity(0.5),
-                        blurRadius: 10,
-                        offset: const Offset(0, 2),
-                      )
-                    ],
+                    boxShadow: [BoxShadow(color: const Color(0xFF5030EF).withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 2))],
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.undo, color: Colors.white, size: 12),
                       SizedBox(width: 4),
-                      Text(
-                        '撤销完成',
-                        style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600),
-                      ),
+                      Text('撤销完成', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
                     ],
                   ),
                 ),
@@ -773,11 +746,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
             ),
 
           // 4. 右下角添加待办项悬浮按钮
-          Positioned(
-            right: 20,
-            bottom: _groundYMargin + 20,
-            child: _NeonAddButton(onTap: _addTodo),
-          ),
+          Positioned(right: 20, bottom: _groundYMargin + 70, child: _NeonAddButton(onTap: _addTodo)),
         ],
       ),
     );
@@ -829,26 +798,12 @@ class _NeonAddButtonState extends State<_NeonAddButton> {
                 offset: const Offset(0, 4),
               ),
               // 顶边缘高光发光阴影
-              BoxShadow(
-                color: const Color(0xFF8B5CF6).withOpacity(0.35),
-                blurRadius: 8,
-                spreadRadius: 1,
-                offset: const Offset(0, -2),
-              ),
+              BoxShadow(color: const Color(0xFF8B5CF6).withOpacity(0.35), blurRadius: 8, spreadRadius: 1, offset: const Offset(0, -2)),
             ],
             // 玻璃感半透明白色精致边框
-            border: Border.all(
-              color: Colors.white.withOpacity(0.3),
-              width: 1.5,
-            ),
+            border: Border.all(color: Colors.white.withOpacity(0.3), width: 1.5),
           ),
-          child: const Center(
-            child: Icon(
-              Icons.add_rounded,
-              color: Colors.white,
-              size: 30,
-            ),
-          ),
+          child: const Center(child: Icon(Icons.add_rounded, color: Colors.white, size: 30)),
         ),
       ),
     );
