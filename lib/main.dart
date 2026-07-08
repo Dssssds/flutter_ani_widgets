@@ -139,7 +139,7 @@ class HomeScreen extends StatefulWidget {
     AnimationExample(title: 'APP-09(一起听音乐)', builder: (context) => const App09(), appbarColor: Colors.black, isFullScreen: true),
     AnimationExample(title: 'APP-10(学习笔记)', builder: (context) => const App10(), appbarColor: Colors.black, isFullScreen: true),
     AnimationExample(title: 'APP-11(图片编辑器)', builder: (context) => const App11(), appbarColor: Colors.black, isFullScreen: true),
-    AnimationExample(title: 'APP-12(步履字山)', builder: (context) => const App12(), appbarColor: Colors.black, isFullScreen: true),
+    AnimationExample(title: 'APP-12(积字成山待办)', builder: (context) => const App12(), appbarColor: Colors.black, isFullScreen: true),
   ];
 
   @override
