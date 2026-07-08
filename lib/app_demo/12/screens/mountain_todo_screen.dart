@@ -18,7 +18,6 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
   String _loadedDateKey = ''; // 当前装载的 UI 数据归属日期
   List<TodoItem> _todos = [];
   List<SettledLetter> _settledLetters = [];
-  Map<String, List<SettledLetter>> _historicalMountains = {};
 
   // 物理模拟引擎数据
   final List<PhysicsLetter> _activeLetters = [];
@@ -74,16 +73,14 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
     super.dispose();
   }
 
-  /// 加载当前日期数据及历史视差山体
+  /// 加载当前日期数据
   Future<void> _loadData() async {
     final dayData = await TodoStorage.loadDay(_currentDate);
-    final history = await TodoStorage.loadHistoricalMountains(_currentDate, 4);
 
     setState(() {
       _loadedDateKey = '${_currentDate.year}-${_currentDate.month.toString().padLeft(2, '0')}-${_currentDate.day.toString().padLeft(2, '0')}';
       _todos = List.from(dayData.todos);
       _settledLetters = List.from(dayData.settledLetters);
-      _historicalMountains = history;
       _activeLetters.clear();
       _activeUndos.clear();
       _particles.clear();
@@ -603,7 +600,6 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
               painter: MountainPainter(
                 activeLetters: _activeLetters,
                 settledLetters: _settledLetters,
-                historicalMountains: _historicalMountains,
                 activeUndos: _activeUndos,
                 particles: _particles,
                 climber: _climber,

@@ -146,7 +146,6 @@ class ClimberState {
 class MountainPainter extends CustomPainter {
   final List<PhysicsLetter> activeLetters;
   final List<SettledLetter> settledLetters;
-  final Map<String, List<SettledLetter>> historicalMountains;
   final List<UndoAnimation> activeUndos;
   final List<PhysicsParticle> particles;
   final ClimberState climber;
@@ -156,7 +155,6 @@ class MountainPainter extends CustomPainter {
   MountainPainter({
     required this.activeLetters,
     required this.settledLetters,
-    required this.historicalMountains,
     required this.activeUndos,
     required this.particles,
     required this.climber,
@@ -169,88 +167,20 @@ class MountainPainter extends CustomPainter {
     // 1. 绘制纯黑背景
     canvas.drawColor(Colors.black, BlendMode.srcOver);
 
-    // 2. 绘制视差历史天的山脉层
-    _paintHistoricalMountains(canvas, size);
-
-    // 3. 绘制地平线网格已被移除，以确保初始化时底部没有任何内容
-    // _paintGroundGrid(canvas, size);
-
-    // 4. 绘制当天已固定的山体字母
+    // 2. 绘制当天已固化的山体字母
     _paintSettledLetters(canvas);
 
-    // 5. 绘制正在下落的物理字母
+    // 3. 绘制正在下落的物理字母
     _paintActiveLetters(canvas);
 
-    // 6. 绘制撤销的字母及粒子尾迹
+    // 4. 绘制撤销的字母及粒子尾迹
     _paintUndoAnimations(canvas);
 
-    // 7. 绘制粒子
+    // 5. 绘制粒子
     _paintParticles(canvas);
 
-    // 8. 绘制火柴人攀登者
+    // 6. 绘制火柴人攀登者
     _paintClimber(canvas);
-  }
-
-  void _paintHistoricalMountains(Canvas canvas, Size size) {
-    int idx = 0;
-    final keys = historicalMountains.keys.toList();
-    // 逆序，越老的山脉渲染在越底层、越模糊
-    for (var dateKey in keys) {
-      final letters = historicalMountains[dateKey] ?? [];
-      if (letters.isEmpty) continue;
-
-      idx++;
-      double opacity = 0.15 / idx; // 距离越远越透明
-      double blurSigma = idx * 1.2; // 距离越远越模糊
-      double yOffset = idx * 15.0; // 视差纵向移动
-
-      final shadowPaint = Paint()
-        ..color = Colors.black.withOpacity(0.3)
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurSigma);
-
-      // 先画山脉剪影轮廓
-      final path = Path();
-      path.moveTo(0, size.height);
-      
-      // 使用高度图的逻辑生成连绵山顶线
-      for (double x = 0; x < size.width; x += 10) {
-        double currentY = groundY;
-        for (var letter in letters) {
-          double dx = x - letter.x;
-          double radius = letter.size * 0.45;
-          if (dx.abs() < radius) {
-            double ly = letter.y + yOffset;
-            if (ly < currentY) currentY = ly;
-          }
-        }
-        path.lineTo(x, currentY + yOffset);
-      }
-      path.lineTo(size.width, size.height);
-      path.close();
-      canvas.drawPath(path, shadowPaint);
-
-      // 再绘制半透明历史字母
-      for (var letter in letters) {
-        final textPainter = TextPainter(
-          textDirection: TextDirection.ltr,
-          text: TextSpan(
-            text: letter.char,
-            style: TextStyle(
-              color: Colors.white.withOpacity(opacity),
-              fontSize: letter.size,
-              fontFamily: 'NeumaticGothic-Black',
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        )..layout();
-
-        canvas.save();
-        canvas.translate(letter.x, letter.y + yOffset);
-        canvas.rotate(letter.angle);
-        textPainter.paint(canvas, Offset(-textPainter.width / 2, -textPainter.height / 2));
-        canvas.restore();
-      }
-    }
   }
 
   void _paintGroundGrid(Canvas canvas, Size size) {
