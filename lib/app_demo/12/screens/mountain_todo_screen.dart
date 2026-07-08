@@ -15,6 +15,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
     with SingleTickerProviderStateMixin {
   // 日期管理
   DateTime _currentDate = DateTime.now();
+  String _loadedDateKey = ''; // 当前装载的 UI 数据归属日期
   List<TodoItem> _todos = [];
   List<SettledLetter> _settledLetters = [];
   Map<String, List<SettledLetter>> _historicalMountains = {};
@@ -47,6 +48,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
   @override
   void initState() {
     super.initState();
+    TodoStorage.clearCache();
     _loadData();
 
     // 创建高帧率物理循环
@@ -78,8 +80,9 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
     final history = await TodoStorage.loadHistoricalMountains(_currentDate, 4);
 
     setState(() {
-      _todos = dayData.todos;
-      _settledLetters = dayData.settledLetters;
+      _loadedDateKey = '${_currentDate.year}-${_currentDate.month.toString().padLeft(2, '0')}-${_currentDate.day.toString().padLeft(2, '0')}';
+      _todos = List.from(dayData.todos);
+      _settledLetters = List.from(dayData.settledLetters);
       _historicalMountains = history;
       _activeLetters.clear();
       _activeUndos.clear();
@@ -90,15 +93,22 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
     _rebuildHeightmap();
   }
 
-  /// 保存当前日期数据
-  Future<void> _saveCurrentDay() async {
-    final dateStr = '${_currentDate.year}-${_currentDate.month.toString().padLeft(2, '0')}-${_currentDate.day.toString().padLeft(2, '0')}';
+  /// 将当前界面的数据安全地存入其所归属的日期缓存中（避开异步时间切换的竞争）
+  Future<void> _saveLoadedDay() async {
+    if (_loadedDateKey.isEmpty) return;
+
+    final parts = _loadedDateKey.split('-');
+    final year = int.parse(parts[0]);
+    final month = int.parse(parts[1]);
+    final day = int.parse(parts[2]);
+    final date = DateTime(year, month, day);
+
     final data = DayMountain(
-      dateKey: dateStr,
-      todos: _todos,
-      settledLetters: _settledLetters,
+      dateKey: _loadedDateKey,
+      todos: List.from(_todos),
+      settledLetters: List.from(_settledLetters),
     );
-    await TodoStorage.saveDay(_currentDate, data);
+    await TodoStorage.saveDay(date, data);
   }
 
   /// 重建高度图（供火柴人吸附和寻峰）
@@ -339,7 +349,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
             }
           }
         }
-        _saveCurrentDay();
+        _saveLoadedDay();
       });
     }
 
@@ -462,13 +472,19 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
 
     // 字母整体立即掉落，因此卡片渐隐收编等待缩减为 400ms 即可
     final int delayMs = 400;
+    final String currentLoadedKey = _loadedDateKey;
     Future.delayed(Duration(milliseconds: delayMs), () {
       if (mounted) {
-        setState(() {
-          _todos.removeWhere((t) => t.id == todo.id);
-          _completingIds.remove(todo.id);
-          _saveCurrentDay();
-        });
+        if (_loadedDateKey == currentLoadedKey) {
+          setState(() {
+            _todos.removeWhere((t) => t.id == todo.id);
+            _completingIds.remove(todo.id);
+            _saveLoadedDay();
+          });
+        } else {
+          // 如果在这 400ms 内用户已经切换了日期，直接去静态缓存中移除对应日期的 todo，避免跨日期数据越界破坏
+          TodoStorage.removeTodoFromCache(currentLoadedKey, todo.id);
+        }
       }
     });
   }
@@ -544,7 +560,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
         });
 
         _activeUndos.addAll(undos);
-        _saveCurrentDay();
+        _saveLoadedDay();
         _rebuildHeightmap();
       });
     });
@@ -552,6 +568,9 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
 
   /// 日期向后/向前切换
   void _changeDate(int offset) {
+    // 切换日期前，同步保存当前装载的数据
+    _saveLoadedDay();
+
     setState(() {
       _currentDate = _currentDate.add(Duration(days: offset));
     });
@@ -564,7 +583,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
     setState(() {
       _todos.add(TodoItem(id: id, text: ''));
     });
-    _saveCurrentDay();
+    _saveLoadedDay();
   }
 
   @override
@@ -697,7 +716,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
                                   ),
                                   onChanged: (val) {
                                     todo.text = val;
-                                    _saveCurrentDay();
+                                    _saveLoadedDay();
                                   },
                                 ),
                               ),
@@ -707,7 +726,7 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
                                 onPressed: () {
                                   setState(() {
                                     _todos.removeAt(index);
-                                    _saveCurrentDay();
+                                    _saveLoadedDay();
                                   });
                                 },
                               ),

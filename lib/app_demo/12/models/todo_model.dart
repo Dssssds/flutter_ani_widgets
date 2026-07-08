@@ -104,27 +104,68 @@ class DayMountain {
 
 /// SharedPreferences 存储管理类
 class TodoStorage {
-  /// 获取指定日期的数据 (移除缓存，每次启动均为全新初始状态)
+  // 内存级静态 Session 缓存
+  static final Map<String, DayMountain> _cache = {};
+
+  /// 清空 Session 缓存 (每次重新进入 Demo 时调用)
+  static void clearCache() {
+    _cache.clear();
+  }
+
+  /// 从指定日期的静态内存缓存中移除待办项，用于处理异步切换日期时已完成待办的删除
+  static void removeTodoFromCache(String dateKey, String todoId) {
+    if (_cache.containsKey(dateKey)) {
+      final dayData = _cache[dateKey]!;
+      dayData.todos.removeWhere((t) => t.id == todoId);
+    }
+  }
+
+  /// 获取指定日期的数据
   static Future<DayMountain> loadDay(DateTime date) async {
     final dateKey = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-    return DayMountain(
+    if (_cache.containsKey(dateKey)) {
+      return _cache[dateKey]!;
+    }
+
+    // 仅“今天”加载默认的演示种子数据，其他日期默认为空模板
+    final now = DateTime.now();
+    final isToday = date.year == now.year && date.month == now.month && date.day == now.day;
+    final List<TodoItem> defaultTodos = isToday
+        ? [
+            TodoItem(id: '1', text: '完成一份酷炫的 Flutter 交互设计'),
+            TodoItem(id: '2', text: '去健身房跑步锻炼 30 分钟'),
+            TodoItem(id: '3', text: '给 Mountain Todo 加上物理堆积效果'),
+          ]
+        : [];
+
+    final data = DayMountain(
       dateKey: dateKey,
-      todos: [
-        TodoItem(id: '1', text: '完成一份酷炫的 Flutter 交互设计'),
-        TodoItem(id: '2', text: '去健身房跑步锻炼 30 分钟'),
-        TodoItem(id: '3', text: '给 Mountain Todo 加上物理堆积效果'),
-      ],
+      todos: defaultTodos,
       settledLetters: [],
     );
+    _cache[dateKey] = data;
+    return data;
   }
 
-  /// 保存指定日期的数据 (空实现，不进行本地存储)
+  /// 保存指定日期的数据
   static Future<void> saveDay(DateTime date, DayMountain data) async {
-    // 不再保存数据
+    final dateKey = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+    _cache[dateKey] = data;
   }
 
-  /// 批量获取过去 N 天的山体 (不使用缓存时，历史山为空)
+  /// 批量获取过去 N 天的山体 (从内存缓存中获取，供视差山体渲染)
   static Future<Map<String, List<SettledLetter>>> loadHistoricalMountains(DateTime currentDate, int count) async {
-    return const {};
+    final Map<String, List<SettledLetter>> result = {};
+    for (int i = 1; i <= count; i++) {
+      final targetDate = currentDate.subtract(Duration(days: i));
+      final dateStr = '${targetDate.year}-${targetDate.month.toString().padLeft(2, '0')}-${targetDate.day.toString().padLeft(2, '0')}';
+      if (_cache.containsKey(dateStr)) {
+        final dayData = _cache[dateStr]!;
+        if (dayData.settledLetters.isNotEmpty) {
+          result[dateStr] = dayData.settledLetters;
+        }
+      }
+    }
+    return result;
   }
 }
