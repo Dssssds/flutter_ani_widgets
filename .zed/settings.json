@@ -1,0 +1,37 @@
+{
+  // ============================================================
+  // Flutter X Widgets —— Zed 编辑器项目级设置
+  // 由 .vscode/settings.json 迁移而来
+  // 说明：原 VS Code 设置中的 cmake.* / java.* 属 VS Code 专用，
+  //       Zed 无对应项，已移除；此处改为对 Flutter / Dart 真正有用的设置。
+  // ============================================================
+
+  // -------- 针对单个语言的编辑器行为 --------
+  "languages": {
+    "Dart": {
+      // 保存时自动格式化（调用 dart LSP 提供的 dart format）
+      "format_on_save": "on",
+      // Dart 官方风格缩进为 2 个空格
+      "tab_size": 2,
+      // 软换行策略：达到首选行宽时自动换行
+      "soft_wrap": "preferred_line_length",
+      // 首选行宽，需与下方 LSP 的 lineLength 保持一致
+      "preferred_line_length": 140,
+    },
+  },
+
+  // -------- Dart 语言服务器(LSP)设置 --------
+  // 默认只要 dart 在 PATH 中即可，无需额外配置；
+  // 若使用 fvm，可把 binary.path 改为 fvm，并加 arguments，
+  // 例如：
+  //   "binary": { "path": "/opt/homebrew/bin/fvm",
+  //               "arguments": ["dart", "language-server", "--protocol=lsp"] }
+  "lsp": {
+    "dart": {
+      "settings": {
+        // 放宽最大行宽，避免格式化时频繁断行（Dart 默认仅 80）
+        "lineLength": 140,
+      },
+    },
+  },
+}
