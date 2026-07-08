@@ -776,13 +776,80 @@ class _MountainTodoScreenState extends State<MountainTodoScreen>
           Positioned(
             right: 20,
             bottom: _groundYMargin + 20,
-            child: FloatingActionButton(
-              backgroundColor: const Color(0xFF5030EF),
-              child: const Icon(Icons.add, color: Colors.white),
-              onPressed: _addTodo,
-            ),
+            child: _NeonAddButton(onTap: _addTodo),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// 自定义高档霓虹微动添加按钮
+class _NeonAddButton extends StatefulWidget {
+  final VoidCallback onTap;
+  const _NeonAddButton({required this.onTap});
+
+  @override
+  State<_NeonAddButton> createState() => _NeonAddButtonState();
+}
+
+class _NeonAddButtonState extends State<_NeonAddButton> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
+      onTap: widget.onTap,
+      child: AnimatedScale(
+        scale: _isPressed ? 0.9 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xFF8B5CF6), // 霓虹亮紫
+                Color(0xFF5030EF), // 深邃霓虹紫
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              // 主霓虹发光阴影
+              BoxShadow(
+                color: const Color(0xFF5030EF).withOpacity(_isPressed ? 0.45 : 0.65),
+                blurRadius: _isPressed ? 12 : 24,
+                spreadRadius: _isPressed ? 0 : 2,
+                offset: const Offset(0, 4),
+              ),
+              // 顶边缘高光发光阴影
+              BoxShadow(
+                color: const Color(0xFF8B5CF6).withOpacity(0.35),
+                blurRadius: 8,
+                spreadRadius: 1,
+                offset: const Offset(0, -2),
+              ),
+            ],
+            // 玻璃感半透明白色精致边框
+            border: Border.all(
+              color: Colors.white.withOpacity(0.3),
+              width: 1.5,
+            ),
+          ),
+          child: const Center(
+            child: Icon(
+              Icons.add_rounded,
+              color: Colors.white,
+              size: 30,
+            ),
+          ),
+        ),
       ),
     );
   }
