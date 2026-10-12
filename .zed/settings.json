@@ -31,7 +31,30 @@
       "settings": {
         // 放宽最大行宽，避免格式化时频繁断行（Dart 默认仅 80）
         "lineLength": 140,
+        // 启用 LSP 的代码补全 / 跳转 / 重构等全部能力
+        "enableSdkExtensionMethods": true,
       },
     },
   },
+
+  // ============================================================
+  // Zed 调试手册（无 DAP 时代的过渡方案）
+  // ============================================================
+  // Zed 目前没有 Dart / Flutter 的 DAP 调试器。
+  // 推荐调试工作流（详见 .zed/tasks.json 中注释）：
+  //
+  //   1. 命令面板 → task: spawn → 「Flutter 启动并打印 VM Service URL」
+  //   2. 命令面板 → task: spawn → 「Dart DevTools (Web)」
+  //      浏览器会自动打开 DevTools；切到 Debugger 标签即可设断点
+  //   3. 在 .zed/tasks.json 里所有「flutter run」任务启动后，
+  //      终端支持以下快捷键（dart CLI 内置）：
+  //        r  - 热重载
+  //        R  - 热重启
+  //        p <expr> - 打印表达式值
+  //        c / s / so - 继续 / 单步进入 / 单步跳过
+  //        q  - 退出
+  //
+  // 真机调试用「Flutter attach (已运行实例)」任务；
+  // 性能问题用「Flutter 模拟器启动 (release/profile)」任务。
+  // ============================================================
 }

@@ -15,26 +15,40 @@
 pubspec.lock
 migrate_working_dir/
 
-# IntelliJ related
+# IntelliJ / JetBrains (already covered *.iml, but be explicit)
 *.iml
 *.ipr
 *.iws
 .idea/
+.fleet/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# Zed（仅入库 settings.json 与 tasks.json；其他本地化文件忽略）
+.zed/*
+!.zed/settings.json
+!.zed/tasks.json
 
-# Flutter/Dart/Pub related
+# VS Code / Cursor
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Flutter / Dart / Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+.flutter-plugins-native
 .pub-cache/
 .pub/
 /build/
+.flutter-plugins.user
+.packages
+.metadata
+
+# Coverage
+coverage/
 
 # Symbolication related
 app.*.symbols
@@ -46,3 +60,34 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/Runner.xcworkspace/xcuserdata/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# macOS
+macos/Pods/
+macos/Flutter/ephemeral/
+macos/Flutter/Generated.xcconfig
+
+# Linux
+linux/flutter/ephemeral/
+
+# Windows
+windows/flutter/ephemeral/
+
+# Web
+web/.dart_tool/
+.dart_tool/
+
+# Env / secrets
+.env
+.env.*

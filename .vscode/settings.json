@@ -1,4 +1,50 @@
 {
-    "cmake.ignoreCMakeListsMissing": true,
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.rulers": [140],
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 140,
+
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "Dart-Code.dart-code",
+        "editor.tabSize": 2,
+        "editor.rulers": [140],
+        "editor.suggestSelection": "first",
+        "editor.bracketPairColorization.enabled": true,
+        "editor.guides.bracketPairs": "active"
+    },
+
+    "dart.lineLength": 140,
+    "dart.enableSdkExtensionMethods": true,
+    "dart.openDevTools": "never",
+
+    "flutter.previewPlatforms": true,
+    "flutter.showInspectorNotifications": false,
+    "flutter.runOnTouches": false,
+
+    "files.exclude": {
+        "**/.dart_tool/": true,
+        "**/.packages": true,
+        "**/build/": true,
+        "**/.flutter-plugins": true,
+        "**/.flutter-plugins-dependencies": true,
+        "**/ios/Flutter/Flutter.framework": true,
+        "**/ios/Flutter/App.framework": true,
+        "**/macos/Flutter/ephemeral": true,
+        "**/linux/flutter/ephemeral": true,
+        "**/windows/flutter/ephemeral": true
+    },
+    "search.exclude": {
+        "**/.dart_tool/": true,
+        "**/build/": true,
+        "**/.flutter-plugins": true,
+        "**/.flutter-plugins-dependencies": true
+    },
+
+    "terminal.integrated.env.osx": {
+        "PUB_CACHE": "${workspaceFolder}/.pub-cache"
+    }
 }
