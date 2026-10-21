@@ -115,10 +115,10 @@ class BezierTextOnPath extends StatefulWidget {
   final double fontSize;
 
   const BezierTextOnPath({
-    Key? key,
+    super.key,
     required this.text,
     this.fontSize = 20,
-  }) : super(key: key);
+  });
 
   @override
   State<BezierTextOnPath> createState() => _BezierTextOnPathState();
@@ -169,7 +169,7 @@ class _BezierTextOnPathState extends State<BezierTextOnPath> {
           controlPoints: _controlPoints,
           path: _createPath(),
         ),
-        child: Container(
+        child: const SizedBox(
           width: double.infinity,
           height: double.infinity,
         ),

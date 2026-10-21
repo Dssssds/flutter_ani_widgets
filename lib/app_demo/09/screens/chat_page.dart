@@ -39,14 +39,14 @@ class ChatPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // 复古电视机插画
-            const SizedBox(
+            SizedBox(
               width: 220,
               height: 180,
               child: CustomPaint(painter: RetroTVPainter()),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
             // 提示文字
-            const Text(
+            Text(
               'nothing to see here 👀',
               style: TextStyle(
                 fontSize: 20,
@@ -54,8 +54,8 @@ class ChatPage extends StatelessWidget {
                 color: Color(0xFF8D8C8A), // 深灰色
               ),
             ),
-            const SizedBox(height: 8),
-            const Text(
+            SizedBox(height: 8),
+            Text(
               'chat with friends and it will appear here',
               style: TextStyle(
                 fontSize: 14,
@@ -63,7 +63,7 @@ class ChatPage extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(height: 100), // 稍微向上偏移一点视觉中心
+            SizedBox(height: 100), // 稍微向上偏移一点视觉中心
           ],
         ),
       ),
@@ -175,7 +175,7 @@ class RetroTVPainter extends CustomPainter {
 
     // 7. 绘制控制旋钮和扬声器 (Controls & Speaker)
     final controlX = bodyRect.right - (bodyRect.width * 0.15);
-    final knobRadius = 5.0;
+    const knobRadius = 5.0;
 
     // 上旋钮
     canvas.drawCircle(Offset(controlX, bodyRect.top + 25), knobRadius, paint);
@@ -184,7 +184,7 @@ class RetroTVPainter extends CustomPainter {
 
     // 扬声器孔 (4个小方块/圆点)
     final speakerY = bodyRect.bottom - 30;
-    final speakerSize = 3.0;
+    const speakerSize = 3.0;
     final speakerPaint =
         Paint()
           ..color = Colors.black

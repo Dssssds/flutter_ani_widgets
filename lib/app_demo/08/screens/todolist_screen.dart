@@ -375,7 +375,7 @@ Widget _ModernAddButton() {
 /// 现代化的添加按钮组件
 /// 采用简约扁平的设计风格，支持交互动画效果
 class _AddButtonWidget extends StatefulWidget {
-  const _AddButtonWidget({super.key});
+  const _AddButtonWidget();
 
   @override
   State<_AddButtonWidget> createState() => _AddButtonWidgetState();

@@ -464,9 +464,9 @@ class _MountainTodoScreenState extends State<MountainTodoScreen> with SingleTick
     });
 
     // 字母整体立即掉落，因此卡片渐隐收编等待缩减为 400ms 即可
-    final int delayMs = 400;
+    const int delayMs = 400;
     final String currentLoadedKey = _loadedDateKey;
-    Future.delayed(Duration(milliseconds: delayMs), () {
+    Future.delayed(const Duration(milliseconds: delayMs), () {
       if (mounted) {
         if (_loadedDateKey == currentLoadedKey) {
           setState(() {

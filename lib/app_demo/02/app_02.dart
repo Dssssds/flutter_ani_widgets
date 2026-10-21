@@ -304,8 +304,8 @@ class RunningScreenState extends State<RunningScreen>
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Row(
+                  const SizedBox(height: 20),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Column(
@@ -358,8 +358,8 @@ class RunningScreenState extends State<RunningScreen>
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Row(
+                  const SizedBox(height: 20),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Column(
@@ -415,15 +415,15 @@ class RunningScreenState extends State<RunningScreen>
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -438,8 +438,8 @@ class RunningScreenState extends State<RunningScreen>
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
-                    Row(
+                    const SizedBox(height: 15),
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -452,7 +452,7 @@ class RunningScreenState extends State<RunningScreen>
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    Row(
+                    const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('(步/分钟)',
@@ -465,38 +465,38 @@ class RunningScreenState extends State<RunningScreen>
                               style:
                                   TextStyle(fontSize: 12, color: Colors.grey))
                         ]),
-                    SizedBox(height: 15),
-                    Container(height: 100, child: _buildStepFrequencyChart()),
+                    const SizedBox(height: 15),
+                    SizedBox(height: 100, child: _buildStepFrequencyChart()),
                   ]),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Text('海拔'),
+              child: const Text('海拔'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Text('更多'),
+              child: const Text('更多'),
             ),
             // 添加更多内容以测试滚动效果
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Text('更多1'),
+              child: const Text('更多1'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Text('更多2'),
+              child: const Text('更多2'),
             ),
           ],
         ),

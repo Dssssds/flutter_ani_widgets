@@ -88,9 +88,9 @@ class _StructurePanelState extends State<StructurePanel> {
                     height: 400,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: RadialGradient(
-                        colors: [const Color(0xFF222222), Colors.transparent],
-                        stops: const [0.55, 0.65],
+                      gradient: const RadialGradient(
+                        colors: [Color(0xFF222222), Colors.transparent],
+                        stops: [0.55, 0.65],
                       ),
                       border: Border.all(
                         color: Colors.white.withOpacity(0.05),
@@ -110,7 +110,7 @@ class _StructurePanelState extends State<StructurePanel> {
                   width: 4,
                   height: 60,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                       colors: [
@@ -195,7 +195,7 @@ class _ArcTicksPainter extends CustomPainter {
       final isLabel = v % 25 == 0 && v.abs() <= 50; // -50, -25, 0, 25, 50
 
       final innerRadius = radius - (isMajor ? 25 : 15);
-      final outerRadius = radius;
+      const outerRadius = radius;
 
       // Coordinate rotation: 0 is Up (0, -r).
       // sin/cos logic:
@@ -223,7 +223,7 @@ class _ArcTicksPainter extends CustomPainter {
       if (isLabel) {
         textPainter.text = TextSpan(
           text: v.toString(),
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 12,
             fontWeight: FontWeight.bold,

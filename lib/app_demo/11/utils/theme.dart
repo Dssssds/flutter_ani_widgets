@@ -37,7 +37,7 @@ class PhotoEditorTheme {
   ];
 
   static List<BoxShadow> get glowShadow => [
-    BoxShadow(color: accentGlow, blurRadius: 15, spreadRadius: 0),
+    const BoxShadow(color: accentGlow, blurRadius: 15, spreadRadius: 0),
   ];
 
   // Text Styles

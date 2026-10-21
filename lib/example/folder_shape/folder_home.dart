@@ -158,7 +158,7 @@ class _FolderHomeWidgetState extends State<FolderHomeWidget>
                       Positioned(
                         bottom: FolderAnimationConfig.folderBottomPadding,
                         child: CustomPaint(
-                          size: Size(
+                          size: const Size(
                             FolderAnimationConfig.folderWidth,
                             FolderAnimationConfig.folderBackHeight,
                           ),

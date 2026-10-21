@@ -5,6 +5,7 @@
 /// 3. 新卡片添加时的入场动画
 /// 4. 超出显示限制的卡片退场动画
 /// 5. 网格背景支持
+library;
 import 'dart:math';
 
 import 'package:flutter/material.dart';

@@ -36,7 +36,7 @@ class GalleryPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Photo List',
                     style: TextStyle(
                       fontFamily: 'Outfit',

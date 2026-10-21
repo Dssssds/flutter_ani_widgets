@@ -10,13 +10,13 @@ class GoalCard extends StatelessWidget {
   final Color textColor;
 
   const GoalCard({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.value,
     this.backgroundColor = AppColors.primaryBlue,
     this.textColor = Colors.white,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

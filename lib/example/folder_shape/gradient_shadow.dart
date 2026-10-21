@@ -48,7 +48,7 @@ class FolderBackCoverGradientPainter extends CustomPainter {
 
     final gradient = LinearGradient(
       begin: Alignment.topLeft,
-      end: Alignment(-0.8, 1),
+      end: const Alignment(-0.8, 1),
       stops: [0.0, 0.4 + 0.4 * animation.value], //from .4 to .8
       colors: [
         Colors.transparent,
@@ -249,19 +249,19 @@ class ReflectionWidget extends StatelessWidget {
   final Animation<double> animation;
   final Animation<double> shadowAnimation;
 
-  ReflectionWidget(this.animation, this.shadowAnimation);
+  const ReflectionWidget(this.animation, this.shadowAnimation, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        const SizedBox(
           width: double.infinity,
           height: double.infinity,
         ),
         CustomPaint(
           painter: BigCirclePainter(animation, shadowAnimation),
-          child: Container(
+          child: const SizedBox(
             width: double.infinity,
             height: double.infinity,
           ),

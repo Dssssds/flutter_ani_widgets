@@ -13,7 +13,7 @@ class AnimatedBook extends StatefulWidget {
   final int numberOfPages;
 
   const AnimatedBook({
-    Key? key,
+    super.key,
     required this.coverChild,
     required this.pageChild,
     this.width,
@@ -22,7 +22,7 @@ class AnimatedBook extends StatefulWidget {
     this.maxOpenAngle = 180,
     this.aspectRatio = 0.7,
     this.numberOfPages = 25,
-  }) : super(key: key);
+  });
 
   @override
   State<AnimatedBook> createState() => _AnimatedBookState();
@@ -138,7 +138,7 @@ class _AnimatedBookState extends State<AnimatedBook>
                                       .withOpacity(_clampOpacity(0.2)),
                                   spreadRadius: 1,
                                   blurRadius: 8,
-                                  offset: Offset(0, 2),
+                                  offset: const Offset(0, 2),
                                 ),
                               ],
                             ),
@@ -170,13 +170,13 @@ class _AnimatedBookState extends State<AnimatedBook>
                                             0.8 * (1 - normalizedIndex))),
                                     spreadRadius: 1,
                                     blurRadius: 5,
-                                    offset: Offset(1, 1),
+                                    offset: const Offset(1, 1),
                                   ),
                                 ],
                               ),
                             ),
                           );
-                        }).reversed.toList(),
+                        }).reversed,
 
                         // Front cover
                         Transform(

@@ -43,7 +43,9 @@ class PulseAnimationStrategy extends AvatarAnimationStrategy {
   double _calculatePulseScale(double animationValue, int index) {
     final phaseShift = index * phaseShiftFactor;
     double shiftedValue = animationValue - phaseShift;
-    while (shiftedValue < 0) shiftedValue += pi * 2;
+    while (shiftedValue < 0) {
+      shiftedValue += pi * 2;
+    }
 
     double normalizedSine = (sin(shiftedValue) + 1) / 2;
     normalizedSine = pow(normalizedSine, 1 / waveWidth) as double;

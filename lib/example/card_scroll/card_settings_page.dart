@@ -173,7 +173,7 @@ class _CardSettingsPageState extends State<CardSettingsPage> {
                     });
                     widget.onShowDateChanged(value);
                   },
-                  activeColor: Colors.white,
+                  activeThumbColor: Colors.white,
                 ),
               ],
             ),

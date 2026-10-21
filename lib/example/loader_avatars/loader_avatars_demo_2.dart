@@ -6,7 +6,7 @@ import 'package:flutter_x_widgets/example/loader_avatars/loader_avatars.dart';
 import 'package:flutter_x_widgets/example/loader_avatars/strategies/strat_2.dart';
 
 class LoaderAvatarsDemo2 extends StatelessWidget {
-  const LoaderAvatarsDemo2({Key? key}) : super(key: key);
+  const LoaderAvatarsDemo2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class LoaderAvatarsDemo2 extends StatelessWidget {
           ),
           Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -32,14 +32,14 @@ class LoaderAvatarsDemo2 extends StatelessWidget {
                       animationStrategy: CoinFlipStrategy(
                         maxHeight: 25.0,
                         perspectiveValue: 0.002,
-                        staggerDelay: Duration(milliseconds: 120),
+                        staggerDelay: const Duration(milliseconds: 120),
                       ),
                       avatarSize: 32,
                       overlapFactor: 0.4,
                     ),
                   ),
 
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
                   _DemoSection(
                     title: 'Rotate',
@@ -48,14 +48,14 @@ class LoaderAvatarsDemo2 extends StatelessWidget {
                       animationStrategy: CoinRotateStrategy(
                         maxHeight: 25.0,
                         perspectiveValue: 0.002,
-                        staggerDelay: Duration(milliseconds: 120),
+                        staggerDelay: const Duration(milliseconds: 120),
                       ),
                       avatarSize: 32,
                       overlapFactor: 0.5,
                     ),
                   ),
 
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
                   _DemoSection(
                     title: 'Rotate X',
@@ -64,14 +64,14 @@ class LoaderAvatarsDemo2 extends StatelessWidget {
                       animationStrategy: CoinRotateXStrategy(
                         maxHeight: 25.0,
                         perspectiveValue: 0.002,
-                        staggerDelay: Duration(milliseconds: 80),
+                        staggerDelay: const Duration(milliseconds: 80),
                       ),
                       avatarSize: 32,
                       overlapFactor: 0.5,
                     ),
                   ),
 
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
                   _DemoSection(
                     title: 'Rotate Y',
@@ -80,13 +80,13 @@ class LoaderAvatarsDemo2 extends StatelessWidget {
                       animationStrategy: CoinRotateYStrategy(
                         maxHeight: 25.0,
                         perspectiveValue: 0.002,
-                        staggerDelay: Duration(milliseconds: 80),
+                        staggerDelay: const Duration(milliseconds: 80),
                       ),
                       avatarSize: 32,
                       overlapFactor: 0.5,
                     ),
                   ),
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
                   // Random chaotic movement
                   _DemoSection(
@@ -96,15 +96,15 @@ class LoaderAvatarsDemo2 extends StatelessWidget {
                       animationStrategy: BreathingSpaceStrategy(
                         maxScale: 1.15,
                         maxDistance: 15.0,
-                        animationDuration: Duration(milliseconds: 4000),
-                        staggerDelay: Duration(milliseconds: 300),
+                        animationDuration: const Duration(milliseconds: 4000),
+                        staggerDelay: const Duration(milliseconds: 300),
                       ),
                       avatarSize: 32,
                       overlapFactor: 0.45,
                     ),
                   ),
 
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
                   // Random chaotic movement
                   _DemoSection(
@@ -114,15 +114,15 @@ class LoaderAvatarsDemo2 extends StatelessWidget {
                       animationStrategy: ZenRippleStrategy(
                         maxRotation: pi / 6,
                         maxTranslation: 20.0,
-                        animationDuration: Duration(milliseconds: 2500),
-                        staggerDelay: Duration(milliseconds: 250),
+                        animationDuration: const Duration(milliseconds: 2500),
+                        staggerDelay: const Duration(milliseconds: 250),
                       ),
                       avatarSize: 32,
                       overlapFactor: 0.35,
                     ),
                   ),
 
-                  SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
                   // Random chaotic movement
                   _DemoSection(
@@ -132,8 +132,8 @@ class LoaderAvatarsDemo2 extends StatelessWidget {
                       animationStrategy: FloatingMeditationStrategy(
                         floatHeight: 15.0,
                         rotationAngle: pi / 10,
-                        animationDuration: Duration(milliseconds: 3500),
-                        staggerDelay: Duration(milliseconds: 180),
+                        animationDuration: const Duration(milliseconds: 3500),
+                        staggerDelay: const Duration(milliseconds: 180),
                       ),
                       avatarSize: 32,
                       overlapFactor: 0.4,
@@ -155,10 +155,9 @@ class _DemoSection extends StatelessWidget {
   final Widget child;
 
   const _DemoSection({
-    Key? key,
     required this.title,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

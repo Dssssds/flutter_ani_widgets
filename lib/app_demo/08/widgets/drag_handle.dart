@@ -11,7 +11,7 @@ class DragHandle extends StatelessWidget {
     return Center(
       child: AnimatedContainer(
         curve: Curves.linearToEaseOut,
-        duration: Duration(milliseconds: 400),
+        duration: const Duration(milliseconds: 400),
         margin: EdgeInsets.symmetric(vertical: verticalOffset),
         width: 40,
         height: 5,

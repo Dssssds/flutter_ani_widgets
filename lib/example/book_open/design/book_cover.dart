@@ -68,7 +68,7 @@ class MinimalistBookCover extends StatelessWidget {
                 SizedBox(height: maxHeight * 0.02),
 
                 // Author section at bottom
-                Container(
+                SizedBox(
                   height: maxHeight * 0.1, // 10% of height for author section
                   child: FittedBox(
                     fit: BoxFit.contain,

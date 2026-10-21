@@ -10,11 +10,11 @@ class SessionCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   const SessionCard({
-    Key? key,
+    super.key,
     required this.session,
     this.isSelected = false,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +129,6 @@ class SessionCard extends StatelessWidget {
     final seconds = duration.inSeconds % 60;
 
     // 按照截图格式：例如 "5:12 min"
-    return '${minutes}:${seconds.toString().padLeft(2, '0')} min';
+    return '$minutes:${seconds.toString().padLeft(2, '0')} min';
   }
 }

@@ -70,8 +70,8 @@ class SessionService {
         title: 'Independent Play',
         date: DateTime(2023, 6, 25), // 6月25日
         timeOfDay: 'Morning Session',
-        duration: Duration(minutes: 6, seconds: 45),
-        targetDuration: Duration(minutes: 8),
+        duration: const Duration(minutes: 6, seconds: 45),
+        targetDuration: const Duration(minutes: 8),
         notes: '',
         progress: 1.0,
       ),
@@ -80,8 +80,8 @@ class SessionService {
         title: 'Independent Play',
         date: DateTime(2023, 6, 22), // 6月22日
         timeOfDay: 'Afternoon Session',
-        duration: Duration(minutes: 5, seconds: 12),
-        targetDuration: Duration(minutes: 8),
+        duration: const Duration(minutes: 5, seconds: 12),
+        targetDuration: const Duration(minutes: 8),
         notes: '',
         progress: 1.0,
       ),
@@ -90,8 +90,8 @@ class SessionService {
         title: 'Independent Play',
         date: DateTime(2023, 6, 20), // 6月20日
         timeOfDay: 'Morning Session',
-        duration: Duration(minutes: 4, seconds: 16),
-        targetDuration: Duration(minutes: 8),
+        duration: const Duration(minutes: 4, seconds: 16),
+        targetDuration: const Duration(minutes: 8),
         notes: '',
         progress: 1.0,
       ),

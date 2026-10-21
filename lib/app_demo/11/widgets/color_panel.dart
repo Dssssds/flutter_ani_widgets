@@ -309,7 +309,7 @@ class _CenterPillSliderState extends State<_CenterPillSlider> {
               ),
 
               // Icon
-              Center(
+              const Center(
                 child: Icon(
                   Icons.wb_sunny_outlined,
                   color: Colors.white,

@@ -29,7 +29,7 @@ class AnimatedAvatarRow extends StatefulWidget {
   final List<Color>? borderColors;
 
   const AnimatedAvatarRow({
-    Key? key,
+    super.key,
     this.numberOfAvatars = 5,
     this.avatarSize = 45.0,
     this.overlapFactor = 0.6,
@@ -37,7 +37,7 @@ class AnimatedAvatarRow extends StatefulWidget {
     required this.animationStrategy,
     this.avatarImages,
     this.borderColors,
-  }) : super(key: key);
+  });
 
   @override
   State<AnimatedAvatarRow> createState() => _AnimatedAvatarRowState();
@@ -192,7 +192,7 @@ class _AnimatedAvatarRowState extends State<AnimatedAvatarRow>
 
 // Example usage
 class ExampleImplementation extends StatelessWidget {
-  const ExampleImplementation({Key? key}) : super(key: key);
+  const ExampleImplementation({super.key});
 
   @override
   Widget build(BuildContext context) {

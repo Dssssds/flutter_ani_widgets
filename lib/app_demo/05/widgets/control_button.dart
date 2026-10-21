@@ -9,13 +9,13 @@ class ControlButton extends StatelessWidget {
   final double height;
 
   const ControlButton({
-    Key? key,
+    super.key,
     required this.icon,
     required this.color,
     required this.onPressed,
     this.width = 120,
     this.height = 50,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

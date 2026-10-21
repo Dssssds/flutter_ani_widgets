@@ -86,7 +86,6 @@ class _StatCard extends StatefulWidget {
   final Color iconBackground;
 
   const _StatCard({
-    super.key,
     required this.icon,
     required this.value,
     required this.label,

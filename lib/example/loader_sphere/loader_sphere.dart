@@ -257,7 +257,7 @@ class EllipsePainter extends CustomPainter {
 
 // Example usage
 class RippleDemo extends StatelessWidget {
-  const RippleDemo({Key? key}) : super(key: key);
+  const RippleDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
