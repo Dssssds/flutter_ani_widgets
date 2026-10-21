@@ -56,6 +56,7 @@ class _DemoScreenState extends State<DemoScreen> {
                             pageProgress: pageProgress,
                             onExit: widget.onExit,
                             reduceMotion: widget.settings.state.reduceMotion,
+                            visits: widget.menuVisits,
                           ),
                         ),
                       ],
