@@ -6,27 +6,19 @@
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",
-            "flutterMode": "debug",
-            "deviceId": "auto"
+            "flutterMode": "debug"
         },
         {
             "name": "Flutter: Run (Profile)",
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",
-            "flutterMode": "profile",
-            "deviceId": "auto"
+            "flutterMode": "profile"
         },
         {
             "name": "Flutter: Attach",
             "request": "attach",
             "type": "dart"
-        }
-    ],
-    "compounds": [
-        {
-            "name": "Flutter: Full Stack (Build iOS + Run)",
-            "configurations": ["Flutter: Build iOS (Debug)", "Flutter: Run (Debug)"]
         }
     ]
 }

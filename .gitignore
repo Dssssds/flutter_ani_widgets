@@ -32,6 +32,7 @@ migrate_working_dir/
 !.vscode/settings.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/tasks.json
 
 # Flutter / Dart / Pub related
 **/doc/api/

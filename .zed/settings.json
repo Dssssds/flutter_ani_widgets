@@ -38,23 +38,18 @@
   },
 
   // ============================================================
-  // Zed 调试手册（无 DAP 时代的过渡方案）
+  // Zed 调试工作流
   // ============================================================
-  // Zed 目前没有 Dart / Flutter 的 DAP 调试器。
-  // 推荐调试工作流（详见 .zed/tasks.json 中注释）：
+  // Zed 中的项目任务通过终端运行 Flutter CLI，不等同于 VS Code 的 Dart 调试会话。
   //
-  //   1. 命令面板 → task: spawn → 「Flutter 启动并打印 VM Service URL」
-  //   2. 命令面板 → task: spawn → 「Dart DevTools (Web)」
-  //      浏览器会自动打开 DevTools；切到 Debugger 标签即可设断点
-  //   3. 在 .zed/tasks.json 里所有「flutter run」任务启动后，
-  //      终端支持以下快捷键（dart CLI 内置）：
-  //        r  - 热重载
-  //        R  - 热重启
-  //        p <expr> - 打印表达式值
-  //        c / s / so - 继续 / 单步进入 / 单步跳过
-  //        q  - 退出
+  //   1. 启动前确认本次目标设备，运行「Flutter 模拟器启动 (debug)」。
+  //      如存在多个设备且 CLI 未提供选择提示，当次运行时传 -d <设备 ID>。
+  //   2. 从 flutter run 输出复制 VM Service URI，运行「Dart DevTools (Web)」。
+  //      在 DevTools 页面手动输入 URI 并连接；断点、变量与单步在 Debugger 中操作。
+  //      DTD URI 不是 VM Service URI，无参数的 dart devtools 不会自动连接应用。
+  //   3. flutter run 终端可按 r 热重载、R 热重启、q 退出。
   //
-  // 真机调试用「Flutter attach (已运行实例)」任务；
-  // 性能问题用「Flutter 模拟器启动 (release/profile)」任务。
+  // 已运行应用可用「Flutter attach (已运行实例)」连接；
+  // 性能分析使用「Flutter 模拟器启动 (profile)」，不是 Release 模式。
   // ============================================================
 }

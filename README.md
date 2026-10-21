@@ -119,37 +119,22 @@ flutter run
 
 也可直接在 IDE（VSCode / Cursor / Android Studio）中打开，按 F5 选择 iPhone 6 模拟器运行。
 
-### 🟦 在 VSCode / Cursor 中开发
+### 🟦 在 VSCode / Cursor 与 Zed 中开发
 
-项目根目录的 `.vscode/` 包含完整配置：
+两套项目配置提供等效的运行、调试与维护能力，但调试界面不同：VS Code / Cursor 使用 Dart/Flutter 扩展的调试会话；Zed 通过终端运行 Flutter CLI，并在浏览器中的 DevTools 调试。`.vscode/` 提供 `settings.json`、`extensions.json`、`launch.json` 和 `tasks.json`；`.zed/` 提供 `settings.json` 和 `tasks.json`。两边均使用 Dart 保存时格式化、2 空格缩进和 140 列宽。
 
-| 文件 | 作用 |
-|---|---|
-| `settings.json` | Dart/Flutter 编辑器设置（formatOnSave / 140 列宽 / Dart LSP 等） |
-| `tasks.json` | 7 个任务（pub get / analyze / clean / run debug/profile / build iOS / attach） |
-| `launch.json` | 3 个调试配置（Run Debug / Run Profile / Attach）+ 1 个 compound |
-| `extensions.json` | 推荐安装 `Dart-Code.flutter` 等 5 个插件 |
+| 操作 | VS Code / Cursor | Zed（命令面板 → `task: spawn`） |
+|---|---|---|
+| Debug 启动 | Run and Debug → **Flutter: Run (Debug)** | **Flutter 模拟器启动 (debug)** |
+| Profile 启动 | Run and Debug → **Flutter: Run (Profile)** | **Flutter 模拟器启动 (profile)** |
+| 附加到运行中的应用 | Run and Debug → **Flutter: Attach** | **Flutter attach (已运行实例)** |
+| 断点、变量与单步 | IDE 调试器；需要时用 Dart 扩展命令打开 DevTools | **Dart DevTools (Web)**，手动连接 VM Service URI 后在 Debugger 操作 |
+| 获取依赖 / 静态分析 / 清理 | Tasks: Run Task → `flutter pub get` / `flutter analyze` / `flutter clean` | **Flutter pub get** / **Flutter analyze** / **Flutter clean** |
+| iOS Debug 构建 | Tasks: Run Task → **Flutter: Build iOS (Debug)** | **Flutter 构建 iOS (debug)** |
 
-**常用流程**：
-- `cmd-shift-b`（macOS）→ 选择 **flutter pub get** 拉依赖
-- `cmd-shift-p` → `Tasks: Run Task` → 选 **Flutter: Run (Debug)**
-- 左侧 Run and Debug 面板选 **Flutter: Run (Debug)** 然后点绿色三角
-- 真机调试选 **Flutter: Attach**
+**设备选择**：共享配置不固定设备 ID。VS Code / Cursor 每次启动前在 Flutter 设备选择器中主动选目标；Zed 运行前确认设备，多设备时按 Flutter CLI 的实际提示选择，若未出现选择提示，则在当次终端命令中追加 `-d <设备 ID>`。Attach 也应按当前运行的设备或实例选择目标。Profile 模式需使用支持该模式的设备。
 
-### 🦫 在 Zed 中开发
-
-本项目已配置 `.zed/tasks.json`（5 个核心任务 + 4 个调试增强任务）和 `.zed/settings.json`（Dart LSP / format-on-save / 140 列宽）。
-
-| 操作 | 快捷方式 |
-|---|---|
-| 启动 Flutter 调试 | `cmd-shift-p` → `task: spawn` → **Flutter 启动并打印 VM Service URL** |
-| 打开 DevTools（断点/变量） | 上述任务跑起来后，再 spawn **Dart DevTools (Web)** |
-| 热重载 / 热重启 | 终端里按 `r` / `R` |
-| 打印变量 | 终端里 `p <expression>` |
-| 调试真机 | spawn **Flutter attach (已运行实例)** |
-| 性能分析 | spawn **Flutter 模拟器启动 (release/profile)** |
-
-> ⚠️ Zed 目前**不支持** Dart / Flutter 的 DAP 调试器，因此无法像 VS Code 那样「点行号设断点」。本项目用 **DevTools（Web 版）** 等价替代，详见 `.zed/tasks.json` 顶部注释。
+**Zed 的 DevTools 流程**：运行 Debug 任务后，从 `flutter run` 输出复制 **VM Service URI**；再启动 **Dart DevTools (Web)**，在打开的页面中输入该 URI 并连接。无参数的 `dart devtools` 不会自动关联正在运行的应用，`--print-dtd` 输出的 DTD URI 也不能当作 VM Service URI。Zed 的 `flutter run` 终端可用 `r` 热重载、`R` 热重启、`q` 退出；断点、变量和单步操作在已连接的 DevTools Debugger 中进行，不是终端快捷键。
 
 ### 仅启动一个 Demo
 

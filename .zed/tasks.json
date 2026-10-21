@@ -1,26 +1,14 @@
 [
   {
-    // 对应原 .vscode/launch.json 中的「Flutter 模拟器启动」
-    // 说明：Zed 目前不支持 Dart / Flutter 的 DAP 调试器，
-    //       故以 `flutter run` 任务作为最接近的等价替代；
-    //       运行后可在终端按 r 触发热重载、R 触发热重启、q 退出。
+    // 终端运行 Flutter；运行前按本次目标选择设备，多设备时可临时传入 -d <设备 ID>
     "label": "Flutter 模拟器启动 (debug)",
     "command": "flutter",
-    "args": [
-      "run",
-      "-t",
-      "lib/main.dart", // 入口文件，等价于原 program: lib/main.dart
-      "--debug"        // 调试模式，等价于原 flutterMode: debug
-    ],
-    // 在新终端标签页中运行，便于查看热重载输出
+    "args": ["run", "-t", "lib/main.dart", "--debug"],
     "use_new_terminal": true,
-    // 不允许同一任务并发运行（flutter run 通常只跑一个实例）
     "allow_concurrent_runs": false,
-    // 启动时聚焦终端面板
     "reveal": "always"
   },
   {
-    // 拉取项目依赖
     "label": "Flutter pub get",
     "command": "flutter",
     "args": ["pub", "get"],
@@ -29,7 +17,6 @@
     "reveal": "always"
   },
   {
-    // 静态分析，配合 analysis_options.yaml 中的 flutter_lints 规则
     "label": "Flutter analyze",
     "command": "flutter",
     "args": ["analyze"],
@@ -38,7 +25,6 @@
     "reveal": "always"
   },
   {
-    // 构建 iOS（本项目以 iOS 优先，README 已注明）
     "label": "Flutter 构建 iOS (debug)",
     "command": "flutter",
     "args": ["build", "ios", "--debug"],
@@ -47,7 +33,6 @@
     "reveal": "always"
   },
   {
-    // 清理构建产物，解决缓存导致的疑难问题
     "label": "Flutter clean",
     "command": "flutter",
     "args": ["clean"],
@@ -55,83 +40,30 @@
     "allow_concurrent_runs": false,
     "reveal": "always"
   },
-
-  // ============================================================
-  // Zed 调试替代方案
-  // ============================================================
-  // Zed 目前不支持 Dart / Flutter 的 DAP 调试器。
-  // 下面 4 个任务用「flutter CLI 内置的 Dart VM Service」+「终端交互」
-  // 还原「断点 / 暂停 / 变量查看 / 异常捕获」等调试能力。
-  //
-  // 工作流：
-  //   1) 跑「Flutter 启动并打印 VM Service URL」任务
-  //   2) 终端会输出类似：The Dart VM service is listening on http://127.0.0.1:XXXXX/
-  //   3) 跑「Dart DevTools (Web)」任务，在浏览器里打开 DevTools
-  //   4) 在 DevTools 的 Debugger 面板里设置断点 / 看变量
-  //
-  // 终端里的快捷键（来自 dart CLI 调试器）：
-  //   r   触发热重载（hot reload）
-  //   R   触发热重启（hot restart）
-  //   p <expr>  打印变量或表达式
-  //   c   继续执行（continue，遇到断点会停）
-  //   s   单步进入（step into）
-  //   so  单步跳过（step over）
-  //   q   退出应用并终止任务
-  // ============================================================
-
   {
-    // 启动 Flutter 并把 VM Service URL 暴露到 stdout
-    // 比「Flutter 模拟器启动 (debug)」多了一个 --print-dtd，
-    // 方便后续其它任务（如 DevTools）拿到 VM Service URL。
-    "label": "Flutter 启动并打印 VM Service URL",
-    "command": "flutter",
-    "args": [
-      "run",
-      "-t",
-      "lib/main.dart",
-      "--debug",
-      "--print-dtd" // 在 stdout 打印 DTD (Dart Tooling Daemon) URL
-    ],
-    "use_new_terminal": true,
-    "allow_concurrent_runs": false,
-    "reveal": "always"
-  },
-  {
-    // 启动 Dart DevTools（基于 Web 界面）
-    // 等价于 VS Code 里的「Run > Start Debugging」后的「Dart: Open DevTools」
-    // 需先启动 Flutter 应用（上一个任务），再启动本任务。
+    // 已运行应用的 VM Service URI 会由 flutter run 输出；不要与 DTD URI 混用
+    // 在 DevTools 页面手动输入 VM Service URI 后，使用 Debugger 设置断点、查看变量和单步
     "label": "Dart DevTools (Web)",
     "command": "dart",
     "args": ["devtools"],
-    // 复用上一个任务的 VM Service URL（无需再传 --vm-service-url，
-    // dart devtools 会自动寻找当前正在运行的 Flutter 调试实例）
     "use_new_terminal": true,
-    "allow_concurrent_runs": true, // DevTools 可与 Flutter 共存
+    "allow_concurrent_runs": true,
     "reveal": "always"
   },
   {
-    // flutter attach：连接到已运行 / 真机上的 Flutter 应用
-    // 场景：在不重启应用的前提下，附加调试能力
-    // 典型用法：
-    //   - 真机调试（iOS / Android 设备已通过 USB 连接）
-    //   - 多实例调试（一个 attach 到前台，一个 attach 到后台 isolate）
+    // 连接已运行的应用；多设备或多实例时按本次目标指定设备或服务地址
     "label": "Flutter attach (已运行实例)",
     "command": "flutter",
     "args": ["attach"],
     "use_new_terminal": true,
-    "allow_concurrent_runs": true, // 可与「Flutter 模拟器启动」并行
+    "allow_concurrent_runs": true,
     "reveal": "always"
   },
   {
-    // 以 release 模式启动（性能更接近生产，用于验证卡顿 / FPS 问题）
-    "label": "Flutter 模拟器启动 (release/profile)",
+    // Profile 用于性能分析，不是 Release；运行前确认目标设备支持该模式
+    "label": "Flutter 模拟器启动 (profile)",
     "command": "flutter",
-    "args": [
-      "run",
-      "-t",
-      "lib/main.dart",
-      "--profile" // release 但仍可连接 Observatory
-    ],
+    "args": ["run", "-t", "lib/main.dart", "--profile"],
     "use_new_terminal": true,
     "allow_concurrent_runs": false,
     "reveal": "always"

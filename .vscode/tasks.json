@@ -1,0 +1,53 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "flutter pub get",
+            "type": "shell",
+            "command": "flutter",
+            "args": ["pub", "get"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "flutter analyze",
+            "type": "shell",
+            "command": "flutter",
+            "args": ["analyze"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": "$dart-dartanalyzer"
+        },
+        {
+            "label": "flutter clean",
+            "type": "shell",
+            "command": "flutter",
+            "args": ["clean"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Flutter: Build iOS (Debug)",
+            "type": "shell",
+            "command": "flutter",
+            "args": [
+                "build",
+                "ios",
+                "--debug"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
