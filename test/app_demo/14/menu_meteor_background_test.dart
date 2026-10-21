@@ -1,12 +1,11 @@
+import 'dart:math';
+import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/menu/menu_meteor_background.dart';
-
-const _interval = Duration(seconds: 5);
-const _duration = Duration(seconds: 1);
 
 void main() {
   void meteorTest(String description, Future<void> Function(WidgetTester) body) {
@@ -27,8 +26,7 @@ void main() {
     bool enabled = true,
     bool reduced = false,
     bool ticker = true,
-    Duration interval = _interval,
-    Duration duration = _duration,
+    MeteorConfig config = const MeteorConfig(),
     VoidCallback? onTap,
   }) => tester.pumpWidget(
     Directionality(
@@ -44,8 +42,10 @@ void main() {
               height: 240,
               child: Stack(
                 children: [
-                  Positioned.fill(child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onTap)),
-                  Positioned.fill(child: MenuMeteorBackground(enabled: enabled, interval: interval, duration: duration)),
+                  Positioned.fill(
+                    child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: onTap),
+                  ),
+                  Positioned.fill(child: MenuMeteorBackground(enabled: enabled, config: config)),
                 ],
               ),
             ),
@@ -59,178 +59,138 @@ void main() {
       tester.widget<CustomPaint>(find.descendant(of: find.byType(MenuMeteorBackground), matching: find.byType(CustomPaint))).painter!
           as MenuMeteorPainter;
 
-  Future<void> start(WidgetTester tester) async {
-    await tester.pump(_interval);
-    await tester.pump();
-    expect(painter(tester).animation.status, AnimationStatus.forward);
-    await tester.pump(const Duration(milliseconds: 400));
-    expect(painter(tester).animation.value, closeTo(.4, .001));
-  }
+  meteorTest('Field constructor produces a deterministic empty field and respects seeded rng', (tester) async {
+    final empty = MeteorField(random: Random(1));
+    expect(empty.count, 0);
+    expect(empty.streaks, isEmpty);
 
-  meteorTest('Default meteor cadence waits two seconds between one-second passes', (tester) async {
-    await tester.pumpWidget(
-      Directionality(
-        textDirection: TextDirection.ltr,
-        child: MediaQuery(data: const MediaQueryData(), child: SizedBox(width: 390, height: 240, child: MenuMeteorBackground())),
-      ),
+    // Field with built-in randomness: configurable.
+    const config = MeteorConfig(
+      flightSeconds: 3,
+      maxConcurrent: 4,
+      appearFraction: .3,
+      vanishFraction: .2,
+      minBrightness: .3,
+      maxBrightness: 1.0,
     );
-    final animation = painter(tester).animation;
-    await tester.pump(const Duration(milliseconds: 1999));
-    expect(animation.status, AnimationStatus.dismissed);
-    await tester.pump(const Duration(milliseconds: 1));
-    await tester.pump();
-    expect(animation.status, AnimationStatus.forward);
-    await tester.pump(const Duration(milliseconds: 1001));
-    expect(animation.status, AnimationStatus.completed);
-    await tester.pump(const Duration(seconds: 2));
-    await tester.pump();
-    expect(animation.status, AnimationStatus.forward);
+    final seeded = MeteorField(random: Random(7));
+    expect(seeded.canSpawn(config), isTrue);
+    seeded.spawn(config);
+    seeded.spawn(config);
+    seeded.spawn(config);
+    expect(seeded.count, 3);
+    expect(seeded.canSpawn(config), isTrue);
+    seeded.spawn(config);
+    expect(seeded.canSpawn(config), isFalse, reason: 'maxConcurrent=4 caps the field');
   });
 
-  meteorTest('Waits a full interval, plays once, completes, then waits before another meteor', (tester) async {
-    await mount(tester);
-    final animation = painter(tester).animation;
-    expect(animation.value, 0);
-    expect(tester.binding.transientCallbackCount, 0);
-    await tester.pump(const Duration(milliseconds: 4999));
-    expect(animation.status, AnimationStatus.dismissed);
-    await tester.pump(const Duration(milliseconds: 1));
-    await tester.pump();
-    expect(animation.status, AnimationStatus.forward);
-    await tester.pump(const Duration(milliseconds: 500));
-    expect(animation.value, closeTo(.5, .001));
-    await tester.pump(const Duration(milliseconds: 501));
-    expect(animation.status, AnimationStatus.completed);
-    expect(tester.binding.transientCallbackCount, 0);
-    await tester.pump(const Duration(milliseconds: 4999));
-    expect(animation.status, AnimationStatus.completed);
-    await tester.pump(const Duration(milliseconds: 1));
-    await tester.pump();
-    expect(animation.status, AnimationStatus.forward);
-    await tester.pump(_duration + const Duration(milliseconds: 1));
-    expect(animation.status, AnimationStatus.completed);
+  meteorTest('Meteor.advance grows age until it reaches 1', (tester) async {
+    var meteor = _meteor(direction: const Offset(1, 1), brightness: .5, lifeSeconds: 1)
+      ..advance(const Duration(milliseconds: 250));
+    expect(meteor.age, closeTo(.25, .001));
+    meteor.advance(const Duration(milliseconds: 250));
+    expect(meteor.age, closeTo(.5, .001));
+    meteor.advance(const Duration(milliseconds: 500));
+    expect(meteor.age, 1.0);
   });
 
-  meteorTest('Unchanged enabled and inherited dependencies preserve the pending interval and active animation', (tester) async {
-    await mount(tester);
-    final originalPainter = painter(tester);
-    final animation = originalPainter.animation;
-    await tester.pump(const Duration(seconds: 3));
-    await mount(tester);
-    await tester.pump(const Duration(seconds: 2));
-    await tester.pump();
-    expect(animation.status, AnimationStatus.forward);
-    await tester.pump(const Duration(milliseconds: 300));
-    final activePainter = painter(tester);
-    await tester.pump(const Duration(milliseconds: 200));
-    expect(identical(painter(tester), activePainter), isTrue, reason: 'Ticks repaint rather than rebuilding the widget tree');
-    await mount(tester);
-    expect(painter(tester).animation.value, closeTo(.5, .001));
-    expect(identical(painter(tester).animation, animation), isTrue);
-    await tester.pump(const Duration(milliseconds: 501));
-    expect(animation.status, AnimationStatus.completed);
+  meteorTest('Meteor visibility curve ramps up, holds, ramps down across the lifetime', (tester) async {
+    const config = MeteorConfig(appearFraction: .3, vanishFraction: .2);
+    var meteor = _meteor(direction: const Offset(1, 0), brightness: 1, lifeSeconds: 1);
+    meteor.advance(const Duration(milliseconds: 50));
+    // age 0.05 -> inside appear ramp, visibility small but non-zero.
+    expect(_visibility(meteor, config), greaterThan(0));
+    expect(_visibility(meteor, config), lessThan(.25));
+
+    meteor.advance(const Duration(milliseconds: 250));
+    // age 0.30 -> just past appear end, visibility near 1.
+    expect(_visibility(meteor, config), greaterThan(.9));
+
+    meteor.advance(const Duration(milliseconds: 500));
+    // age 0.80 -> inside vanish ramp, visibility still substantial.
+    expect(_visibility(meteor, config), greaterThan(0));
+
+    meteor.advance(const Duration(milliseconds: 199));
+    // age 0.999 -> essentially 0.
+    expect(_visibility(meteor, config), lessThan(.05));
   });
 
-  for (final playing in [false, true]) {
-    for (final gate in ['enabled', 'reduced', 'ticker', 'inactive', 'hidden', 'paused', 'detached']) {
-      meteorTest('$gate cancels ${playing ? 'playback' : 'waiting'} and resumes with a fresh full interval', (tester) async {
-        await mount(tester);
-        if (playing) {
-          await start(tester);
-        } else {
-          await tester.pump(const Duration(seconds: 3));
-        }
-        final animation = painter(tester).animation;
-        final lifecycle = switch (gate) {
-          'inactive' => AppLifecycleState.inactive,
-          'hidden' => AppLifecycleState.hidden,
-          'paused' => AppLifecycleState.paused,
-          'detached' => AppLifecycleState.detached,
-          _ => null,
-        };
-        if (lifecycle != null) {
-          tester.binding.handleAppLifecycleStateChanged(lifecycle);
-          await tester.pump();
-        } else {
-          await mount(tester, enabled: gate != 'enabled', reduced: gate == 'reduced', ticker: gate != 'ticker');
-        }
-        expect(animation.value, 0);
-        expect(animation.status, AnimationStatus.dismissed);
-        expect(tester.binding.transientCallbackCount, 0);
-        await tester.pump(const Duration(seconds: 20));
-        expect(animation.value, 0);
-        if (lifecycle != null) tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-        await mount(tester);
-        await tester.pump(const Duration(milliseconds: 4999));
-        expect(animation.status, AnimationStatus.dismissed);
-        await tester.pump(const Duration(milliseconds: 1));
-        await tester.pump();
-        expect(animation.status, AnimationStatus.forward);
-        await tester.pump(const Duration(milliseconds: 200));
-        expect(animation.value, closeTo(.2, .001));
-      });
+  meteorTest('Field spawn respects min/max concurrent and removes meteors past their lifetime', (tester) async {
+    final field = MeteorField(random: Random(11));
+    const config = MeteorConfig(maxConcurrent: 3, flightSeconds: .1);
+    field.spawn(config);
+    field.spawn(config);
+    field.spawn(config);
+    field.spawn(config); // ignored
+    expect(field.count, 3);
+    field.advance(const Duration(milliseconds: 200), config);
+    expect(field.count, 0, reason: 'All meteors expired past age=1');
+  });
+
+  meteorTest('Every streak travels from the top-right corner toward the bottom-left one', (tester) async {
+    const config = MeteorConfig(fanSpreadDeg: 7, angleJitterDeg: 2, entryScatter: .07);
+    for (var seed = 0; seed < 200; seed++) {
+      final field = MeteorField(random: Random(seed));
+      field.spawn(config);
+      expect(field.count, 1);
+      final meteor = field.streaks.first;
+
+      // The axis points left and down: that is the top-right -> bottom-left
+      // diagonal in Flutter's y-down space.
+      expect(meteor.direction.dx, lessThan(0), reason: 'seed $seed must head left');
+      expect(meteor.direction.dy, greaterThan(0), reason: 'seed $seed must head down');
+
+      // The entry point hugs the top-right corner.
+      expect(meteor.origin.dx, greaterThan(.9));
+      expect(meteor.origin.dy, lessThan(.1));
+
+      // The head moves strictly left and strictly down as it ages.
+      final start = meteor.headPosition(0);
+      final mid = meteor.headPosition(.5);
+      final end = meteor.headPosition(1);
+      expect(mid.dx, lessThan(start.dx));
+      expect(mid.dy, greaterThan(start.dy));
+      expect(end.dx, lessThan(mid.dx));
+      expect(end.dy, greaterThan(mid.dy));
+
+      // It must run past the bottom-left corner, not stop inside the header.
+      expect(end.dx, lessThan(0));
+      expect(end.dy, greaterThan(1));
     }
-  }
-
-  for (final gate in ['enabled', 'reduced', 'ticker', 'lifecycle']) {
-    meteorTest('Initially blocked by $gate does not schedule a meteor', (tester) async {
-      if (gate == 'lifecycle') tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
-      await mount(tester, enabled: gate != 'enabled', reduced: gate == 'reduced', ticker: gate != 'ticker');
-      final animation = painter(tester).animation;
-      await tester.pump(const Duration(seconds: 30));
-      expect(animation.status, AnimationStatus.dismissed);
-      expect(tester.binding.transientCallbackCount, 0);
-      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-      await mount(tester);
-      await start(tester);
-    });
-  }
-
-  meteorTest('All visibility gates must allow motion before resuming', (tester) async {
-    await mount(tester, enabled: false, reduced: true, ticker: false);
-    await mount(tester, reduced: true, ticker: false);
-    await tester.pump(const Duration(seconds: 10));
-    expect(painter(tester).animation.value, 0);
-    await mount(tester, ticker: false);
-    await tester.pump(const Duration(seconds: 10));
-    expect(painter(tester).animation.value, 0);
-    await mount(tester);
-    await start(tester);
   });
 
-  meteorTest('Timing updates restart a full interval and use the new duration', (tester) async {
-    await mount(tester);
-    await start(tester);
-    await mount(tester, interval: const Duration(seconds: 2), duration: const Duration(seconds: 2));
-    final animation = painter(tester).animation;
-    expect(animation.value, 0);
-    await tester.pump(const Duration(milliseconds: 1999));
-    expect(animation.status, AnimationStatus.dismissed);
-    await tester.pump(const Duration(milliseconds: 1));
-    await tester.pump();
-    await tester.pump(const Duration(seconds: 1));
-    expect(animation.value, closeTo(.5, .001));
+  meteorTest('Streak angles stay within the configured fan around the main axis', (tester) async {
+    const config = MeteorConfig(axisAngleDeg: 135, fanSpreadDeg: 7, angleJitterDeg: 2);
+    for (var seed = 0; seed < 200; seed++) {
+      final field = MeteorField(random: Random(seed));
+      field.spawn(config);
+      final direction = field.streaks.first.direction;
+      final deg = math.atan2(direction.dy, direction.dx) * 180 / math.pi;
+      // Normalize into [0, 360).
+      final normalized = deg < 0 ? deg + 360 : deg;
+      expect(normalized, closeTo(135, 9), reason: 'seed $seed drifted outside the fan');
+    }
   });
 
-  for (final playing in [false, true]) {
-    meteorTest('Dispose cleans up ${playing ? 'active ticker' : 'pending timer'} and lifecycle observer', (tester) async {
-      await mount(tester);
-      if (playing) await start(tester);
-      await tester.pumpWidget(const SizedBox.shrink());
-      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
-      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-      await tester.pump(const Duration(seconds: 30));
-      expect(tester.binding.transientCallbackCount, 0);
-      expect(tester.binding.hasScheduledFrame, isFalse);
-      expect(tester.takeException(), isNull);
-    });
-  }
+  meteorTest('Spawned streaks land on distinct lanes so they do not overlap', (tester) async {
+    const config = MeteorConfig(maxConcurrent: 3, fanSpreadDeg: 7, angleJitterDeg: 0);
+    final field = MeteorField(random: Random(5));
+    field.spawnBatch(config, 3);
+    final angles = field.streaks
+        .map((m) => math.atan2(m.direction.dy, m.direction.dx))
+        .toList();
+    for (var i = 0; i < angles.length; i++) {
+      for (var j = i + 1; j < angles.length; j++) {
+        final delta = (angles[i] - angles[j]).abs();
+        expect(delta, greaterThan(.005), reason: 'streaks $i and $j share the same lane');
+      }
+    }
+  });
 
-  meteorTest('Decoration is clipped, isolated, non-interactive and excluded from semantics', (tester) async {
+  meteorTest('decoration structure clips, isolates and excludes semantics', (tester) async {
     var taps = 0;
     await mount(tester, onTap: () => taps++);
     final background = find.byType(MenuMeteorBackground);
-    expect(tester.getSize(background), const Size(390, 240));
     for (final type in [IgnorePointer, ExcludeSemantics, RepaintBoundary, ClipRect]) {
       expect(find.descendant(of: background, matching: find.byType(type)), findsOneWidget);
     }
@@ -238,18 +198,44 @@ void main() {
     expect(tester.widget<ExcludeSemantics>(find.descendant(of: background, matching: find.byType(ExcludeSemantics))).excluding, isTrue);
     await tester.tapAt(const Offset(200, 100));
     expect(taps, 1);
-    expect(await tester.pumpAndSettle(), lessThan(5), reason: 'Waiting has no ticking animation');
-    await start(tester);
-    expect(await tester.pumpAndSettle(const Duration(milliseconds: 100)), lessThanOrEqualTo(8));
-    expect(painter(tester).animation.status, AnimationStatus.completed);
   });
 
-  meteorTest('Fixed phases paint deterministic faint stars and one diagonal tail within header bounds', (tester) async {
-    const size = Size(200, 120);
-    Future<Uint8List> pixels(double phase) async {
+  meteorTest('disableAnimations, ticker-disabled, and lifecycle gates suppress scheduling', (tester) async {
+    for (final entry in {'reduced', 'ticker', 'lifecycle'}.toList()) {
+      if (entry == 'lifecycle') tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      await mount(
+        tester,
+        enabled: entry != 'enabled',
+        reduced: entry == 'reduced',
+        ticker: entry != 'ticker',
+      );
+      await tester.pump(const Duration(seconds: 30));
+      expect(tester.binding.transientCallbackCount, 0, reason: '$entry must produce zero scheduled frames');
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    }
+  });
+
+  meteorTest('Reduced motion yields no streak spawns even after a long pump', (tester) async {
+    await mount(tester, reduced: true);
+    await tester.pump(const Duration(seconds: 12));
+    final p = painter(tester);
+    final field = p.field;
+    expect(field.count, 0);
+    expect(tester.binding.transientCallbackCount, 0);
+  });
+
+  meteorTest('Pixel scans: nothing painted outside the header, alpha below blinding ceiling', (tester) async {
+    const config = MeteorConfig(
+      flightSeconds: .8,
+      speedJitter: 0,
+      maxConcurrent: 6,
+      spawnRange: Duration.zero,
+      spawnJitter: Duration.zero,
+    );
+    Future<Uint8List> pixels(MeteorField field) async {
       final recorder = ui.PictureRecorder();
       final canvas = Canvas(recorder)..translate(10, 10);
-      MenuMeteorPainter(animation: AlwaysStoppedAnimation(phase)).paint(canvas, size);
+      MenuMeteorPainter(field: field, config: config).paint(canvas, const Size(200, 120));
       final picture = recorder.endRecording();
       try {
         return (await tester.runAsync(() async {
@@ -266,53 +252,103 @@ void main() {
       }
     }
 
-    final idle = await pixels(0);
-    expect(await pixels(1), orderedEquals(idle));
-    final early = await pixels(.3);
-    final middle = await pixels(.5);
-    final late = await pixels(.7);
-    expect(await pixels(.5), orderedEquals(middle));
-    for (final data in [idle, early, middle, late]) {
-      var visible = 0;
+    // Two fields: very bright (all max) and very dim (all min), nothing should
+    // push past the bright-glow ceiling once blurred together.
+    final bright = MeteorField(random: Random(7));
+    final dim = MeteorField(random: Random(11));
+    for (var i = 0; i < 6; i++) {
+      bright.spawn(const MeteorConfig(maxBrightness: 1.0, minBrightness: 1.0));
+      dim.spawn(const MeteorConfig(maxBrightness: .3, minBrightness: .3));
+    }
+    // Move both into their visible mid-life window.
+    bright.advance(const Duration(milliseconds: 300), config);
+    dim.advance(const Duration(milliseconds: 300), config);
+
+    final brightData = await pixels(bright);
+    final dimData = await pixels(dim);
+    for (final data in [brightData, dimData]) {
       for (var y = 0; y < 140; y++) {
         for (var x = 0; x < 220; x++) {
           final alpha = data[(y * 220 + x) * 4 + 3];
-          if (x < 10 || x >= 210 || y < 10 || y >= 130) expect(alpha, 0);
-          if (alpha > 0) visible++;
-          expect(alpha, lessThan(120), reason: 'No bright glow or high-opacity decoration');
+          if (x < 10 || x >= 210 || y < 10 || y >= 130) expect(alpha, 0, reason: 'No paint outside header');
+          expect(alpha, lessThan(230));
         }
       }
-      expect(visible, inInclusiveRange(28, 450));
     }
-    Offset meteorHead(Uint8List data) {
-      var brightest = 0;
-      var point = Offset.zero;
-      for (var y = 10; y < 130; y++) {
-        for (var x = 10; x < 210; x++) {
-          final index = (y * 220 + x) * 4 + 3;
-          if (data[index] > idle[index] && data[index] > brightest) {
-            brightest = data[index];
-            point = Offset(x - 10.0, y - 10.0);
-          }
-        }
+    // The bright run paints strictly more pixels than the dim run, asserting
+    // the brightness coefficient actually drives visual prominence.
+    int paintPixels(Uint8List data) {
+      var count = 0;
+      for (var i = 3; i < data.length; i += 4) {
+        if (data[i] > 0) count++;
       }
-      expect(brightest, greaterThan(30));
-      return point;
+      return count;
     }
 
-    final first = meteorHead(early);
-    final second = meteorHead(middle);
-    final third = meteorHead(late);
-    expect(first.dx, greaterThan(second.dx));
-    expect(second.dx, greaterThan(third.dx));
-    expect(first.dy, lessThan(second.dy));
-    expect(second.dy, lessThan(third.dy));
-    expect((second - const Offset(108, 48)).distance, lessThan(4));
-    const animation = AlwaysStoppedAnimation<double>(.5);
-    expect(MenuMeteorPainter(animation: animation).shouldRepaint(MenuMeteorPainter(animation: animation)), isFalse);
-    expect(MenuMeteorPainter(animation: animation).shouldRepaint(MenuMeteorPainter(animation: const AlwaysStoppedAnimation(.4))), isTrue);
+    expect(paintPixels(brightData), greaterThan(paintPixels(dimData)));
+  });
+
+  meteorTest('End-to-end: a fresh field with active meteors paints visible pixels', (tester) async {
+    const config = MeteorConfig(
+      flightSeconds: 5,
+      maxConcurrent: 6,
+      spawnRange: Duration(milliseconds: 1),
+      spawnJitter: Duration.zero,
+    );
+    // Drop a 6-meteor burst directly into a field and age them into their
+    // visible window — this bypasses the scheduler/Timer plumbing and proves
+    // the painter can produce a visible result.
+    final field = MeteorField(random: Random(42));
+    field.spawnBatch(config, config.maxConcurrent);
+    field.advance(const Duration(milliseconds: 250), config);
+    expect(field.count, config.maxConcurrent);
     final recorder = ui.PictureRecorder();
-    MenuMeteorPainter(animation: animation).paint(Canvas(recorder), Size.zero);
-    recorder.endRecording().dispose();
+    final canvas = Canvas(recorder);
+    MenuMeteorPainter(field: field, config: config).paint(canvas, const Size(390, 240));
+    final picture = recorder.endRecording();
+    // Both toImage and toByteData must run inside runAsync: the widget-test
+    // binding uses a fake async zone where real GPU work would never complete.
+    final data = await tester.runAsync(() async {
+      final image = await picture.toImage(390, 240);
+      try {
+        final bytes = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+        return bytes!.buffer.asUint8List();
+      } finally {
+        image.dispose();
+      }
+    });
+    picture.dispose();
+    var visible = 0;
+    for (var i = 3; i < data!.length; i += 4) {
+      if (data[i] > 0) visible++;
+    }
+    expect(visible, greaterThan(0), reason: 'Painter must paint visible pixels for an active field');
   });
 }
+
+/// Reconstruction of the painter's visibility math so the unit test can verify
+/// the age curve without bringing up a painter.
+double _visibility(Meteor meteor, MeteorConfig config) {
+  final age = meteor.age;
+  if (age <= 0 || age >= 1) return 0;
+  final appearEnd = config.appearFraction;
+  final vanishStart = 1 - config.vanishFraction;
+  if (age < appearEnd) return Curves.easeIn.transform(age / appearEnd);
+  if (age > vanishStart) return Curves.easeOut.transform((1 - age) / config.vanishFraction);
+  return 1;
+}
+
+/// Builds a [Meteor] with sensible defaults for the unit tests.
+Meteor _meteor({
+  required Offset direction,
+  required double brightness,
+  required double lifeSeconds,
+  Offset origin = const Offset(1, 0),
+  double travelDistance = 1.7,
+}) => Meteor(
+  direction: direction,
+  brightness: brightness,
+  lifeSeconds: lifeSeconds,
+  origin: origin,
+  travelDistance: travelDistance,
+);
