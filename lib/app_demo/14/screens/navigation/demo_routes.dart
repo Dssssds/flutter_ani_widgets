@@ -4,6 +4,7 @@ import 'package:flutter_x_widgets/app_demo/14/models/services/feedback_service.d
 import 'package:flutter_x_widgets/app_demo/14/models/view_models/settings_view_model.dart';
 import 'package:flutter_x_widgets/app_demo/14/screens/coin_screen.dart';
 import 'package:flutter_x_widgets/app_demo/14/screens/demo_screen.dart';
+import 'package:flutter_x_widgets/app_demo/14/screens/dice_screen.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/motion/motion_spec.dart';
 
 /// Demo 内部路由，不接管 Showcase 的导航。
@@ -15,11 +16,13 @@ abstract final class DemoRoutes {
     VoidCallback? onExit, {
     ValueNotifier<int>? menuVisits,
     RandomSource? random,
+    IntRandomSource? diceRandom,
     FeedbackService? feedback,
   }) {
     final Widget page = switch (route.name) {
       '/' => DemoScreen(settings: settings, onExit: onExit, menuVisits: menuVisits),
       '/coin' => CoinScreen(settings: settings, random: random, feedback: feedback),
+      '/dice' => DiceScreen(settings: settings, random: diceRandom, feedback: feedback),
       _ => const _UnknownRouteScreen(),
     };
     return _DemoPageRoute(route: route, settingsModel: settings, initialMotion: motion, page: page);

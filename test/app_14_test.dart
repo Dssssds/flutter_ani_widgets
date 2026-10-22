@@ -30,7 +30,7 @@ void main() {
       'elimination',
       'teams',
     ]);
-    expect(partyGames.where((game) => game.isAvailable).single.id, 'coin');
+    expect(partyGames.where((game) => game.isAvailable).map((game) => game.id), ['dice', 'coin']);
     expect(HomeScreen().demoApps.singleWhere((example) => example.title == 'APP-14(聚会游戏盒)').isFullScreen, isTrue);
   });
 

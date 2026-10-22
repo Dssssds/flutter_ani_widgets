@@ -1,21 +1,43 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_x_widgets/app_demo/14/widgets/menu/menu_page_indicator.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/theme/party_theme.dart';
 
 /// A bounded, responsive title above the game menu.
 ///
 /// The headline replays a staggered character entrance on every visit, driven by
 /// the same [visits] counter the menu rows use.
+///
+/// When [pageProgress] is given and the two-line headline leaves room beside "Game",
+/// a page indicator sits in the lower right, on the headline's baseline.
 class MenuHeader extends StatefulWidget {
-  const MenuHeader({super.key, this.onExit, this.reduceMotion = false, this.visits});
+  const MenuHeader({super.key, this.onExit, this.reduceMotion = false, this.visits, this.pageProgress});
 
   final VoidCallback? onExit;
   final bool reduceMotion;
+
+  /// Continuous menu page progress, 0 for the first page and 1 for the second.
+  final ValueListenable<double>? pageProgress;
 
   /// Increments replay the staggered entrance from its first frame.
   final ValueListenable<int>? visits;
 
   static const _cream = Color(0xFFFFF1CF);
+
+  /// NeumaticGothic ships as a single Black weight; w400 avoids a synthetic bold on top of it.
+  static const _titleStyle = TextStyle(
+    fontFamily: PartyTheme.displayFamily,
+    fontWeight: FontWeight.w400,
+    color: _cream,
+    fontSize: 140,
+    height: .92,
+    letterSpacing: -3,
+  );
+
+  /// Space kept between the headline and the page indicator.
+  static const _indicatorGap = 16.0;
 
   @override
   State<MenuHeader> createState() => _MenuHeaderState();
@@ -68,6 +90,46 @@ class _MenuHeaderState extends State<MenuHeader> with SingleTickerProviderStateM
     super.dispose();
   }
 
+  /// The page indicator, or null when there is nothing to show.
+  ///
+  /// The headline is height bound (two stacked condensed lines in a wide, short box), so on most
+  /// phones its right side is empty. The headline's real rendered width and baseline are measured
+  /// from the same style and scaling [FittedBox] will apply, so the indicator never overlaps it and
+  /// sits exactly on the baseline of "Game". On a taller header the headline grows and leaves no room
+  /// beside "Game"; the indicator then moves to the top right, on the row of the back button.
+  Widget? _indicator(BuildContext context, BoxConstraints constraints) {
+    final progress = widget.pageProgress;
+    if (progress == null) return null;
+    final text = TextPainter(
+      text: const TextSpan(text: 'Pick a\nGame', style: MenuHeader._titleStyle),
+      textDirection: TextDirection.ltr,
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 2,
+    )..layout();
+    final textWidth = text.width;
+    final textHeight = text.height;
+    // The last line's baseline: computeDistanceToActualBaseline only reports the first line's.
+    final baseline = text.computeLineMetrics().last.baseline;
+    text.dispose();
+    final boxWidth = constraints.maxWidth - 48;
+    final boxHeight = constraints.maxHeight - 66;
+    final scale = math.min(boxWidth / textWidth, boxHeight / textHeight);
+    final room = boxWidth - textWidth * scale - MenuHeader._indicatorGap;
+    const pages = 2;
+    final indicator = MenuPageIndicator(progress: progress, pageCount: pages, reduceMotion: widget.reduceMotion);
+    if (room < MenuPageIndicator.widthFor(pages)) {
+      // The back button is 48 high with its icon centered, so center the indicator on the same line.
+      return Positioned(top: (48 - MenuPageIndicator.height) / 2, right: 24, child: indicator);
+    }
+    // Bottom of the headline box -> baseline of "Game", then drop by the indicator's own descent.
+    final belowBaseline = (textHeight - baseline) * scale;
+    return Positioned(
+      right: 24,
+      bottom: 12 + belowBaseline - MenuPageIndicator.belowBaseline(pages),
+      child: indicator,
+    );
+  }
+
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
@@ -88,15 +150,7 @@ class _MenuHeaderState extends State<MenuHeader> with SingleTickerProviderStateM
           animation: _enter,
           builder: (context, _) => _StaggeredHeadline(
             text: compact ? 'Pick a Game' : 'Pick a\nGame',
-            // NeumaticGothic ships as a single Black weight; w400 avoids a synthetic bold on top of it.
-            style: const TextStyle(
-              fontFamily: PartyTheme.displayFamily,
-              fontWeight: FontWeight.w400,
-              color: MenuHeader._cream,
-              fontSize: 140,
-              height: .92,
-              letterSpacing: -3,
-            ),
+            style: MenuHeader._titleStyle,
             maxLines: compact ? 1 : 2,
             progress: _enter.value,
             reduceMotion: widget.reduceMotion,
@@ -115,10 +169,12 @@ class _MenuHeaderState extends State<MenuHeader> with SingleTickerProviderStateM
           ),
         );
       }
+      final indicator = _indicator(context, constraints);
       return Stack(
         children: [
           Positioned(top: 0, left: 12, child: back),
           Positioned(top: 54, left: 24, right: 24, bottom: 12, child: title),
+          if (indicator != null) indicator,
         ],
       );
     },

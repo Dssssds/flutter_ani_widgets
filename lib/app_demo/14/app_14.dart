@@ -11,9 +11,10 @@ import 'package:flutter_x_widgets/app_demo/14/widgets/theme/party_theme.dart';
 class App14 extends StatefulWidget {
   final SettingsRepository? settingsRepository;
   final RandomSource? random;
+  final IntRandomSource? diceRandom;
   final FeedbackService? feedback;
 
-  const App14({super.key, this.settingsRepository, this.random, this.feedback});
+  const App14({super.key, this.settingsRepository, this.random, this.diceRandom, this.feedback});
 
   @override
   State<App14> createState() => _App14State();
@@ -89,6 +90,7 @@ class _App14State extends State<App14> {
                     canExit ? exit : null,
                     menuVisits: _menuObserver.visits,
                     random: widget.random,
+                    diceRandom: widget.diceRandom,
                     feedback: widget.feedback,
                   ),
             ),

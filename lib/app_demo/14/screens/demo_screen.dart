@@ -43,7 +43,7 @@ class _DemoScreenState extends State<DemoScreen> {
                 visits: widget.menuVisits,
                 onOpen: _open,
                 headerBuilder:
-                    (context) => Stack(
+                    (context, pageProgress) => Stack(
                       fit: StackFit.expand,
                       children: [
                         MenuMeteorBackground(
@@ -53,6 +53,7 @@ class _DemoScreenState extends State<DemoScreen> {
                           top: false,
                           bottom: false,
                           child: MenuHeader(
+                            pageProgress: pageProgress,
                             onExit: widget.onExit,
                             reduceMotion: widget.settings.state.reduceMotion,
                             visits: widget.menuVisits,

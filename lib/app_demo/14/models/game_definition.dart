@@ -16,7 +16,7 @@ const partyGames = [
   GameDefinition('bottle', 'Spin the Bottle', '转瓶子'),
   GameDefinition('charades', 'Charades', '你演我猜'),
   GameDefinition('would-rather', 'Would You Rather', '二选一'),
-  GameDefinition('dice', 'Roll the Dice', '掷骰子'),
+  GameDefinition('dice', 'Roll the Dice', '掷骰子', route: '/dice'),
   GameDefinition('coin', 'Coin Toss', '抛硬币', route: '/coin'),
   GameDefinition('pick', 'Pick One', '随机选人'),
   GameDefinition('elimination', 'Elimination', '淘汰游戏'),

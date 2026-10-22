@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +14,9 @@ import 'package:flutter_x_widgets/app_demo/14/widgets/theme/party_theme.dart';
 /// 分页物理交给 PageView，各行补偿整页位移后共享一条级联轨迹。
 class AnimatedGameMenu extends StatefulWidget {
   final SettingsViewModel settings;
-  final WidgetBuilder headerBuilder;
+  /// Builds the area above the menu. [pageProgress] follows the page controller (0 first page, 1 second)
+  /// without rebuilding the whole header on every scroll frame.
+  final Widget Function(BuildContext context, ValueListenable<double> pageProgress) headerBuilder;
   final ValueNotifier<int>? visits;
   final ValueChanged<String?> onOpen;
 
@@ -25,6 +28,7 @@ class AnimatedGameMenu extends StatefulWidget {
 
 class _AnimatedGameMenuState extends State<AnimatedGameMenu> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   final _pages = PageController();
+  final _progress = ValueNotifier<double>(0);
   late final _enter = AnimationController(vsync: this, animationBehavior: AnimationBehavior.preserve);
   Drag? _headerDrag;
   int _page = 0;
@@ -62,6 +66,13 @@ class _AnimatedGameMenuState extends State<AnimatedGameMenu> with SingleTickerPr
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     widget.visits?.addListener(_replay);
+    _pages.addListener(_syncProgress);
+  }
+
+  /// Mirrors the page controller into [_progress], clamped to the two pages.
+  void _syncProgress() {
+    final page = _pages.hasClients && _pages.position.hasContentDimensions ? (_pages.page ?? _page.toDouble()) : _page.toDouble();
+    _progress.value = page.clamp(0.0, 1.0);
   }
 
   @override
@@ -150,7 +161,9 @@ class _AnimatedGameMenuState extends State<AnimatedGameMenu> with SingleTickerPr
     WidgetsBinding.instance.removeObserver(this);
     _headerDrag?.cancel();
     _enter.dispose();
+    _pages.removeListener(_syncProgress);
     _pages.dispose();
+    _progress.dispose();
     for (final scroll in _vertical) {
       scroll.dispose();
     }
@@ -219,7 +232,7 @@ class _AnimatedGameMenuState extends State<AnimatedGameMenu> with SingleTickerPr
                     onHorizontalDragCancel: () => _headerDrag?.cancel(),
                     child: SizedBox(
                       height: headerHeight,
-                      child: widget.headerBuilder(context),
+                      child: widget.headerBuilder(context, _progress),
                     ),
                   ),
                   Expanded(
