@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/motion/motion_spec.dart';
+import 'package:flutter_x_widgets/app_demo/14/widgets/theme/party_theme.dart';
 
 /// 有禁用语义的按压反馈，不影响子组件布局。
 class PressScaleButton extends StatefulWidget {
@@ -40,6 +41,8 @@ class _PressScaleButtonState extends State<PressScaleButton> {
           color: Colors.transparent,
           child: InkWell(
             borderRadius: widget.borderRadius,
+            // 深色背景上默认的焦点色几乎不可见，这里给出明确的键盘焦点反馈。
+            focusColor: PartyTheme.chalk.withValues(alpha: .22),
             onTap: widget.onPressed,
             onHighlightChanged: (value) => setState(() => _pressed = value),
             child: widget.child,

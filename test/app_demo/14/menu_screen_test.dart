@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_x_widgets/app_demo/14/models/view_models/settings_view_model.dart';
 import 'package:flutter_x_widgets/app_demo/14/screens/demo_screen.dart';
-import 'package:flutter_x_widgets/app_demo/14/widgets/menu/menu_swipe_arrow.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/menu/menu_motion.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/game_menu_tile.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/menu/menu_meteor_background.dart';
@@ -182,53 +181,46 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('Header fills menu whitespace and arrow follows drag and cancellation', (tester) async {
+  testWidgets('Header fills menu whitespace through drag and cancellation', (tester) async {
     await mount(tester);
     await tester.pumpAndSettle();
-    double arrowScale() => tester.widget<Transform>(find.byKey(const ValueKey('menu-arrow-turn'))).transform.storage[0];
-    void expectSynchronized() {
-      final page = tester.widget<PageView>(find.byKey(const ValueKey('menu-pages'))).controller!.page!;
-      expect(arrowScale(), closeTo(2 * page - 1, .001));
-    }
-
     final header = tester.getRect(find.byKey(const ValueKey('menu-header')));
     final viewport = tester.getRect(find.byKey(const ValueKey('menu-viewport')));
     expect(header.height, 324);
     expect(header.bottom, viewport.top);
-    expectSynchronized();
     final pages = find.byKey(const ValueKey('menu-pages'));
     final gesture = await tester.startGesture(tester.getCenter(pages));
     await gesture.moveBy(const Offset(-20, 0));
     await tester.pump();
     await gesture.moveBy(const Offset(-120, 0));
     await tester.pump();
-    expectSynchronized();
-    final forwardScale = arrowScale();
-    expect(forwardScale, inExclusiveRange(-1, 1));
+    final controller = tester.widget<PageView>(pages).controller!;
+    final forwardPage = controller.page!;
+    expect(forwardPage, inExclusiveRange(0, 1));
     await tester.pump(const Duration(milliseconds: 400));
-    expect(arrowScale(), forwardScale, reason: 'Holding the drag must not run an independent arrow animation');
+    expect(controller.page, forwardPage, reason: 'Holding the drag must not move the page on its own');
     await gesture.moveBy(const Offset(70, 0));
     await tester.pump();
-    expectSynchronized();
-    expect(arrowScale(), lessThan(forwardScale));
+    expect(controller.page, lessThan(forwardPage));
     await gesture.cancel();
     await tester.pumpAndSettle();
-    expectSynchronized();
+    expect(controller.page, closeTo(0, .001));
     await tester.drag(pages, const Offset(-350, 0));
     await tester.pumpAndSettle();
-    expectSynchronized();
+    expect(controller.page, closeTo(1, .001));
     final reverse = await tester.startGesture(tester.getCenter(pages));
     await reverse.moveBy(const Offset(20, 0));
     await tester.pump();
     await reverse.moveBy(const Offset(100, 0));
     await tester.pump();
-    expectSynchronized();
+    final reversePage = controller.page!;
+    expect(reversePage, lessThan(1));
     await reverse.moveBy(const Offset(-60, 0));
     await tester.pump();
-    expectSynchronized();
+    expect(controller.page, greaterThan(reversePage));
     await reverse.cancel();
     await tester.pumpAndSettle();
-    expectSynchronized();
+    expect(controller.page, closeTo(1, .001));
     await tester.pumpWidget(const SizedBox());
     expect(tester.takeException(), isNull);
   });
@@ -247,8 +239,6 @@ void main() {
     final controller = tester.widget<PageView>(pages).controller!;
     expect(controller.page, greaterThan(0));
     expect(controller.page, lessThan(1));
-    final turn = tester.widget<Transform>(find.byKey(const ValueKey('menu-arrow-turn')));
-    expect(turn.transform.storage[0], closeTo(2 * controller.page! - 1, .001));
     expect(translation(tester, 0).dx, isNot(translation(tester, 4).dx));
     await tester.pumpAndSettle();
     expect(controller.page, closeTo(1, .001));
@@ -335,15 +325,12 @@ void main() {
     addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
     await tester.pumpAndSettle();
     expect(translation(tester, 0).dy, 0);
-    expect(tester.widget<MenuSwipeArrow>(find.byType(MenuSwipeArrow)).pointsLeft, isTrue);
     await tester.drag(find.byKey(const ValueKey('menu-pages')), const Offset(120, 0));
     await tester.pumpAndSettle();
     expect(find.bySemanticsLabel('第1页，共2页'), findsOneWidget);
-    expect(tester.widget<MenuSwipeArrow>(find.byType(MenuSwipeArrow)).pointsLeft, isTrue);
     await tester.drag(find.byKey(const ValueKey('menu-pages')), const Offset(-350, 0));
     await tester.pumpAndSettle();
     expect(find.bySemanticsLabel('第2页，共2页'), findsOneWidget);
-    expect(tester.widget<MenuSwipeArrow>(find.byType(MenuSwipeArrow)).pointsLeft, isFalse);
     tester.view.physicalSize = const Size(844, 390);
     await tester.pumpAndSettle();
     expect(translation(tester, 0, page: 1), Offset.zero);
@@ -373,7 +360,6 @@ void main() {
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowLeft);
     await tester.pumpAndSettle();
     expect(find.bySemanticsLabel('第1页，共2页'), findsOneWidget);
-    expect(tester.widget<MenuSwipeArrow>(find.byType(MenuSwipeArrow)).pointsLeft, isTrue);
     await tester.pumpWidget(const SizedBox());
     visits.dispose();
     settings.dispose();

@@ -49,11 +49,6 @@ class SettingsViewModel extends ChangeNotifier {
     _update(_state.copyWith(reduceMotion: value));
   }
 
-  void setAppearance(CoinAppearance value) {
-    if (_state.appearance == value) return;
-    _update(_state.copyWith(appearance: value));
-  }
-
   void setHapticsEnabled(bool value) {
     if (_state.hapticsEnabled == value) return;
     _update(_state.copyWith(hapticsEnabled: value));

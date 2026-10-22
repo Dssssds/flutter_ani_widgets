@@ -43,7 +43,7 @@ void main() {
         home: Scaffold(
           body: RepaintBoundary(
             key: key,
-            child: MenuHeader(pageProgress: 1, reduceMotion: reduceMotion, visits: visits),
+            child: MenuHeader(reduceMotion: reduceMotion, visits: visits),
           ),
         ),
       ),

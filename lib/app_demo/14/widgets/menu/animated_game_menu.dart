@@ -13,7 +13,7 @@ import 'package:flutter_x_widgets/app_demo/14/widgets/theme/party_theme.dart';
 /// 分页物理交给 PageView，各行补偿整页位移后共享一条级联轨迹。
 class AnimatedGameMenu extends StatefulWidget {
   final SettingsViewModel settings;
-  final Widget Function(BuildContext context, double pageProgress) headerBuilder;
+  final WidgetBuilder headerBuilder;
   final ValueNotifier<int>? visits;
   final ValueChanged<String?> onOpen;
 
@@ -166,11 +166,12 @@ class _AnimatedGameMenuState extends State<AnimatedGameMenu> with SingleTickerPr
       builder: (context, available) {
         final scaler = MediaQuery.textScalerOf(context);
         final safe = MediaQuery.paddingOf(context);
-        final textWidth = (available.maxWidth - (100 + GameMenuTile.iconExtent) - safe.horizontal).clamp(1.0, double.infinity);
+        // 文字宽度必须与 GameMenuTile 的真实布局一致：两侧内边距、图标、间距，以及最宽的「未开放」标签（约 68）。
+        final textWidth = (available.maxWidth - (136 + GameMenuTile.iconExtent) - safe.horizontal).clamp(1.0, double.infinity);
         var rowHeight = 104.0;
-        double measure(String text, double size, double height, FontWeight weight) {
+        double measure(String text, String family, double size, double height, FontWeight weight) {
           final painter = TextPainter(
-            text: TextSpan(text: text, style: TextStyle(fontFamily: 'SF Pro Display', fontSize: size, height: height, fontWeight: weight)),
+            text: TextSpan(text: text, style: TextStyle(fontFamily: family, fontSize: size, height: height, fontWeight: weight)),
             textDirection: TextDirection.ltr,
             textScaler: scaler,
           )..layout(maxWidth: textWidth);
@@ -180,7 +181,10 @@ class _AnimatedGameMenuState extends State<AnimatedGameMenu> with SingleTickerPr
         }
 
         for (final game in partyGames) {
-          final height = measure(game.title, 24, 1.05, FontWeight.w900) + measure(game.subtitle, 12, 1.5, FontWeight.w600) + 28;
+          final height =
+              measure(game.title, PartyTheme.displayFamily, 24, 1.05, FontWeight.w400) +
+              measure(game.subtitle, PartyTheme.bodyFamily, 14, 1.5, FontWeight.w600) +
+              28;
           if (height > rowHeight) rowHeight = height;
         }
         final bottomInset = safe.bottom;
@@ -215,16 +219,7 @@ class _AnimatedGameMenuState extends State<AnimatedGameMenu> with SingleTickerPr
                     onHorizontalDragCancel: () => _headerDrag?.cancel(),
                     child: SizedBox(
                       height: headerHeight,
-                      child: AnimatedBuilder(
-                        animation: _pages,
-                        builder: (context, _) {
-                          final progress =
-                              _pages.hasClients && _pages.position.hasContentDimensions
-                                  ? (_pages.page ?? _page.toDouble()).clamp(0.0, 1.0)
-                                  : _page.toDouble();
-                          return widget.headerBuilder(context, progress);
-                        },
-                      ),
+                      child: widget.headerBuilder(context),
                     ),
                   ),
                   Expanded(

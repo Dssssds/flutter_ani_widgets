@@ -19,5 +19,8 @@ class MotionSpec {
   Duration get route => Duration(milliseconds: reduceMotion ? 120 : (fast ? 140 : 280));
   Duration get page => Duration(milliseconds: reduceMotion ? 120 : (fast ? 480 : 850));
   Duration get menuEnter => Duration(milliseconds: reduceMotion ? 120 : (fast ? 900 : 1480));
-  Duration get coinRound => Duration(milliseconds: reduceMotion ? 200 : (fast ? 1000 : 2200));
+  Duration get coinRound => Duration(milliseconds: reduceMotion ? 200 : (fast ? 1150 : 2550));
+
+  /// 揭晓圆环的扩散时长；减少动态效果时不播放。
+  Duration get coinRing => Duration(milliseconds: reduceMotion ? 0 : (fast ? 400 : 750));
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_x_widgets/app_demo/14/models/repositories/settings_repository.dart';
@@ -9,8 +8,6 @@ import 'package:flutter_x_widgets/app_demo/14/models/services/feedback_service.d
 import 'package:flutter_x_widgets/app_demo/14/models/services/preferences_service.dart';
 import 'package:flutter_x_widgets/app_demo/14/models/settings_state.dart';
 import 'package:flutter_x_widgets/app_demo/14/models/view_models/settings_view_model.dart';
-import 'package:flutter_x_widgets/app_demo/14/widgets/sheets/appearance_sheet.dart';
-import 'package:flutter_x_widgets/app_demo/14/widgets/sheets/game_settings_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FakePreferences implements PreferencesService {
@@ -61,14 +58,8 @@ void main() {
       const defaults = SettingsState();
       expect(defaults.motionSpeed, MotionSpeed.standard);
       expect(defaults.reduceMotion, isFalse);
-      expect(defaults.appearance, CoinAppearance.gold);
       expect(defaults.hapticsEnabled, isTrue);
-      final state = defaults.copyWith(
-        motionSpeed: MotionSpeed.fast,
-        reduceMotion: true,
-        appearance: CoinAppearance.ice,
-        hapticsEnabled: false,
-      );
+      final state = defaults.copyWith(motionSpeed: MotionSpeed.fast, reduceMotion: true, hapticsEnabled: false);
       final copy = SettingsState.fromJson(state.copyWith().toJson());
       expect(copy.toJson(), state.toJson());
     });
@@ -82,12 +73,7 @@ void main() {
     test('round trips versioned settings in an isolated key', () async {
       final preferences = FakePreferences();
       final repository = SettingsRepository(preferencesService: preferences);
-      const state = SettingsState(
-        motionSpeed: MotionSpeed.fast,
-        reduceMotion: true,
-        appearance: CoinAppearance.rose,
-        hapticsEnabled: false,
-      );
+      const state = SettingsState(motionSpeed: MotionSpeed.fast, reduceMotion: true, hapticsEnabled: false);
       await repository.save(state);
       expect((jsonDecode(preferences.stored!) as Map)['schema'], SettingsRepository.schemaVersion);
       final result = await repository.load();
@@ -100,10 +86,9 @@ void main() {
       '[]',
       '{"schema":999,"settings":{}}',
       '{"schema":1,"settings":null}',
-      '{"schema":1,"settings":{"motionSpeed":"slow","reduceMotion":false,"appearance":"gold","hapticsEnabled":true}}',
-      '{"schema":1,"settings":{"motionSpeed":"standard","reduceMotion":"false","appearance":"gold","hapticsEnabled":true}}',
-      '{"schema":1,"settings":{"motionSpeed":"standard","reduceMotion":false,"appearance":"unknown","hapticsEnabled":true}}',
-      '{"schema":1,"settings":{"motionSpeed":"standard","reduceMotion":false,"appearance":"gold","hapticsEnabled":null}}',
+      '{"schema":1,"settings":{"motionSpeed":"slow","reduceMotion":false,"hapticsEnabled":true}}',
+      '{"schema":1,"settings":{"motionSpeed":"standard","reduceMotion":"false","hapticsEnabled":true}}',
+      '{"schema":1,"settings":{"motionSpeed":"standard","reduceMotion":false,"hapticsEnabled":null}}',
     ]) {
       test('invalid data falls back with warning: $raw', () async {
         final result = await SettingsRepository(preferencesService: FakePreferences()..stored = raw).load();
@@ -111,6 +96,15 @@ void main() {
         expect(result.warning, isNotEmpty);
       });
     }
+
+    test('legacy appearance field from older saves is ignored', () async {
+      const raw =
+          '{"schema":1,"settings":{"motionSpeed":"fast","reduceMotion":true,"appearance":"rose","hapticsEnabled":false}}';
+      final result = await SettingsRepository(preferencesService: FakePreferences()..stored = raw).load();
+      expect(result.warning, isNull);
+      expect(result.state.toJson(), const SettingsState(motionSpeed: MotionSpeed.fast, reduceMotion: true, hapticsEnabled: false).toJson());
+      expect(result.state.toJson().containsKey('appearance'), isFalse);
+    });
 
     test('read exception falls back with warning', () async {
       final result = await SettingsRepository(preferencesService: FakePreferences()..failRead = true).load();
@@ -145,10 +139,9 @@ void main() {
       settings.setHapticsEnabled(false);
       settings.setMotionSpeed(MotionSpeed.fast);
       settings.setReduceMotion(true);
-      settings.setAppearance(CoinAppearance.ice);
       await settings.retrySave();
       expect(settings.state.hapticsEnabled, isFalse);
-      expect(notifications, 4);
+      expect(notifications, 3);
       expect(settings.errorMessage, isNull);
       expect(settings.isLoading, isFalse);
     });
@@ -160,9 +153,9 @@ void main() {
       final first = settings.initialize();
       expect(identical(first, settings.initialize()), isTrue);
       expect(settings.isLoading, isTrue);
-      preferences.readGate!.complete(encodeSettings(const SettingsState(appearance: CoinAppearance.rose, hapticsEnabled: false)));
+      preferences.readGate!.complete(encodeSettings(const SettingsState(reduceMotion: true, hapticsEnabled: false)));
       await first;
-      expect(settings.state.appearance, CoinAppearance.rose);
+      expect(settings.state.reduceMotion, isTrue);
       expect(settings.state.hapticsEnabled, isFalse);
       expect(settings.isLoading, isFalse);
       await settings.initialize();
@@ -174,20 +167,21 @@ void main() {
       final settings = SettingsViewModel(repository: SettingsRepository(preferencesService: preferences));
       addTearDown(settings.dispose);
       final loading = settings.initialize();
-      settings.setAppearance(CoinAppearance.ice);
+      settings.setMotionSpeed(MotionSpeed.fast);
       settings.setHapticsEnabled(false);
-      expect(settings.state.appearance, CoinAppearance.ice);
-      preferences.readGate!.complete(encodeSettings(const SettingsState(appearance: CoinAppearance.rose)));
+      expect(settings.state.motionSpeed, MotionSpeed.fast);
+      preferences.readGate!.complete(encodeSettings(const SettingsState(reduceMotion: true)));
       await loading;
       preferences.readGate = null;
       await settings.retrySave();
-      expect(settings.state.appearance, CoinAppearance.ice);
+      expect(settings.state.motionSpeed, MotionSpeed.fast);
+      expect(settings.state.reduceMotion, isFalse);
       expect(settings.state.hapticsEnabled, isFalse);
       expect((await SettingsRepository(preferencesService: preferences).load()).state.toJson(), settings.state.toJson());
     });
 
     test('changes before explicit initialize are preserved and persisted', () async {
-      final preferences = FakePreferences()..stored = encodeSettings(const SettingsState(appearance: CoinAppearance.rose));
+      final preferences = FakePreferences()..stored = encodeSettings(const SettingsState(reduceMotion: true));
       final settings = SettingsViewModel(repository: SettingsRepository(preferencesService: preferences));
       addTearDown(settings.dispose);
       settings.setMotionSpeed(MotionSpeed.fast);
@@ -203,7 +197,7 @@ void main() {
       addTearDown(settings.dispose);
       await settings.initialize();
       settings.setMotionSpeed(MotionSpeed.fast);
-      settings.setAppearance(CoinAppearance.ice);
+      settings.setReduceMotion(true);
       settings.setHapticsEnabled(false);
       final saved = settings.retrySave();
       await Future<void>.delayed(Duration.zero);
@@ -212,8 +206,8 @@ void main() {
       preferences.writeGate!.complete();
       await saved;
       expect(preferences.maxActiveWrites, 1);
-      expect(preferences.writes[0].appearance, CoinAppearance.gold);
-      expect(preferences.writes[1].appearance, CoinAppearance.ice);
+      expect(preferences.writes[0].reduceMotion, isFalse);
+      expect(preferences.writes[1].reduceMotion, isTrue);
       expect(preferences.writes.last.toJson(), settings.state.toJson());
     });
 
@@ -240,10 +234,10 @@ void main() {
       await settings.retrySave();
       expect(settings.errorMessage, isNotNull);
       preferences.throwWrite = false;
-      settings.setAppearance(CoinAppearance.rose);
+      settings.setReduceMotion(true);
       await settings.retrySave();
       expect(settings.errorMessage, isNull);
-      expect(preferences.writes.last.appearance, CoinAppearance.rose);
+      expect(preferences.writes.last.reduceMotion, isTrue);
     });
 
     test('read warning is visible and saving repairs corrupt data', () async {
@@ -280,7 +274,7 @@ void main() {
             ..throwWrite = true;
       final settings = SettingsViewModel(repository: SettingsRepository(preferencesService: preferences));
       await settings.initialize();
-      settings.setAppearance(CoinAppearance.ice);
+      settings.setReduceMotion(true);
       final pending = settings.retrySave();
       await Future<void>.delayed(Duration.zero);
       settings.dispose();
@@ -289,42 +283,6 @@ void main() {
       settings.setHapticsEnabled(false);
       expect(settings.state.hapticsEnabled, isTrue);
     });
-  });
-
-  group('Settings sheets', () {
-    testWidgets('game settings enables haptics and removes preview restriction', (tester) async {
-      final settings = SettingsViewModel();
-      addTearDown(settings.dispose);
-      await tester.pumpWidget(MaterialApp(home: Scaffold(body: GameSettingsSheet(settings: settings))));
-      expect(find.textContaining('当前 Demo 会话'), findsNothing);
-      expect(find.text('下一阶段接入'), findsNothing);
-      final haptics = find.widgetWithText(SwitchListTile, '震动');
-      expect(tester.widget<SwitchListTile>(haptics).value, isTrue);
-      await tester.tap(haptics);
-      await tester.pumpAndSettle();
-      expect(settings.state.hapticsEnabled, isFalse);
-    });
-
-    for (final appearance in [false, true]) {
-      testWidgets('${appearance ? 'appearance' : 'game'} sheet shows recoverable save failure', (tester) async {
-        final preferences = FakePreferences()..failWrite = true;
-        final settings = SettingsViewModel(repository: SettingsRepository(preferencesService: preferences));
-        addTearDown(settings.dispose);
-        await settings.initialize();
-        settings.setAppearance(CoinAppearance.rose);
-        await settings.retrySave();
-        await tester.pumpWidget(
-          MaterialApp(home: Scaffold(body: appearance ? AppearanceSheet(settings: settings) : GameSettingsSheet(settings: settings))),
-        );
-        expect(find.textContaining('设置保存失败'), findsOneWidget);
-        expect(find.textContaining('当前 Demo 会话'), findsNothing);
-        preferences.failWrite = false;
-        await tester.tap(find.text('重试保存'));
-        await tester.pumpAndSettle();
-        expect(settings.errorMessage, isNull);
-        expect(find.text('重试保存'), findsNothing);
-      });
-    }
   });
 
   group('Platform feedback', () {

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_x_widgets/app_demo/14/models/coin_state.dart';
 import 'package:flutter_x_widgets/app_demo/14/models/rules/coin_rules.dart';
@@ -7,11 +9,12 @@ import 'package:flutter_x_widgets/app_demo/14/models/services/random_source.dart
 import 'package:flutter_x_widgets/app_demo/14/models/view_models/coin_view_model.dart';
 import 'package:flutter_x_widgets/app_demo/14/models/view_models/settings_view_model.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/coin/animated_coin.dart';
+import 'package:flutter_x_widgets/app_demo/14/widgets/coin/coin_action_button.dart';
+import 'package:flutter_x_widgets/app_demo/14/widgets/coin/coin_body_painter.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/coin/coin_motion.dart';
+import 'package:flutter_x_widgets/app_demo/14/widgets/coin/coin_stage_background.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/game_scaffold.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/motion/motion_spec.dart';
-import 'package:flutter_x_widgets/app_demo/14/widgets/sheets/appearance_sheet.dart';
-import 'package:flutter_x_widgets/app_demo/14/widgets/sheets/show_game_sheet.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/theme/party_theme.dart';
 
 class CoinScreen extends StatefulWidget {
@@ -24,14 +27,32 @@ class CoinScreen extends StatefulWidget {
   State<CoinScreen> createState() => _CoinScreenState();
 }
 
-class _CoinScreenState extends State<CoinScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+class _CoinScreenState extends State<CoinScreen> with TickerProviderStateMixin, WidgetsBindingObserver {
+  /// 硬币静止时中心约在屏幕高度的 43% 处。
+  static const _restingCenter = .43;
+
+  /// 抛起的最大高度约为屏幕高度的 1/3。
+  static const _apexRatio = .31;
+
+  /// 点击热区比硬币轮廓外扩的距离。
+  static const _hitPad = 8.0;
+
   late final _model = CoinViewModel(CoinRules(widget.random ?? DartRandomSource()));
   late final _feedback = widget.feedback ?? const PlatformFeedbackService();
   late final _controller = AnimationController(vsync: this, animationBehavior: AnimationBehavior.preserve)..addListener(_tick);
+
+  /// 揭晓圆环的独立时间轴，不占用抛掷时间轴，所以按钮解锁后圆环仍可以继续扩散。
+  late final _rings = AnimationController(vsync: this, animationBehavior: AnimationBehavior.preserve);
   CoinRound? _round;
   int _settledHalfTurns = 0;
+
+  /// 上一轮已经揭晓的结果；新一轮开始时用它把旧结果淡出。
+  CoinSide? _lastSide;
+
+  /// 当前圆环属于哪一轮；与当前轮次不同说明它是上一轮残留的。
+  int? _ringRoundId;
   bool _reduced = false;
-  bool _sheetOpen = false;
+  bool _coinPressed = false;
   bool _active = true;
   bool _leaving = false;
 
@@ -39,6 +60,7 @@ class _CoinScreenState extends State<CoinScreen> with SingleTickerProviderStateM
     _leaving = true;
     _round = null;
     _controller.stop(canceled: true);
+    _rings.stop(canceled: true);
   }
 
   @override
@@ -66,15 +88,25 @@ class _CoinScreenState extends State<CoinScreen> with SingleTickerProviderStateM
     final round = _round;
     if (round == null || !_model.state.isBusy) return;
     _controller.stop(canceled: true);
+    _rings.stop(canceled: true);
+    _rings.value = 0;
+    _ringRoundId = null;
     _round = null;
     _settledHalfTurns = round.targetHalfTurns;
     _model.settle(round.id);
+    _lastSide = _model.state.revealedSide;
   }
 
   void _tick() {
     final round = _round;
     if (round == null || !_active || !mounted || _leaving || !(ModalRoute.of(context)?.isCurrent ?? true)) return;
     if (_controller.value >= CoinMotion.revealAt && _model.reveal(round.id)) {
+      _lastSide = _model.state.revealedSide;
+      if (!_reduced) {
+        _ringRoundId = round.id;
+        _rings.duration = MotionSpec.of(context, widget.settings.state).coinRing;
+        _rings.forward(from: 0);
+      }
       if (_active && mounted && widget.settings.state.hapticsEnabled) unawaited(_sendFeedback(round.id));
     }
   }
@@ -95,8 +127,9 @@ class _CoinScreenState extends State<CoinScreen> with SingleTickerProviderStateM
     }
   }
 
+  /// 点击硬币和点击按钮都走这里，一轮只产生一次结果。
   Future<void> _requestFlip() async {
-    if (!_active || _leaving || _sheetOpen) return;
+    if (!_active || _leaving) return;
     final round = _model.requestFlip(_settledHalfTurns);
     if (round == null) return;
     final motion = MotionSpec.of(context, widget.settings.state);
@@ -113,14 +146,9 @@ class _CoinScreenState extends State<CoinScreen> with SingleTickerProviderStateM
     }
   }
 
-  Future<void> _showAppearance() async {
-    if (_sheetOpen || _model.state.isBusy) return;
-    _sheetOpen = true;
-    try {
-      await showGameSheet(context: context, settings: widget.settings, builder: (_) => AppearanceSheet(settings: widget.settings));
-    } finally {
-      if (mounted) _sheetOpen = false;
-    }
+  void _setCoinPressed(bool value) {
+    if (_coinPressed == value || !mounted) return;
+    setState(() => _coinPressed = value);
   }
 
   @override
@@ -128,6 +156,7 @@ class _CoinScreenState extends State<CoinScreen> with SingleTickerProviderStateM
     WidgetsBinding.instance.removeObserver(this);
     _round = null;
     _controller.dispose();
+    _rings.dispose();
     _model.dispose();
     super.dispose();
   }
@@ -142,109 +171,211 @@ class _CoinScreenState extends State<CoinScreen> with SingleTickerProviderStateM
         listenable: Listenable.merge([_model, widget.settings]),
         builder: (context, _) {
           final state = _model.state;
-          final side = state.revealedSide;
-          final result = side == null ? null : (side == CoinSide.heads ? '正面' : '反面');
-          final accent = PartyTheme.coinColors(widget.settings.state.appearance)[1];
+          final settings = widget.settings.state;
+          final busy = state.isBusy;
+          final label = busy ? '抛掷中…' : (state.roundId == 0 ? '抛一次' : '再抛一次');
           return GameScaffold(
-            title: 'Coin Toss',
-            onAppearance: state.isBusy ? null : _showAppearance,
+            title: '抛硬币',
+            background: const CoinStageBackground(),
             child: LayoutBuilder(
-              builder:
-                  (context, constraints) => SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: (constraints.maxHeight - 40).clamp(0, double.infinity)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              const Text(
-                                '让选择，简单一点。',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-                              ),
-                              const SizedBox(height: 8),
-                              const Text('轻点硬币，交给这一刻。', style: TextStyle(color: PartyTheme.muted)),
-                              const SizedBox(height: 12),
-                              Semantics(
-                                key: const ValueKey('coin-trigger'),
-                                button: true,
-                                enabled: !state.isBusy,
-                                label: state.isBusy ? '硬币抛掷中' : '点击硬币开始抛掷',
-                                child: TextButton(
-                                  onPressed: state.isBusy ? null : _requestFlip,
-                                  style: TextButton.styleFrom(padding: EdgeInsets.zero, foregroundColor: accent),
-                                  child: RepaintBoundary(
-                                    child: AnimatedBuilder(
-                                      animation: _controller,
-                                      builder:
-                                          (context, _) => AnimatedCoin(
-                                            progress: _round == null ? 1 : _controller.value,
-                                            startHalfTurns: _round?.startHalfTurns ?? _settledHalfTurns,
-                                            targetHalfTurns: _round?.targetHalfTurns ?? _settledHalfTurns,
-                                            reduceMotion: _reduced,
-                                            appearance: widget.settings.state.appearance,
-                                          ),
+              builder: (context, constraints) {
+                final screen = MediaQuery.sizeOf(context);
+                final headerBottom = MediaQuery.paddingOf(context).top + GameScaffold.headerHeight;
+                final diameter = (constraints.maxWidth * .58).clamp(150.0, 300.0);
+                final radius = diameter / 2;
+                // 热区外扩的 8pt 也算在舞台槽内，所以槽顶比硬币上沿高 8。
+                final slotTop = math.max(0.0, screen.height * _restingCenter - headerBottom - radius - _hitPad);
+                final restingCenter = headerBottom + slotTop + _hitPad + radius;
+                // 抛到最高点时硬币上沿接近屏幕顶部，与标题栏重叠。
+                final apex = math.max(1.0, math.min(screen.height * _apexRatio, restingCenter - radius * CoinShape.maxPerspective));
+                final stageWidth = AnimatedCoin.stageWidthFor(diameter);
+                final stageHeight = AnimatedCoin.stageHeightFor(diameter, apex);
+                final hit = diameter + _hitPad * 2;
+                return Column(
+                  children: [
+                    Expanded(
+                      // 抛起时硬币会越过舞台上沿盖住标题栏，所以不能裁剪。
+                      child: SingleChildScrollView(
+                        clipBehavior: Clip.none,
+                        child: Column(
+                          children: [
+                            SizedBox(height: slotTop),
+                            SizedBox(
+                              width: stageWidth,
+                              height: diameter + _hitPad + AnimatedCoin.shadowBand,
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Positioned(
+                                    left: 0,
+                                    top: _hitPad - apex,
+                                    child: RepaintBoundary(
+                                      child: AnimatedBuilder(
+                                        animation: Listenable.merge([_controller, _rings]),
+                                        builder: (context, _) {
+                                          final progress = _round == null ? 1.0 : _controller.value;
+                                          final ringStale = _ringRoundId != null && _ringRoundId != _round?.id;
+                                          final ringActive = _ringRoundId != null && _rings.value > 0 && _rings.value < 1;
+                                          final motion = MotionSpec.of(context, settings);
+                                          return AnimatedScale(
+                                            // 按下时硬币缩到约 96%，松开后随抛起弹回。
+                                            scale: _coinPressed ? .96 : 1,
+                                            duration: _coinPressed ? motion.pressIn : motion.pressOut,
+                                            curve: Curves.easeOut,
+                                            alignment: Alignment(0, (apex + diameter / 2) / stageHeight * 2 - 1),
+                                            child: AnimatedCoin(
+                                              progress: progress,
+                                              startHalfTurns: _round?.startHalfTurns ?? _settledHalfTurns,
+                                              targetHalfTurns: _round?.targetHalfTurns ?? _settledHalfTurns,
+                                              reduceMotion: _reduced,
+                                              diameter: diameter,
+                                              apex: apex,
+                                              ringProgress: ringActive ? _rings.value : null,
+                                              // 上一轮的圆环还没散尽时，随文字切换一起淡出。
+                                              ringOpacity: ringStale ? 1 - CoinMotion.textOut(progress) : 1,
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              Semantics(
-                                liveRegion: result != null,
-                                label: result == null ? (state.isBusy ? '抛掷中' : '等待抛掷') : '本轮结果：$result',
-                                child: ExcludeSemantics(
-                                  child: AnimatedBuilder(
-                                    animation: _controller,
-                                    builder:
-                                        (context, _) => Opacity(
-                                          opacity:
-                                              result == null || state.phase == CoinPhase.result
-                                                  ? 1
-                                                  : CoinMotion.revealProgress(_controller.value),
-                                          child: Text(
-                                            result ?? (state.isBusy ? '抛掷中…' : '正面还是反面？'),
-                                            key: const ValueKey('coin-result'),
-                                            style: TextStyle(color: accent, fontSize: 24, fontWeight: FontWeight.w700),
-                                          ),
+                                  Positioned(
+                                    left: (stageWidth - hit) / 2,
+                                    top: 0,
+                                    width: hit,
+                                    height: hit,
+                                    child: Semantics(
+                                      key: const ValueKey('coin-trigger'),
+                                      button: true,
+                                      enabled: !busy,
+                                      label: '点击硬币开始抛掷',
+                                      // 热区以硬币轮廓为准；光晕和圆环不响应点击。
+                                      child: ClipOval(
+                                        child: GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTapDown: busy ? null : (_) => _setCoinPressed(true),
+                                          onTapUp: busy ? null : (_) => _setCoinPressed(false),
+                                          onTapCancel: busy ? null : () => _setCoinPressed(false),
+                                          onTap: busy ? null : _requestFlip,
+                                          child: const SizedBox.expand(),
                                         ),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 28),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const Text('每次抛掷，正反面机会相同。', textAlign: TextAlign.center, style: TextStyle(color: PartyTheme.muted)),
-                                const SizedBox(height: 20),
-                                FilledButton(
-                                  key: const ValueKey('flip-button'),
-                                  onPressed: state.isBusy ? null : _requestFlip,
-                                  style: FilledButton.styleFrom(
-                                    backgroundColor: accent,
-                                    foregroundColor: PartyTheme.ink,
-                                    minimumSize: const Size.fromHeight(56),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 12),
-                                    child: Text(state.isBusy ? '正在抛掷…' : (state.phase == CoinPhase.result ? '再抛一次' : '抛硬币')),
-                                  ),
-                                ),
-                              ],
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 28),
+                            _ResultArea(side: state.revealedSide, lastSide: _lastSide, busy: busy, settled: state.phase == CoinPhase.result, controller: _controller),
+                            const SizedBox(height: 16),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                    // 底部操作区：不参与滚动，按钮不会被裁掉或缩小。
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 4, 20, MediaQuery.paddingOf(context).bottom + CoinActionButton.bottomGap),
+                      child: CoinActionButton(onPressed: busy ? null : _requestFlip, busy: busy, label: label, settings: settings),
+                    ),
+                  ],
+                );
+              },
             ),
           );
         },
       ),
+    );
+  }
+}
+
+/// 硬币下方的结果区。
+///
+/// - 首次进入：什么都不显示。
+/// - 抛掷中：灰色 “抛掷中…”；若上一轮有结果，旧结果先淡出，“抛掷中…” 晚 100ms 淡入。
+/// - 揭晓：“抛掷中…” 淡出，金色小标签与结果大字晚 100ms 淡入并轻微上移。
+///
+/// 只有真正揭晓后才暴露读屏播报，动画过程中不朗读。
+class _ResultArea extends StatelessWidget {
+  final CoinSide? side;
+  final CoinSide? lastSide;
+  final bool busy;
+  final bool settled;
+  final Animation<double> controller;
+
+  const _ResultArea({required this.side, required this.lastSide, required this.busy, required this.settled, required this.controller});
+
+  static String _name(CoinSide side) => side == CoinSide.heads ? '正面' : '反面';
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) {
+        final p = controller.value;
+        final CoinSide? shown;
+        final double resultOpacity;
+        final double flippingOpacity;
+        if (side != null) {
+          shown = side;
+          resultOpacity = settled ? 1 : CoinMotion.resultIn(p);
+          flippingOpacity = settled ? 0 : 1 - CoinMotion.flippingOut(p);
+        } else if (busy) {
+          shown = lastSide;
+          resultOpacity = lastSide == null ? 0 : 1 - CoinMotion.textOut(p);
+          flippingOpacity = CoinMotion.flippingIn(p);
+        } else {
+          shown = null;
+          resultOpacity = 0;
+          flippingOpacity = 0;
+        }
+        final rise = side != null && !settled ? 12 * (1 - CoinMotion.resultIn(p)) : 0.0;
+        return ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 96),
+          child: Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              if (flippingOpacity > 0)
+                Opacity(
+                  opacity: flippingOpacity,
+                  child: const Text(
+                    '抛掷中…',
+                    key: ValueKey('coin-flipping'),
+                    style: TextStyle(color: PartyTheme.muted, fontSize: 22, fontWeight: FontWeight.w500),
+                  ),
+                ),
+              if (shown != null && resultOpacity > 0)
+                Semantics(
+                  liveRegion: side != null,
+                  label: side == null ? null : '本轮结果：${_name(side!)}',
+                  child: ExcludeSemantics(
+                    child: Opacity(
+                      opacity: resultOpacity,
+                      child: Transform.translate(
+                        offset: Offset(0, rise),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              '硬币说',
+                              style: TextStyle(color: PartyTheme.coinColors[1], fontSize: 14, fontWeight: FontWeight.w700, letterSpacing: 4),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              _name(shown),
+                              key: const ValueKey('coin-result'),
+                              style: const TextStyle(color: PartyTheme.chalk, fontSize: 40, fontWeight: FontWeight.w800, height: 1.15),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

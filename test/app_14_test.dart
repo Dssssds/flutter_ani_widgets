@@ -7,7 +7,6 @@ import 'package:flutter_x_widgets/app_demo/14/models/settings_state.dart';
 import 'package:flutter_x_widgets/app_demo/14/models/view_models/settings_view_model.dart';
 import 'package:flutter_x_widgets/app_demo/14/screens/coin_screen.dart';
 import 'package:flutter_x_widgets/app_demo/14/screens/demo_screen.dart';
-import 'package:flutter_x_widgets/app_demo/14/widgets/coin/coin_painter.dart';
 import 'package:flutter_x_widgets/app_demo/14/widgets/motion/motion_spec.dart';
 import 'package:flutter_x_widgets/main.dart';
 
@@ -37,22 +36,21 @@ void main() {
 
   test('Session settings and motion respect system preferences', () {
     final settings = SettingsViewModel();
-    expect(settings.state.appearance, CoinAppearance.gold);
     final standard = MotionSpec(settings.state);
-    expect(standard.coinRound, const Duration(milliseconds: 2200));
+    expect(standard.coinRound, const Duration(milliseconds: 2550));
+    expect(standard.coinRing, const Duration(milliseconds: 750));
     settings.setMotionSpeed(MotionSpeed.fast);
-    expect(MotionSpec(settings.state).coinRound, const Duration(milliseconds: 1000));
+    expect(MotionSpec(settings.state).coinRound, const Duration(milliseconds: 1150));
     expect(MotionSpec(settings.state, systemReduceMotion: true).coinRound, const Duration(milliseconds: 200));
+    expect(MotionSpec(settings.state, systemReduceMotion: true).coinRing, Duration.zero);
     expect(MotionSpec(settings.state).route, lessThan(standard.route));
     expect(MotionSpec(settings.state, systemReduceMotion: true).reduceMotion, isTrue);
-    settings.setAppearance(CoinAppearance.rose);
     settings.setReduceMotion(true);
-    expect(settings.state.appearance, CoinAppearance.rose);
     expect(MotionSpec(settings.state).pressIn, Duration.zero);
     settings.dispose();
   });
 
-  testWidgets('Menu pages, locked entries, navigation and appearance work', (tester) async {
+  testWidgets('Menu pages, locked entries and navigation work', (tester) async {
     await tester.pumpWidget(const App14());
     await tester.pumpAndSettle();
     expect(find.bySemanticsLabel('Pick a Game'), findsOneWidget);
@@ -66,16 +64,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(CoinScreen), findsOneWidget);
     expect(tester.widget<FilledButton>(find.byKey(const ValueKey('flip-button'))).onPressed, isNotNull);
-    await tester.tap(find.byTooltip('游戏外观'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('玫瑰'));
-    await tester.pump();
-    await tester.tap(find.byTooltip('关闭外观'));
-    await tester.pumpAndSettle();
-    CoinPainter painter() =>
-        tester.widgetList<CustomPaint>(find.byType(CustomPaint)).map((paint) => paint.painter).whereType<CoinPainter>().single;
-    expect(painter().appearance, CoinAppearance.rose);
-    await tester.tap(find.byTooltip('关闭游戏'));
+    expect(find.byTooltip('关闭'), findsOneWidget);
+    await tester.tap(find.byTooltip('关闭'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
     await tester.pump();
@@ -85,14 +75,7 @@ void main() {
     expect(find.bySemanticsLabel('第2页，共2页'), findsOneWidget);
     await tester.tap(find.text('Coin Toss'));
     await tester.pumpAndSettle();
-    expect(painter().appearance, CoinAppearance.rose);
-    await tester.pumpWidget(const SizedBox());
-    await tester.pumpWidget(const App14());
-    await tester.pumpAndSettle();
-    await secondPage(tester);
-    await tester.tap(find.text('Coin Toss'));
-    await tester.pumpAndSettle();
-    expect(painter().appearance, CoinAppearance.rose);
+    expect(find.byType(CoinScreen), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -176,9 +159,6 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('flip-button')));
       await tester.pumpAndSettle();
       expect(find.text('再抛一次'), findsOneWidget);
-      expect(tester.takeException(), isNull);
-      await tester.tap(find.byTooltip('游戏外观'));
-      await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
     });
   }

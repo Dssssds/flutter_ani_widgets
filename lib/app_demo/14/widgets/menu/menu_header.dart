@@ -1,15 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_x_widgets/app_demo/14/widgets/menu/menu_swipe_arrow.dart';
+import 'package:flutter_x_widgets/app_demo/14/widgets/theme/party_theme.dart';
 
 /// A bounded, responsive title above the game menu.
 ///
 /// The headline replays a staggered character entrance on every visit, driven by
 /// the same [visits] counter the menu rows use.
 class MenuHeader extends StatefulWidget {
-  const MenuHeader({super.key, required this.pageProgress, this.onExit, this.reduceMotion = false, this.visits});
+  const MenuHeader({super.key, this.onExit, this.reduceMotion = false, this.visits});
 
-  final double pageProgress;
   final VoidCallback? onExit;
   final bool reduceMotion;
 
@@ -89,13 +88,14 @@ class _MenuHeaderState extends State<MenuHeader> with SingleTickerProviderStateM
           animation: _enter,
           builder: (context, _) => _StaggeredHeadline(
             text: compact ? 'Pick a Game' : 'Pick a\nGame',
+            // NeumaticGothic ships as a single Black weight; w400 avoids a synthetic bold on top of it.
             style: const TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w700,
+              fontFamily: PartyTheme.displayFamily,
+              fontWeight: FontWeight.w400,
               color: MenuHeader._cream,
               fontSize: 140,
               height: .92,
-              letterSpacing: -5,
+              letterSpacing: -3,
             ),
             maxLines: compact ? 1 : 2,
             progress: _enter.value,
@@ -111,22 +111,14 @@ class _MenuHeaderState extends State<MenuHeader> with SingleTickerProviderStateM
               back,
               const SizedBox(width: 8),
               Expanded(child: title),
-              const SizedBox(width: 12),
-              MenuSwipeArrow(pageProgress: widget.pageProgress, width: 48, reduceMotion: widget.reduceMotion),
             ],
           ),
         );
       }
-      final arrowWidth = (constraints.maxWidth * .2).clamp(64.0, 80.0);
       return Stack(
         children: [
           Positioned(top: 0, left: 12, child: back),
-          Positioned(top: 54, left: 24, right: arrowWidth + 32, bottom: 12, child: title),
-          Positioned(
-            right: 20,
-            bottom: 4,
-            child: MenuSwipeArrow(pageProgress: widget.pageProgress, width: arrowWidth, reduceMotion: widget.reduceMotion),
-          ),
+          Positioned(top: 54, left: 24, right: 24, bottom: 12, child: title),
         ],
       );
     },

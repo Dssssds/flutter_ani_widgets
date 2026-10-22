@@ -72,15 +72,34 @@ class GameMenuTile extends StatelessWidget {
                   children: [
                     Text(
                       game.title,
-                      style: const TextStyle(fontSize: 24, height: 1.05, fontWeight: FontWeight.w900, color: PartyTheme.ink),
+                      style: const TextStyle(
+                        fontFamily: PartyTheme.displayFamily,
+                        fontSize: 24,
+                        height: 1.05,
+                        fontWeight: FontWeight.w400,
+                        color: PartyTheme.ink,
+                      ),
                     ),
                     SizedBox(height: seamless ? 4 : 6),
-                    Text(game.subtitle, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: PartyTheme.ink)),
+                    Text(game.subtitle, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: PartyTheme.ink)),
                   ],
                 ),
               ),
               const SizedBox(width: 8),
-              Icon(game.isAvailable ? Icons.arrow_outward_rounded : Icons.lock_outline_rounded, size: 20, color: PartyTheme.ink),
+              if (game.isAvailable)
+                const Icon(Icons.arrow_outward_rounded, size: 20, color: PartyTheme.ink)
+              else
+                // 未开放用文字标签说明原因，不用锁图标，避免被误读为可解锁。
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: PartyTheme.ink.withValues(alpha: .6), width: 1.5),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    child: Text('未开放', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: PartyTheme.ink)),
+                  ),
+                ),
             ],
           ),
         ),

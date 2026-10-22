@@ -9,7 +9,7 @@ import 'package:flutter_x_widgets/app_demo/14/widgets/press_scale_button.dart';
 
 void main() {
   group('Menu entrance timeline', () {
-    test('MotionSpec selects standard, fast and reduced durations without changing coin timing', () {
+    test('MotionSpec selects standard, fast and reduced durations for menu and coin', () {
       final standard = MotionSpec(const SettingsState());
       final fast = MotionSpec(const SettingsState(motionSpeed: MotionSpeed.fast));
       final reduced = MotionSpec(const SettingsState(motionSpeed: MotionSpeed.fast, reduceMotion: true));
@@ -20,8 +20,8 @@ void main() {
       expect(system.menuEnter, const Duration(milliseconds: 120));
       expect(standard.page, const Duration(milliseconds: 850));
       expect(fast.page, const Duration(milliseconds: 480));
-      expect(standard.coinRound, const Duration(milliseconds: 2200));
-      expect(fast.coinRound, const Duration(milliseconds: 1000));
+      expect(standard.coinRound, const Duration(milliseconds: 2550));
+      expect(fast.coinRound, const Duration(milliseconds: 1150));
       expect(reduced.coinRound, const Duration(milliseconds: 200));
     });
 

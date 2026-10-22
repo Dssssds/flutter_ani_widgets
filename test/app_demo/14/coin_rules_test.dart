@@ -20,9 +20,15 @@ void main() {
         expect(end - start, greaterThanOrEqualTo(6));
         expect(end.isEven, side == CoinSide.heads);
         expect(CoinMotion.halfTurns(0, start, end, reduceMotion: false), start);
-        expect(CoinMotion.halfTurns(.75, start, end, reduceMotion: false), end);
+        expect(CoinMotion.halfTurns(CoinMotion.landEnd, start, end, reduceMotion: false), end);
         expect(CoinMotion.showsHeads(end.toDouble()), side == CoinSide.heads);
-        expect(math.cos(CoinMotion.faceAngle(end.toDouble())), closeTo(1, .00001));
+        expect(CoinMotion.visibleSide(end.toDouble()), side);
+        // 落地时硬币正对用户：正面时法线朝向用户（cos = 1），
+        // 反面时法线背向用户（cos = -1），两者都是完整的正面视角。
+        expect(
+          math.cos(CoinMotion.faceAngle(end.toDouble())),
+          closeTo(side == CoinSide.heads ? 1 : -1, .00001),
+        );
       }
     }
   });
