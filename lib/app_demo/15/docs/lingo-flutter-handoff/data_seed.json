@@ -1,0 +1,501 @@
+{
+  "meta": {
+    "title": "Pip 咖啡店单元",
+    "unit": {
+      "eyebrow": "第 3 单元 · 通勤英语",
+      "title": "咖啡店，开口不慌"
+    },
+    "lessonOrder": [
+      "coffee",
+      "directions",
+      "challenge"
+    ],
+    "totalTerms": 17,
+    "dailyGoalOptions": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "sources": "Extracted verbatim from the working prototype app.js"
+  },
+  "lessons": {
+    "coffee": {
+      "id": "coffee",
+      "title": "点杯咖啡",
+      "nodeTitle": "点杯咖啡",
+      "eyebrow": "第 3 课",
+      "xp": 24,
+      "estimated": "约 2 分钟",
+      "icon": "cup",
+      "questions": [
+        {
+          "type": "fill",
+          "prompt": "帮 Pip 点杯咖啡",
+          "cn": "来一杯加奶的咖啡。",
+          "first": "I'd like a coffee",
+          "prefix": "with",
+          "suffix": ".",
+          "words": [
+            "coffee",
+            "milk",
+            "tea",
+            "water"
+          ],
+          "answer": "milk",
+          "explain": "with milk = 加奶",
+          "audio": "coffee-milk"
+        },
+        {
+          "type": "fill",
+          "prompt": "告诉店员，你想带走",
+          "cn": "这杯咖啡可以打包吗？",
+          "first": "Can I get it",
+          "prefix": "",
+          "suffix": "?",
+          "words": [
+            "to go",
+            "here",
+            "today",
+            "again"
+          ],
+          "answer": "to go",
+          "explain": "to go = 打包带走",
+          "audio": "to-go"
+        },
+        {
+          "type": "fill",
+          "prompt": "选好杯型就出发",
+          "cn": "小杯的，谢谢。",
+          "first": "A",
+          "prefix": "",
+          "suffix": "one, please.",
+          "words": [
+            "large",
+            "cold",
+            "small",
+            "sweet"
+          ],
+          "answer": "small",
+          "explain": "a small one = 小杯的",
+          "audio": "small"
+        },
+        {
+          "type": "listen",
+          "prompt": "听一听，Pip 点了哪一杯？",
+          "cn": "先听英文，再选出对应的杯型。",
+          "audio": "small",
+          "audioText": "A small one, please.",
+          "options": [
+            {
+              "id": "small",
+              "label": "小杯",
+              "sub": "small",
+              "art": "small"
+            },
+            {
+              "id": "large",
+              "label": "大杯",
+              "sub": "large",
+              "art": "large"
+            },
+            {
+              "id": "iced",
+              "label": "冰杯",
+              "sub": "iced",
+              "art": "iced"
+            }
+          ],
+          "answer": "small",
+          "explain": "a small one = 小杯的"
+        },
+        {
+          "type": "fill",
+          "prompt": "给店员一个好心情",
+          "cn": "谢谢。祝你今天愉快！",
+          "first": "",
+          "prefix": "",
+          "suffix": ". Have a nice day!",
+          "words": [
+            "Sorry",
+            "Hello",
+            "Thank you",
+            "Good night"
+          ],
+          "answer": "Thank you",
+          "explain": "Have a nice day! = 祝你愉快！",
+          "audio": "thank-you"
+        }
+      ]
+    },
+    "directions": {
+      "id": "directions",
+      "title": "问个方向",
+      "nodeTitle": "问个方向",
+      "eyebrow": "第 4 课",
+      "xp": 24,
+      "estimated": "约 2 分钟",
+      "icon": "compass",
+      "questions": [
+        {
+          "type": "fill",
+          "prompt": "先礼貌地问个路",
+          "cn": "请问，车站在哪里？",
+          "first": "Excuse me, where is the",
+          "prefix": "",
+          "suffix": "?",
+          "words": [
+            "station",
+            "coffee",
+            "menu",
+            "bank"
+          ],
+          "answer": "station",
+          "explain": "station = 车站",
+          "audio": "where-station"
+        },
+        {
+          "type": "fill",
+          "prompt": "店员告诉你怎么走",
+          "cn": "直走两个街区。",
+          "first": "Go",
+          "prefix": "",
+          "suffix": "for two blocks.",
+          "words": [
+            "straight",
+            "back",
+            "slow",
+            "around"
+          ],
+          "answer": "straight",
+          "explain": "go straight = 直走",
+          "audio": "go-straight"
+        },
+        {
+          "type": "listen",
+          "prompt": "听一听，路口该怎么转？",
+          "cn": "先听英文，再选出正确的方向。",
+          "audio": "turn-left",
+          "audioText": "Turn left at the corner.",
+          "options": [
+            {
+              "id": "left",
+              "label": "左转",
+              "sub": "turn left",
+              "art": "left"
+            },
+            {
+              "id": "right",
+              "label": "右转",
+              "sub": "turn right",
+              "art": "right"
+            },
+            {
+              "id": "straight",
+              "label": "直走",
+              "sub": "go straight",
+              "art": "straight"
+            }
+          ],
+          "answer": "left",
+          "explain": "turn left = 左转"
+        },
+        {
+          "type": "fill",
+          "prompt": "确认目的地的位置",
+          "cn": "就在银行旁边。",
+          "first": "It's",
+          "prefix": "",
+          "suffix": "the bank.",
+          "words": [
+            "next to",
+            "far from",
+            "under",
+            "behind"
+          ],
+          "answer": "next to",
+          "explain": "next to = 在…旁边",
+          "audio": "next-to-bank"
+        }
+      ]
+    },
+    "challenge": {
+      "id": "challenge",
+      "title": "单元挑战",
+      "nodeTitle": "单元挑战",
+      "eyebrow": "咖啡店单元",
+      "xp": 50,
+      "estimated": "约 3 分钟",
+      "icon": "flag",
+      "questions": [
+        {
+          "type": "fill",
+          "prompt": "帮 Pip 点杯咖啡",
+          "cn": "来一杯加奶的咖啡。",
+          "first": "I'd like a coffee",
+          "prefix": "with",
+          "suffix": ".",
+          "words": [
+            "coffee",
+            "milk",
+            "tea",
+            "water"
+          ],
+          "answer": "milk",
+          "explain": "with milk = 加奶",
+          "audio": "coffee-milk"
+        },
+        {
+          "type": "fill",
+          "prompt": "告诉店员，你想带走",
+          "cn": "这杯咖啡可以打包吗？",
+          "first": "Can I get it",
+          "prefix": "",
+          "suffix": "?",
+          "words": [
+            "to go",
+            "here",
+            "today",
+            "again"
+          ],
+          "answer": "to go",
+          "explain": "to go = 打包带走",
+          "audio": "to-go"
+        },
+        {
+          "type": "listen",
+          "prompt": "听一听，Pip 点了哪一杯？",
+          "cn": "先听英文，再选出对应的杯型。",
+          "audio": "small",
+          "audioText": "A small one, please.",
+          "options": [
+            {
+              "id": "small",
+              "label": "小杯",
+              "sub": "small",
+              "art": "small"
+            },
+            {
+              "id": "large",
+              "label": "大杯",
+              "sub": "large",
+              "art": "large"
+            },
+            {
+              "id": "iced",
+              "label": "冰杯",
+              "sub": "iced",
+              "art": "iced"
+            }
+          ],
+          "answer": "small",
+          "explain": "a small one = 小杯的"
+        },
+        {
+          "type": "fill",
+          "prompt": "先礼貌地问个路",
+          "cn": "请问，车站在哪里？",
+          "first": "Excuse me, where is the",
+          "prefix": "",
+          "suffix": "?",
+          "words": [
+            "station",
+            "coffee",
+            "menu",
+            "bank"
+          ],
+          "answer": "station",
+          "explain": "station = 车站",
+          "audio": "where-station"
+        },
+        {
+          "type": "fill",
+          "prompt": "店员告诉你怎么走",
+          "cn": "直走两个街区。",
+          "first": "Go",
+          "prefix": "",
+          "suffix": "for two blocks.",
+          "words": [
+            "straight",
+            "back",
+            "slow",
+            "around"
+          ],
+          "answer": "straight",
+          "explain": "go straight = 直走",
+          "audio": "go-straight"
+        },
+        {
+          "type": "listen",
+          "prompt": "听一听，路口该怎么转？",
+          "cn": "先听英文，再选出正确的方向。",
+          "audio": "turn-left",
+          "audioText": "Turn left at the corner.",
+          "options": [
+            {
+              "id": "left",
+              "label": "左转",
+              "sub": "turn left",
+              "art": "left"
+            },
+            {
+              "id": "right",
+              "label": "右转",
+              "sub": "turn right",
+              "art": "right"
+            },
+            {
+              "id": "straight",
+              "label": "直走",
+              "sub": "go straight",
+              "art": "straight"
+            }
+          ],
+          "answer": "left",
+          "explain": "turn left = 左转"
+        }
+      ]
+    }
+  },
+  "reviewTopics": {
+    "coffee": {
+      "title": "点杯咖啡",
+      "copy": "咖啡店的 5 个说法，排队时也能顺口说出来。",
+      "icon": "cup",
+      "topic": "coffee",
+      "terms": [
+        {
+          "en": "milk",
+          "cn": "牛奶"
+        },
+        {
+          "en": "to go",
+          "cn": "打包带走"
+        },
+        {
+          "en": "a small one",
+          "cn": "小杯的"
+        },
+        {
+          "en": "Thank you",
+          "cn": "谢谢"
+        },
+        {
+          "en": "Have a nice day!",
+          "cn": "祝你今天愉快！"
+        }
+      ]
+    },
+    "greeting": {
+      "title": "打个招呼",
+      "copy": "把这 4 句说顺，见面就不紧张。",
+      "icon": "book",
+      "topic": "greeting",
+      "terms": [
+        {
+          "en": "Hello.",
+          "cn": "你好。"
+        },
+        {
+          "en": "Nice to meet you.",
+          "cn": "很高兴认识你。"
+        },
+        {
+          "en": "How are you?",
+          "cn": "你好吗？"
+        },
+        {
+          "en": "See you.",
+          "cn": "回头见。"
+        }
+      ]
+    },
+    "menu": {
+      "title": "看懂菜单",
+      "copy": "下次买咖啡，认得这些就够用。",
+      "icon": "review",
+      "topic": "menu",
+      "terms": [
+        {
+          "en": "a latte",
+          "cn": "一杯拿铁"
+        },
+        {
+          "en": "an espresso",
+          "cn": "一杯浓缩咖啡"
+        },
+        {
+          "en": "iced coffee",
+          "cn": "冰咖啡"
+        },
+        {
+          "en": "decaf",
+          "cn": "低因咖啡"
+        }
+      ]
+    },
+    "directions": {
+      "title": "问个方向",
+      "copy": "问路、找店、确认位置，一次练顺。",
+      "icon": "compass",
+      "topic": "directions",
+      "terms": [
+        {
+          "en": "station",
+          "cn": "车站"
+        },
+        {
+          "en": "go straight",
+          "cn": "直走"
+        },
+        {
+          "en": "turn left",
+          "cn": "左转"
+        },
+        {
+          "en": "next to",
+          "cn": "在…旁边"
+        }
+      ]
+    }
+  },
+  "achievements": [
+    {
+      "id": "streak",
+      "title": "一周不掉线",
+      "description": "连续学习 7 天",
+      "icon": "flame",
+      "rule": "streak >= 7",
+      "progress": "已连续学习 {streak} 天 / {min(streak,7)} / 7 天"
+    },
+    {
+      "id": "xp",
+      "title": "千分俱乐部",
+      "description": "累计超过 1,000 XP",
+      "icon": "bolt",
+      "rule": "xp >= 1000",
+      "progress": "累计 {xp} XP / {xp} / 1,000 XP"
+    },
+    {
+      "id": "coffee",
+      "title": "咖啡自由",
+      "description": "完成「点杯咖啡」",
+      "icon": "cup",
+      "rule": "completedLessons.coffee == true"
+    },
+    {
+      "id": "directions",
+      "title": "问路达人",
+      "description": "完成「问个方向」",
+      "icon": "compass",
+      "rule": "completedLessons.directions == true"
+    },
+    {
+      "id": "unit",
+      "title": "单元通关",
+      "description": "完成咖啡店单元挑战",
+      "icon": "trophy",
+      "rule": "completedLessons.challenge == true"
+    }
+  ]
+}

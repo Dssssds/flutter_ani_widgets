@@ -1,0 +1,110 @@
+{
+  "_comment": "Design tokens measured from the verified web prototype. Treat 390x844 as the design frame. Use logical pixels 1:1.",
+  "frame": {
+    "width": 390,
+    "height": 844,
+    "minHeight": 740,
+    "appBackground": "#FFFEF8",
+    "deviceBackground": "#E9E9E1",
+    "contentMaxWidth": 430
+  },
+  "colors": {
+    "yellow": "#FFD83D",
+    "yellowDark": "#D8AE17",
+    "yellowPale": "#FFF2B3",
+    "yellowSelected": "#FFF0A8",
+    "ink": "#242522",
+    "paper": "#FFFEF8",
+    "muted": "#77786E",
+    "mutedLabel": "#5E6258",
+    "line": "#E8E7DF",
+    "mint": "#B9EADD",
+    "mintDark": "#80B4A6",
+    "mintTrack": "#DFF3EC",
+    "red": "#F47861",
+    "wrongFooter": "#FFF0E9",
+    "wrongSelected": "#FFD8CD",
+    "wrongBorder": "#C95D49",
+    "neutralBorder": "#D9DBD0",
+    "neutralShadow": "#E2E3D7",
+    "lockedSurface": "#EFEEE7",
+    "lockedBorder": "#D7D9CE",
+    "disabledText": "#878B7C",
+    "progressTrack": "#E7E6DD"
+  },
+  "typography": {
+    "fontFamily": "Nunito",
+    "fallback": [
+      "PingFang SC",
+      "Hiragino Sans GB",
+      "Noto Sans CJK SC",
+      "sans-serif"
+    ],
+    "brand": { "size": 40, "weight": 1000, "letterSpacing": -3.0 },
+    "pathTitle": { "size": 24, "weight": 900, "letterSpacing": -0.7 },
+    "quizTitle": { "size": 26, "weight": 900, "letterSpacing": -0.7 },
+    "finishTitle": { "size": 31, "weight": 1000, "letterSpacing": -1.0 },
+    "body": { "size": 16, "weight": 700 },
+    "button": { "size": 18, "weight": 900 },
+    "caption": { "size": 12, "weight": 800 },
+    "sentence": { "size": 28, "weight": 850, "letterSpacing": -0.7 }
+  },
+  "shape": {
+    "buttonRadius": 18,
+    "cardRadius": 18,
+    "panelRadius": 22,
+    "sheetRadius": 28,
+    "modalRadius": 24,
+    "chipRadius": 12,
+    "levelWidth": 76,
+    "levelHeight": 61,
+    "levelCurrentWidth": 86,
+    "levelCurrentHeight": 69
+  },
+  "borders": {
+    "ink": 2,
+    "hairline": 1.5
+  },
+  "shadows": {
+    "button": { "color": "#242522", "offsetY": 6, "blur": 0 },
+    "card": { "color": "#E2E3D7", "offsetY": 4, "blur": 0 },
+    "neutralButton": { "color": "#D9DBD0", "offsetY": 4, "blur": 0 },
+    "locked": { "color": "#D7D9CE", "offsetY": 6, "blur": 0 },
+    "completed": { "color": "#80B4A6", "offsetY": 6, "blur": 0 }
+  },
+  "spacing": {
+    "screenPadding": 24,
+    "pathSidePadding": 25,
+    "quizSidePadding": 24,
+    "sectionGap": 20,
+    "cardGap": 12,
+    "navHeight": 81,
+    "topBarHeight": 90,
+    "unitBannerPaddingX": 24,
+    "quizTopHeight": 77
+  },
+  "map": {
+    "designWidth": 350,
+    "designHeight": 425,
+    "nodes": {
+      "greeting": { "left": 135, "top": 17, "labelLeft": 223, "labelTop": 35, "label": "打个招呼" },
+      "menu": { "left": 67, "top": 100, "labelLeft": 157, "labelTop": 116, "label": "看懂菜单" },
+      "coffee": { "left": 122, "top": 173, "labelLeft": 137, "labelTop": 259, "label": "点杯咖啡" },
+      "directions": { "left": 209, "top": 274, "labelLeft": 302, "labelTop": 290, "label": "问个方向" },
+      "challenge": { "left": 136, "top": 352, "labelLeft": 244, "labelTop": 368, "label": "单元挑战" }
+    },
+    "bird": { "left": 232, "top": 137, "width": 112, "height": 122, "rotationDegrees": 7 },
+    "baseTrailPath": "M173 49C169 89 100 91 105 126S146 174 163 209s91 48 87 96-77 44-77 84",
+    "doneTrailPaths": {
+      "afterCoffee": "M173 49C169 89 100 91 105 126s20 53 58 83",
+      "afterDirections": "M173 49C169 89 100 91 105 126S146 174 163 209s91 48 87 96",
+      "afterChallenge": "M173 49C169 89 100 91 105 126S146 174 163 209s91 48 87 96-77 44-77 84"
+    }
+  },
+  "motion": {
+    "buttonPressMs": 100,
+    "feedbackRiseMs": 280,
+    "modalPopMs": 180,
+    "respectReduceMotion": true
+  }
+}

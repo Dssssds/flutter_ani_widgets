@@ -13,6 +13,7 @@ import 'package:flutter_x_widgets/app_demo/11/app_11.dart';
 import 'package:flutter_x_widgets/app_demo/12/app_12.dart';
 import 'package:flutter_x_widgets/app_demo/13/app_13.dart';
 import 'package:flutter_x_widgets/app_demo/14/app_14.dart';
+import 'package:flutter_x_widgets/app_demo/15/app_15.dart';
 import 'package:flutter_x_widgets/example/background_ripples/background_ripples.dart';
 import 'package:flutter_x_widgets/example/blurfade/blur_fade.dart';
 import 'package:flutter_x_widgets/example/book_open/book_open_demo.dart';
@@ -144,6 +145,7 @@ class HomeScreen extends StatefulWidget {
     AnimationExample(title: 'APP-12(积字成山待办)', builder: (context) => const App12(), appbarColor: Colors.black, isFullScreen: true),
     AnimationExample(title: 'APP-13(流光聊天)', builder: (context) => const App13(), appbarColor: Colors.black, isFullScreen: true),
     AnimationExample(title: 'APP-14(聚会游戏盒)', builder: (context) => const App14(), appbarColor: Colors.black, isFullScreen: true),
+    AnimationExample(title: 'APP-15(Pip 英语学习)', builder: (context) => const App15(), appbarColor: Colors.black, isFullScreen: true),
   ];
 
   @override

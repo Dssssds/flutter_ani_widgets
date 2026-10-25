@@ -29,6 +29,9 @@ dependencies:
   path_provider: ^2.0.0
   path: ^1.8.0
   super_editor: 0.3.0-dev.40
+  flutter_svg: ^2.3.0
+  flutter_tts: ^4.2.5
+  share_plus: ^13.3.1
 
 dev_dependencies:
   flutter_test:
@@ -44,10 +47,13 @@ flutter:
     - assets/images/
     - assets/images/10/
     - assets/images/14/
+    - assets/images/15/
+    - assets/images/15/icons/
     - assets/images/data/
     - assets/images/rule/
     - assets/3d_numbers/
     - assets/audio/
+    - assets/audio/15/
   fonts:
     - family: NeumaticGothic-Black
       fonts:
@@ -60,3 +66,6 @@ flutter:
         - asset: assets/fonts/SF-Pro-Display-Regular.otf
         - asset: assets/fonts/SF-Pro-Display-Bold.otf
           weight: 700
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito.ttf

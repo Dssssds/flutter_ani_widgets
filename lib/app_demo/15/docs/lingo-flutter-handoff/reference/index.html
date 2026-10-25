@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pip Flutter 视觉参考</title>
+<style>
+  :root{--ink:#242522;--paper:#fffef8;--yellow:#ffd83d;--muted:#77786e;--line:#e8e7df}
+  *{box-sizing:border-box}
+  body{margin:0;background:#e9e9e1;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif}
+  main{max-width:1240px;margin:0 auto;padding:40px 24px 64px}
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:26px}
+  h1{font-size:30px;letter-spacing:-1px;margin:0}
+  p{color:var(--muted);font-size:14px;margin:8px 0 0}
+  a{color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+  figure{margin:0;background:var(--paper);border:2px solid var(--ink);border-radius:20px;padding:12px;box-shadow:0 6px 0 #d9dbd0}
+  figure img{display:block;width:100%;border-radius:12px;background:#f4f3ea}
+  figcaption{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:700;padding:10px 4px 2px}
+  figcaption span{color:var(--muted);font-weight:500}
+  .note{background:var(--yellow);border:2px solid var(--ink);border-radius:14px;padding:12px 16px;margin:22px 0 28px;font-size:13px;font-weight:600;line-height:1.6;box-shadow:0 4px 0 var(--ink)}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Pip · Flutter 视觉参考</h1>
+      <p>390 × 844 实机尺寸，来自已验证的 Web 原型。</p>
+    </div>
+    <a href="../README.md">交接包说明 →</a>
+  </header>
+  <div class="note">实现时以这些截图为视觉基准，业务规则以 <a href="../FLUTTER_IMPLEMENTATION_SPEC.md">FLUTTER_IMPLEMENTATION_SPEC.md</a> 为准。点击图片查看原图。</div>
+  <div class="grid">
+    <figure><a href="path.png"><img src="path.png" alt="学习路径"></a><figcaption>学习路径 <span>解锁 / 每日目标</span></figcaption></figure>
+    <figure><a href="quiz-correct.png"><img src="quiz-correct.png" alt="答题反馈"></a><figcaption>答题反馈 <span>选词填空 · 答对</span></figcaption></figure>
+    <figure><a href="quiz-listen.png"><img src="quiz-listen.png" alt="听音选图"></a><figcaption>听音选图 <span>音频 / 三选一</span></figcaption></figure>
+    <figure><a href="complete.png"><img src="complete.png" alt="课后结算"></a><figcaption>课后结算 <span>奖励 / 连续学习</span></figcaption></figure>
+    <figure><a href="review-hub.png"><img src="review-hub.png" alt="复习首页"></a><figcaption>复习首页 <span>四主题 / 掌握进度</span></figcaption></figure>
+    <figure><a href="review-deck.png"><img src="review-deck.png" alt="复习词卡"></a><figcaption>复习词卡 <span>翻面 / 掌握</span></figcaption></figure>
+    <figure><a href="achievements.png"><img src="achievements.png" alt="成就列表"></a><figcaption>成就 <span>5 枚徽章</span></figcaption></figure>
+    <figure><a href="achievement-modal.png"><img src="achievement-modal.png" alt="成就弹窗"></a><figcaption>成就弹窗 <span>分享 / 完成</span></figcaption></figure>
+    <figure><a href="profile.png"><img src="profile.png" alt="我的"></a><figcaption>我的 <span>统计 / 每日目标</span></figcaption></figure>
+  </div>
+</main>
+</body>
+</html>
