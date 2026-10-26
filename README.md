@@ -3,7 +3,7 @@
 # Flutter X Widgets · Flutter 实验室
 
 > 一个精心打造的 **Flutter 动画 / 交互组件 Showcase**。
-> 内置 **28 个独立组件示例** 与 **13 个完整 Demo App**，专注于动效与交互设计。
+> 内置 **28 个独立组件示例** 与 **16 个完整 Demo App**，专注于动效与交互设计。
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.35+-02569B?logo=flutter)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-^3.7.0-0175C2?logo=dart)](https://dart.dev)
@@ -17,7 +17,7 @@
 - [✨ 项目预览](#-项目预览)
 - [🎯 项目特色](#-项目特色)
 - [🧩 组件示例（28）](#-组件示例28)
-- [📱 Demo App（13）](#-demo-app13)
+- [📱 Demo App（16）](#-demo-app16)
 - [🚀 快速开始](#-快速开始)
 - [🛠 技术栈](#-技术栈)
 - [📁 项目结构](#-项目结构)
@@ -34,9 +34,11 @@
 ## 🎯 项目特色
 
 - **🎨 28 个独立组件**：覆盖文字动画、加载器、卡片、进度条、AppBar、主题切换等场景
-- **📱 13 个完整 App**：从「3D 计算器」到「一起听音乐」，把多个组件组合成完整产品形态
+- **📱 16 个完整 App**：从「3D 计算器」到「拾页手账」，把多个组件组合成完整产品形态
+- **🧪 案例工程化**：APP-14 起遵循 [`docs/APP_DEMO_CODE_SPEC.md`](docs/APP_DEMO_CODE_SPEC.md) —— 独立应用壳、分层目录、纯规则层 + 本地存档、随案例交付文档与 Widget 测试
 - **🪄 重点关注动效**：自带 `flutter_shaders` + Impeller 片元着色器、`flutter_animate`、`forge2d` 物理引擎、`flutter_3d_controller`
-- **🎧 多媒体能力**：集成 `just_audio` / `just_waveform` 音频播放与可视化
+- **🎧 多媒体能力**：集成 `just_audio` / `just_waveform` 音频播放与可视化，`flutter_tts` 语音播报，`image_picker` 相册选图
+- **♿ 动效可降级**：新案例统一响应系统「减少动态效果」，并做了无障碍标签与文字缩放适配
 - **🌗 黑金主题**：纯黑底 + 自定义字体（`NeumaticGothic` + `SF Pro Display`）
 
 ## 🧩 组件示例（28）
@@ -72,7 +74,7 @@
 | 27 | 头像加载 | `lib/example/loader_avatars` |
 | 28 | 水滴按钮 | `lib/example/water_drop_button` |
 
-## 📱 Demo App（13）
+## 📱 Demo App（16）
 
 | # | 名称 | 路径 |
 |---|------|------|
@@ -89,6 +91,17 @@
 | 11 | 图片编辑器 | `lib/app_demo/11` |
 | 12 | 积字成山待办 | `lib/app_demo/12` |
 | 13 | 流光聊天 | `lib/app_demo/13` |
+| 14 | 聚会游戏盒 | `lib/app_demo/14` |
+| 15 | Pip 英语学习 | `lib/app_demo/15` |
+| 16 | 拾页手账 | `lib/app_demo/16` |
+
+### 🆕 最近三个案例
+
+三个案例的 `docs/README.md` 都只记录已实现并验证过的行为；APP-15 / APP-16 还各自保留了完整的产品交接包（`docs/*-handoff/`：实现规格、种子数据、素材与参考图），APP-14 附带实现说明 `docs/FLUTTER_AI_IMPLEMENTATION_BRIEF.md`，可对照阅读。
+
+- **APP-14 · 聚会游戏盒** —— 斜切色带菜单配逐行错峰分页，标题区页码直接绑定分页进度；抛硬币与掷骰子各有独立回合状态机（硬币 `idle → running → revealing → result`，骰子走 3D 面朝向 + 运动计划），一轮只抽取一次结果，切后台直接结算不重抽。
+- **APP-15 · Pip 英语学习** —— 学习路径、选词填空、听音选图、课后结算、复习词卡、成就与个人目标；`just_audio` 播放本地 WAV、`flutter_tts` 兜底发音，进度写进独立命名空间的本地存档（串行写入 + 跨天重置）。
+- **APP-16 · 拾页手账** —— 纸面拼贴（拍立得 / 贴纸 / 胶带 / 便签）按住拖动、15 步撤销；`image_picker` 选图后压缩校验再落盘，`uuid` 命名持久路径；手账 / 素材 / 翻看三页用 `IndexedStack` 保留滚动与选中状态。
 
 ---
 
@@ -152,13 +165,18 @@ flutter run
 | 物理 | `forge2d`（2D 物理引擎） |
 | 3D | `flutter_3d_controller` |
 | 音频 | `just_audio` + `just_waveform` |
+| 语音 | `flutter_tts` |
 | 富文本 | `super_editor` (0.3.0-dev.40) |
 | 日历 | `table_calendar` |
 | 字体 | `google_fonts` + 自带 `NeumaticGothic` / `SF Pro Display` |
+| 图标 | `flutter_svg` |
 | 网络图 | `cached_network_image` |
+| 相册 | `image_picker` |
+| 分享 | `share_plus` |
 | 表达式 | `math_expressions` |
 | 本地存储 | `shared_preferences` |
-| 路径 | `path` / `path_provider` |
+| 路径 / 文件 | `path` / `path_provider` / `uuid` |
+| 值对象 / 日期 | `equatable` / `intl` |
 
 ---
 
@@ -167,19 +185,21 @@ flutter run
 ```text
 flutter_ani_widgets/
 ├── lib/
-│   ├── main.dart                      # Showcase 入口
-│   ├── example/   (28 个独立组件示例)
-│   └── app_demo/   (13 个完整 Demo App)
+│   ├── main.dart                      # Showcase 入口（「组件」/「DemoAPP」双 Tab）
+│   ├── example/                       # 28 个独立组件示例
+│   └── app_demo/                      # 16 个完整 Demo App（编号 01–16）
+│       └── 16/                        # 新案例统一分层：models / screens / widgets / data / docs
 ├── assets/
 │   ├── fonts/                         # NeumaticGothic、SF Pro Display
-│   ├── images/                        # 各类图片资源（含图片/资源等子目录）
+│   ├── images/                        # 通用图片资源，案例资源按 10 / 14 / 15 / 16 分目录
 │   ├── 3d_numbers/                    # 3D 数字模型资源
-│   └── audio/                         # 音频文件
+│   └── audio/                         # 音频文件（含 APP-15 听力 WAV）
 ├── shaders/
 │   └── impeller.frag                  # Impeller 片元着色器
 ├── docs/
-│   └── PROJECT_OVERVIEW.md            # 详细项目说明
-├── test/                              # 单元 / Widget 测试
+│   ├── PROJECT_OVERVIEW.md            # 详细项目说明
+│   └── APP_DEMO_CODE_SPEC.md          # Demo App 工程规范（APP-14 起遵循）
+├── test/                              # 单元 / Widget 测试（含 app_demo/14–16）
 ├── pubspec.yaml
 └── README.md
 ```
@@ -194,6 +214,7 @@ flutter_ani_widgets/
 
 - **iOS 优先**：当前版本主要针对 iOS 平台优化；Android 平台存在部分已知问题，正在修复中。
 - **推荐 iPhone 6 模拟器**：可获得最佳展示效果（动效节奏与排版按其尺寸调校）。
+- **新案例的设计画布**：APP-15 / APP-16 以 390×844 为设计基准，窗口更宽时内容居中、画布外铺底色，更窄时按实际宽度排版；早期案例仍按 iPhone 6 尺寸调校。
 - **首次运行慢**：`forge2d`、`flutter_shaders`、`just_audio` 等 native 依赖首次编译时间较长，建议预留 3–5 分钟。
 - **APK / IPA 体积**：因内置音频与图片资源，安装包会偏大，正式发布前建议压缩 / 抽离。
 
