@@ -32,6 +32,8 @@ dependencies:
   flutter_svg: ^2.3.0
   flutter_tts: ^4.2.5
   share_plus: ^13.3.1
+  image_picker: ^1.1.2
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +51,11 @@ flutter:
     - assets/images/14/
     - assets/images/15/
     - assets/images/15/icons/
+    - assets/images/16/icons/
+    - assets/images/16/photos/
+    - assets/images/16/stickers/
+    - assets/images/16/textures/
+    - assets/images/16/seed/
     - assets/images/data/
     - assets/images/rule/
     - assets/3d_numbers/

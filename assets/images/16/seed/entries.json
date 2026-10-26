@@ -1,0 +1,547 @@
+{
+  "2026-09-01": {
+    "year": 2026,
+    "month": 9,
+    "day": 1,
+    "weekday": "星期二",
+    "mood": "好心情",
+    "title": "买了一束喜欢的花",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/flowers.webp",
+    "mainCaption": "给自己的一束花",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "flowers",
+    "coverText": "慢慢来"
+  },
+  "2026-09-03": {
+    "year": 2026,
+    "month": 9,
+    "day": 3,
+    "weekday": "星期四",
+    "mood": "好心情",
+    "title": "咖啡要慢慢喝",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/cafe.webp",
+    "mainCaption": "巷子里的慢时光",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "cafe",
+    "coverText": "好喜欢"
+  },
+  "2026-09-04": {
+    "year": 2026,
+    "month": 9,
+    "day": 4,
+    "weekday": "星期五",
+    "mood": "好心情",
+    "title": "路过一只小狗",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/dog.webp",
+    "mainCaption": "偶遇一位小朋友",
+    "sideSrc": "assets/photos/picnic.webp",
+    "sideCaption": "午后，慢一点",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "dog",
+    "coverText": "晴天"
+  },
+  "2026-09-06": {
+    "year": 2026,
+    "month": 9,
+    "day": 6,
+    "weekday": "星期日",
+    "mood": "好心情",
+    "title": "今天的小小快乐",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": false,
+    "mainSrc": "assets/stickers/flower.svg",
+    "mainCaption": "留下一点喜欢",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [
+      {
+        "id": "cover-sticker",
+        "kind": "sticker",
+        "name": "今天的小小快乐",
+        "src": "assets/stickers/flower.svg",
+        "x": 0.55,
+        "y": 0.33,
+        "rotation": -6
+      }
+    ],
+    "type": "sticker",
+    "coverText": "慢慢来"
+  },
+  "2026-09-08": {
+    "year": 2026,
+    "month": 9,
+    "day": 8,
+    "weekday": "星期二",
+    "mood": "好心情",
+    "title": "在草地上待一下午",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/picnic.webp",
+    "mainCaption": "草地上读了几页书",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "picnic",
+    "coverText": "好喜欢"
+  },
+  "2026-09-09": {
+    "year": 2026,
+    "month": 9,
+    "day": 9,
+    "weekday": "星期三",
+    "mood": "好心情",
+    "title": "写给自己的小纸条",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": false,
+    "mainSrc": "assets/stickers/bow.svg",
+    "mainCaption": "留下一点喜欢",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "note",
+    "coverText": "晴天"
+  },
+  "2026-09-11": {
+    "year": 2026,
+    "month": 9,
+    "day": 11,
+    "weekday": "星期五",
+    "mood": "好心情",
+    "title": "买了一束喜欢的花",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/flowers.webp",
+    "mainCaption": "给自己的一束花",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "flowers",
+    "coverText": "慢慢来"
+  },
+  "2026-09-13": {
+    "year": 2026,
+    "month": 9,
+    "day": 13,
+    "weekday": "星期日",
+    "mood": "好心情",
+    "title": "路过一只小狗",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/dog.webp",
+    "mainCaption": "偶遇一位小朋友",
+    "sideSrc": "assets/photos/picnic.webp",
+    "sideCaption": "午后，慢一点",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "dog",
+    "coverText": "好喜欢"
+  },
+  "2026-09-15": {
+    "year": 2026,
+    "month": 9,
+    "day": 15,
+    "weekday": "星期二",
+    "mood": "好心情",
+    "title": "写给自己的小纸条",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": false,
+    "mainSrc": "assets/stickers/bow.svg",
+    "mainCaption": "留下一点喜欢",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "note",
+    "coverText": "晴天"
+  },
+  "2026-09-17": {
+    "year": 2026,
+    "month": 9,
+    "day": 17,
+    "weekday": "星期四",
+    "mood": "好心情",
+    "title": "在草地上待一下午",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/picnic.webp",
+    "mainCaption": "草地上读了几页书",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "picnic",
+    "coverText": "慢慢来"
+  },
+  "2026-09-18": {
+    "year": 2026,
+    "month": 9,
+    "day": 18,
+    "weekday": "星期五",
+    "mood": "好心情",
+    "title": "咖啡要慢慢喝",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/cafe.webp",
+    "mainCaption": "巷子里的慢时光",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "cafe",
+    "coverText": "好喜欢"
+  },
+  "2026-09-20": {
+    "year": 2026,
+    "month": 9,
+    "day": 20,
+    "weekday": "星期日",
+    "mood": "好心情",
+    "title": "今天的小小快乐",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": false,
+    "mainSrc": "assets/stickers/bow.svg",
+    "mainCaption": "留下一点喜欢",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [
+      {
+        "id": "cover-sticker",
+        "kind": "sticker",
+        "name": "今天的小小快乐",
+        "src": "assets/stickers/bow.svg",
+        "x": 0.55,
+        "y": 0.33,
+        "rotation": -6
+      }
+    ],
+    "type": "sticker",
+    "coverText": "晴天"
+  },
+  "2026-09-22": {
+    "year": 2026,
+    "month": 9,
+    "day": 22,
+    "weekday": "星期二",
+    "mood": "好心情",
+    "title": "买了一束喜欢的花",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/flowers.webp",
+    "mainCaption": "给自己的一束花",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "flowers",
+    "coverText": "慢慢来"
+  },
+  "2026-09-24": {
+    "year": 2026,
+    "month": 9,
+    "day": 24,
+    "weekday": "星期四",
+    "mood": "好心情",
+    "title": "写给自己的小纸条",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": false,
+    "mainSrc": "assets/stickers/bow.svg",
+    "mainCaption": "留下一点喜欢",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "note",
+    "coverText": "好喜欢"
+  },
+  "2026-09-26": {
+    "year": 2026,
+    "month": 9,
+    "day": 26,
+    "weekday": "星期六",
+    "mood": "好心情",
+    "title": "在草地上待一下午",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/picnic.webp",
+    "mainCaption": "草地上读了几页书",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "picnic",
+    "coverText": "晴天"
+  },
+  "2026-09-27": {
+    "year": 2026,
+    "month": 9,
+    "day": 27,
+    "weekday": "星期日",
+    "mood": "好心情",
+    "title": "周末，去河边走走",
+    "note": "走了很远，\n心情也轻了一点。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/dog.webp",
+    "mainCaption": "偶遇一位小朋友",
+    "sideSrc": "assets/photos/picnic.webp",
+    "sideCaption": "午后，慢一点",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "dog",
+    "coverText": "慢慢来"
+  },
+  "2026-09-30": {
+    "year": 2026,
+    "month": 9,
+    "day": 30,
+    "weekday": "星期三",
+    "mood": "好心情",
+    "title": "咖啡要慢慢喝",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/cafe.webp",
+    "mainCaption": "巷子里的慢时光",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "cafe",
+    "coverText": "好喜欢"
+  },
+  "2026-10-01": {
+    "year": 2026,
+    "month": 10,
+    "day": 1,
+    "weekday": "星期四",
+    "mood": "好心情",
+    "title": "买了一束喜欢的花",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/flowers.webp",
+    "mainCaption": "给自己的一束花",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "flowers",
+    "coverText": "慢慢来"
+  },
+  "2026-10-02": {
+    "year": 2026,
+    "month": 10,
+    "day": 2,
+    "weekday": "星期五",
+    "mood": "好心情",
+    "title": "在草地上待一下午",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/picnic.webp",
+    "mainCaption": "草地上读了几页书",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "picnic",
+    "coverText": "好喜欢"
+  },
+  "2026-10-03": {
+    "year": 2026,
+    "month": 10,
+    "day": 3,
+    "weekday": "星期六",
+    "mood": "好心情",
+    "title": "路过一只小狗",
+    "note": "把喜欢的瞬间，\n留在这一天。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/dog.webp",
+    "mainCaption": "偶遇一位小朋友",
+    "sideSrc": "assets/photos/picnic.webp",
+    "sideCaption": "午后，慢一点",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "dog",
+    "coverText": "晴天"
+  },
+  "2026-10-04": {
+    "year": 2026,
+    "month": 10,
+    "day": 4,
+    "weekday": "星期日",
+    "mood": "好心情",
+    "title": "有风的下午",
+    "note": "咖啡慢慢喝。\n阳光和小狗，\n都刚刚好。",
+    "basePhotos": true,
+    "mainSrc": "assets/photos/cafe.webp",
+    "mainCaption": "巷子里的慢时光",
+    "sideSrc": "assets/photos/dog.webp",
+    "sideCaption": "偶遇一位小朋友",
+    "mainPosition": {
+      "x": 0.0714,
+      "y": 0.1588
+    },
+    "sidePosition": {
+      "x": 0.5657,
+      "y": 0.5431
+    },
+    "items": [],
+    "type": "cafe",
+    "coverText": "慢慢来"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "categories": [
+    {
+      "id": "sticker",
+      "label": "贴纸",
+      "coverTitle": "秋日小事",
+      "coverSubtitle": "散步、咖啡，还有小小的快乐",
+      "sectionTitle": "秋日贴纸",
+      "unit": "枚"
+    },
+    {
+      "id": "tape",
+      "label": "胶带",
+      "coverTitle": "纸上的温柔",
+      "coverSubtitle": "一点纹理，一点喜欢",
+      "sectionTitle": "把喜欢固定住",
+      "unit": "枚"
+    },
+    {
+      "id": "note",
+      "label": "便签",
+      "coverTitle": "随手写写",
+      "coverSubtitle": "短短一句，也值得留下",
+      "sectionTitle": "留一张小纸条",
+      "unit": "枚"
+    },
+    {
+      "id": "photo",
+      "label": "照片",
+      "coverTitle": "今天的光",
+      "coverSubtitle": "把一瞬间，留得久一点",
+      "sectionTitle": "镜头里的日常",
+      "unit": "张"
+    }
+  ],
+  "stickers": [
+    {
+      "id": "flower",
+      "name": "小花开了",
+      "kind": "sticker",
+      "src": "assets/stickers/flower.svg"
+    },
+    {
+      "id": "puppy",
+      "name": "小狗朋友",
+      "kind": "sticker",
+      "src": "assets/stickers/puppy.svg"
+    },
+    {
+      "id": "coffee",
+      "name": "一杯慢慢喝",
+      "kind": "sticker",
+      "src": "assets/stickers/coffee.svg"
+    },
+    {
+      "id": "bow",
+      "name": "蓝色蝴蝶结",
+      "kind": "sticker",
+      "src": "assets/stickers/bow.svg"
+    },
+    {
+      "id": "toast",
+      "name": "面包脑袋",
+      "kind": "sticker",
+      "src": "assets/stickers/toast.svg"
+    },
+    {
+      "id": "orange",
+      "name": "橘子好甜",
+      "kind": "sticker",
+      "src": "assets/stickers/orange.svg"
+    }
+  ],
+  "tapes": [
+    {
+      "id": "rose",
+      "name": "莓果条纹",
+      "kind": "tape",
+      "style": "rose"
+    },
+    {
+      "id": "check",
+      "name": "蓝灰格子",
+      "kind": "tape",
+      "style": "check"
+    },
+    {
+      "id": "caramel",
+      "name": "焦糖和纸",
+      "kind": "tape",
+      "style": "caramel"
+    },
+    {
+      "id": "flower-tape",
+      "name": "小花散落",
+      "kind": "tape",
+      "style": "flower-tape"
+    },
+    {
+      "id": "dots",
+      "name": "细细波点",
+      "kind": "tape",
+      "style": "dots"
+    },
+    {
+      "id": "plain",
+      "name": "素色一卷",
+      "kind": "tape",
+      "style": "plain"
+    }
+  ],
+  "notes": [
+    {
+      "id": "note-0",
+      "name": "好喜欢",
+      "kind": "note",
+      "text": "好喜欢",
+      "color": "#EAD2DF"
+    },
+    {
+      "id": "note-1",
+      "name": "慢慢来",
+      "kind": "note",
+      "text": "慢慢来",
+      "color": "#DCE2E8"
+    },
+    {
+      "id": "note-2",
+      "name": "今日份开心",
+      "kind": "note",
+      "text": "今日份\n开心",
+      "color": "#EAD2DF"
+    },
+    {
+      "id": "note-3",
+      "name": "给自己放个假",
+      "kind": "note",
+      "text": "给自己\n放个假",
+      "color": "#F3DEB2"
+    },
+    {
+      "id": "note-4",
+      "name": "天气很好",
+      "kind": "note",
+      "text": "天气\n很好",
+      "color": "#DCE2E8"
+    },
+    {
+      "id": "note-5",
+      "name": "记得这一天",
+      "kind": "note",
+      "text": "记得\n这一天",
+      "color": "#F3DEB2"
+    }
+  ],
+  "photos": [
+    {
+      "id": "cafe",
+      "name": "巷子里的面包店",
+      "kind": "photo",
+      "src": "assets/photos/cafe.webp"
+    },
+    {
+      "id": "dog",
+      "name": "路过的小朋友",
+      "kind": "photo",
+      "src": "assets/photos/dog.webp"
+    },
+    {
+      "id": "picnic",
+      "name": "草地上的小野餐",
+      "kind": "photo",
+      "src": "assets/photos/picnic.webp"
+    },
+    {
+      "id": "flowers",
+      "name": "买了一束花",
+      "kind": "photo",
+      "src": "assets/photos/flowers.webp"
+    }
+  ],
+  "pasteDefaults": {
+    "sticker": {
+      "x": 0.72,
+      "y": 0.48,
+      "rotation": -9
+    },
+    "tape": {
+      "x": 0.35,
+      "y": 0.59,
+      "rotation": -9
+    },
+    "note": {
+      "x": 0.57,
+      "y": 0.61,
+      "rotation": -9
+    },
+    "photo": {
+      "x": 0.52,
+      "y": 0.49,
+      "rotation": -9
+    },
+    "uploadedPhoto": {
+      "x": 0.45,
+      "y": 0.45,
+      "rotation": 5
+    }
+  },
+  "materialSizes": {
+    "sticker": {
+      "w": 83,
+      "h": 83
+    },
+    "tape": {
+      "w": 118,
+      "h": 36
+    },
+    "note": {
+      "w": 108,
+      "h": 90
+    },
+    "photo": {
+      "w": 124,
+      "h": 147
+    }
+  },
+  "noteTrayColor": "#F3DEB2"
+}

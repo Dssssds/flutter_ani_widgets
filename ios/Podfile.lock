@@ -11,6 +11,8 @@ PODS:
     - OrderedSet (~> 6.0.3)
   - flutter_tts (0.0.1):
     - Flutter
+  - image_picker_ios (0.0.1):
+    - Flutter
   - just_audio (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -36,6 +38,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - just_audio (from `.symlinks/plugins/just_audio/darwin`)
   - just_waveform (from `.symlinks/plugins/just_waveform/darwin`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
@@ -57,6 +60,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
   flutter_tts:
     :path: ".symlinks/plugins/flutter_tts/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   just_audio:
     :path: ".symlinks/plugins/just_audio/darwin"
   just_waveform:
@@ -77,6 +82,7 @@ SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_tts: 35ac3c7d42412733e795ea96ad2d7e05d0a75113
+  image_picker_ios: e0ece4aa2a75771a7de3fa735d26d90817041326
   just_audio: 4e391f57b79cad2b0674030a00453ca5ce817eed
   just_waveform: be2cb6dec86096cb972bf8b73c893fe16bf1cff4
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
