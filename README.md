@@ -31,6 +31,10 @@
 
 `lib/main.dart` 启动后进入 `HomeScreen`，以 **「组件」 / 「DemoAPP」** 双 Tab + 2 列网格呈现所有 demo。每个卡片包裹 `Hero` 动画，点击后通过 `MaterialPageRoute` 进入对应页面（支持 `isFullScreen` 全屏模式）。
 
+<p align="center">
+  <img src="docs/screenshots/home.jpg" width="300" alt="Flutter 实验室首页">
+</p>
+
 ## 🎯 项目特色
 
 - **🎨 28 个独立组件**：覆盖文字动画、加载器、卡片、进度条、AppBar、主题切换等场景
@@ -74,6 +78,20 @@
 | 27 | 头像加载 | `lib/example/loader_avatars` |
 | 28 | 水滴按钮 | `lib/example/water_drop_button` |
 
+### 🖼 组件截图
+
+> 截图为 iPhone 18 Pro 模拟器运行画面，按上表编号排列。
+
+|  |  |  |  |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/components/01.jpg" width="190"><br><sub>01 网格动画</sub> | <img src="docs/screenshots/components/02.jpg" width="190"><br><sub>02 文字模糊渐变</sub> | <img src="docs/screenshots/components/03.jpg" width="190"><br><sub>03 文字动画</sub> | <img src="docs/screenshots/components/04.jpg" width="190"><br><sub>04 滚动进度</sub> |
+| <img src="docs/screenshots/components/05.jpg" width="190"><br><sub>05 花样进度条</sub> | <img src="docs/screenshots/components/06.jpg" width="190"><br><sub>06 主题灯泡切换</sub> | <img src="docs/screenshots/components/07.jpg" width="190"><br><sub>07 文字闪烁</sub> | <img src="docs/screenshots/components/08.jpg" width="190"><br><sub>08 文字滚动</sub> |
+| <img src="docs/screenshots/components/09.jpg" width="190"><br><sub>09 自定义滑动列表</sub> | <img src="docs/screenshots/components/10.jpg" width="190"><br><sub>10 点阵图案</sub> | <img src="docs/screenshots/components/11.jpg" width="190"><br><sub>11 Gemini Loading 飞溅</sub> | <img src="docs/screenshots/components/12.jpg" width="190"><br><sub>12 呼吸动画</sub> |
+| <img src="docs/screenshots/components/13.jpg" width="190"><br><sub>13 相片效果</sub> | <img src="docs/screenshots/components/14.jpg" width="190"><br><sub>14 日历效果</sub> | <img src="docs/screenshots/components/15.jpg" width="190"><br><sub>15 通知列表</sub> | <img src="docs/screenshots/components/16.jpg" width="190"><br><sub>16 庆祝动画</sub> |
+| <img src="docs/screenshots/components/17.jpg" width="190"><br><sub>17 方形加载器</sub> | <img src="docs/screenshots/components/18.jpg" width="190"><br><sub>18 摇杆卡片</sub> | <img src="docs/screenshots/components/19.jpg" width="190"><br><sub>19 边框线条动画</sub> | <img src="docs/screenshots/components/20.jpg" width="190"><br><sub>20 卡片霓虹灯背景</sub> |
+| <img src="docs/screenshots/components/21.jpg" width="190"><br><sub>21 卡片堆叠提示</sub> | <img src="docs/screenshots/components/22.jpg" width="190"><br><sub>22 文字控制器</sub> | <img src="docs/screenshots/components/23.jpg" width="190"><br><sub>23 球形加载器</sub> | <img src="docs/screenshots/components/24.jpg" width="190"><br><sub>24 书本翻开</sub> |
+| <img src="docs/screenshots/components/25.jpg" width="190"><br><sub>25 自定义 AppBar</sub> | <img src="docs/screenshots/components/26.jpg" width="190"><br><sub>26 文件夹动画</sub> | <img src="docs/screenshots/components/27.jpg" width="190"><br><sub>27 头像加载</sub> | <img src="docs/screenshots/components/28.jpg" width="190"><br><sub>28 水滴按钮</sub> |
+
 ## 📱 Demo App（16）
 
 | # | 名称 | 路径 |
@@ -102,6 +120,19 @@
 - **APP-14 · 聚会游戏盒** —— 斜切色带菜单配逐行错峰分页，标题区页码直接绑定分页进度；抛硬币与掷骰子各有独立回合状态机（硬币 `idle → running → revealing → result`，骰子走 3D 面朝向 + 运动计划），一轮只抽取一次结果，切后台直接结算不重抽。
 - **APP-15 · Pip 英语学习** —— 学习路径、选词填空、听音选图、课后结算、复习词卡、成就与个人目标；`just_audio` 播放本地 WAV、`flutter_tts` 兜底发音，进度写进独立命名空间的本地存档（串行写入 + 跨天重置）。
 - **APP-16 · 拾页手账** —— 纸面拼贴（拍立得 / 贴纸 / 胶带 / 便签）按住拖动、15 步撤销；`image_picker` 选图后压缩校验再落盘，`uuid` 命名持久路径；手账 / 素材 / 翻看三页用 `IndexedStack` 保留滚动与选中状态。
+
+### 🖼 案例截图
+
+> 每个案例进入后的首屏，按上表编号排列。
+
+|  |  |  |  |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/apps/01.jpg" width="190"><br><sub>01 今日训练</sub> | <img src="docs/screenshots/apps/02.jpg" width="190"><br><sub>02 户外训练 TODO</sub> | <img src="docs/screenshots/apps/03.jpg" width="190"><br><sub>03 饮食清单</sub> | <img src="docs/screenshots/apps/04.jpg" width="190"><br><sub>04 3D 计算器</sub> |
+| <img src="docs/screenshots/apps/05.jpg" width="190"><br><sub>05 认知训练</sub> | <img src="docs/screenshots/apps/06.jpg" width="190"><br><sub>06 iOS26 玻璃效果</sub> | <img src="docs/screenshots/apps/07.jpg" width="190"><br><sub>07 iOS26 桌面</sub> | <img src="docs/screenshots/apps/08.jpg" width="190"><br><sub>08 待办事项</sub> |
+| <img src="docs/screenshots/apps/09.jpg" width="190"><br><sub>09 一起听音乐</sub> | <img src="docs/screenshots/apps/10.jpg" width="190"><br><sub>10 学习笔记</sub> | <img src="docs/screenshots/apps/11.jpg" width="190"><br><sub>11 图片编辑器</sub> | <img src="docs/screenshots/apps/12.jpg" width="190"><br><sub>12 积字成山待办</sub> |
+| <img src="docs/screenshots/apps/13.jpg" width="190"><br><sub>13 流光聊天</sub> | <img src="docs/screenshots/apps/14.jpg" width="190"><br><sub>14 聚会游戏盒</sub> | <img src="docs/screenshots/apps/15.jpg" width="190"><br><sub>15 Pip 英语学习</sub> | <img src="docs/screenshots/apps/16.jpg" width="190"><br><sub>16 拾页手账</sub> |
+
+> 重新生成截图：`flutter drive --driver=test_driver/integration_test.dart --target=integration_test/readme_screenshots_test.dart -d <simulator-id>`。APP-04 的 3D 模型是原生平台视图，Flutter 侧截图拍不到，需在测试输出 `READY_FOR_NATIVE_SCREENSHOT` 后用 `xcrun simctl io booted screenshot` 补拍。
 
 ---
 
@@ -198,7 +229,10 @@ flutter_ani_widgets/
 │   └── impeller.frag                  # Impeller 片元着色器
 ├── docs/
 │   ├── PROJECT_OVERVIEW.md            # 详细项目说明
-│   └── APP_DEMO_CODE_SPEC.md          # Demo App 工程规范（APP-14 起遵循）
+│   ├── APP_DEMO_CODE_SPEC.md          # Demo App 工程规范（APP-14 起遵循）
+│   └── screenshots/                   # README 截图（首页 / 组件 / 案例）
+├── integration_test/                  # 截图生成用集成测试
+├── test_driver/                       # 集成测试截图落盘驱动
 ├── test/                              # 单元 / Widget 测试（含 app_demo/14–16）
 ├── pubspec.yaml
 └── README.md
